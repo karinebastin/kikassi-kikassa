@@ -77,10 +77,6 @@ class Objet
      */
     private $catalogue;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="objets")
-     */
-    private $categorie;
 
     /**
      * @ORM\ManyToOne(targetEntity=SousCategorie::class, inversedBy="objets")
@@ -309,18 +305,6 @@ class Objet
     public function removeCatalogue(Catalogue $catalogue): self
     {
         $this->catalogue->removeElement($catalogue);
-
-        return $this;
-    }
-
-    public function getCategorie(): ?Categorie
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(?Categorie $categorie): self
-    {
-        $this->categorie = $categorie;
 
         return $this;
     }

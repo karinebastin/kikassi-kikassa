@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=SousCategorieRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class SousCategorie
 {
@@ -25,11 +26,6 @@ class SousCategorie
      */
     private $nom_ss_categorie;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="sousCategories")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $categorie;
 
     /**
      * @ORM\OneToMany(targetEntity=Objet::class, mappedBy="sous_categorie")
@@ -40,6 +36,12 @@ class SousCategorie
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="sousCategories")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $categorie;
 
       /**
      *
@@ -79,17 +81,6 @@ class SousCategorie
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(?Categorie $categorie): self
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Objet[]
@@ -129,6 +120,18 @@ class SousCategorie
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?Categorie
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(?Categorie $categorie): self
+    {
+        $this->categorie = $categorie;
 
         return $this;
     }
