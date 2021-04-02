@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\SousCategorieRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SousCategorieRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=SousCategorieRepository::class)
@@ -39,6 +40,22 @@ class SousCategorie
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
+      /**
+     *
+     *@ORM\PrePersist
+     *
+     * @return void
+     */
+    public function initSlug()
+    {
+        if (empty($this->slug)) {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->getNomSsCategorie().time().hash('sha1', $this->getNomSsCategorie()));
+        }
+    }
+
+    
 
     public function __construct()
     {

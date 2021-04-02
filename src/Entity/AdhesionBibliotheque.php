@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\AdhesionBibliothequeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AdhesionBibliothequeRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=AdhesionBibliothequeRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
-class AdhesionBibliotheque
+class AdhesionBibliotheque implements UserInterface
 {
     /**
      * @ORM\Id
@@ -57,6 +59,20 @@ class AdhesionBibliotheque
      * @ORM\JoinColumn(nullable=false)
      */
     private $adherent;
+
+      /**
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     *
+     * @return void
+     */
+    public function updateDate()
+    {
+        if (empty($this->date_inscription)) {
+            $this->date_inscription = new \DateTime();
+        }
+    }
 
     public function getId(): ?int
     {
@@ -157,5 +173,27 @@ class AdhesionBibliotheque
         $this->adherent = $adherent;
 
         return $this;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getPassword()
+    {
+        return $this->mot_de_passe;
+    }
+
+    public function getSalt()
+    {
+    }
+
+    public function getUsername()
+    {
+    }
+
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
     }
 }

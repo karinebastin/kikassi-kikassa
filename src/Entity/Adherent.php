@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\AdherentRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AdherentRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=AdherentRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class Adherent
 {
@@ -113,6 +115,34 @@ class Adherent
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
+    /**
+     *
+     *@ORM\PrePersist
+     *
+     * @return void
+     */
+    public function initSlug()
+    {
+        if (empty($this->slug)) {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->getNom().time().hash('sha1', $this->getPrenom()));
+        }
+    }
+
+    /**
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     *
+     * @return void
+     */
+    public function updateDate()
+    {
+        if (empty($this->date_adhesion)) {
+            $this->date_adhesion = new \DateTime();
+        }
+    }
 
     public function __construct()
     {

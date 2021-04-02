@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\EmpruntRepository;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EmpruntRepository;
 
 /**
  * @ORM\Entity(repositoryClass=EmpruntRepository::class)
@@ -79,10 +80,23 @@ class Emprunt
     private $super_admin;
 
     /**
-     * @ORM\ManyToOne(targetEntity=StatutEmprunt::class, inversedBy="emprunts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
-    private $statut_emprunt;
+    private $statut;
+
+    /**
+     *
+     *@ORM\PrePersist
+     *
+     * @return void
+     */
+    public function initSlug()
+    {
+        if (empty($this->slug)) {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->getObjet()->getDenomination().time().hash('sha1', $this->getObjet()->getDenomination()));
+        }
+    }
 
     public function getId(): ?int
     {
@@ -233,14 +247,14 @@ class Emprunt
         return $this;
     }
 
-    public function getStatutEmprunt(): ?StatutEmprunt
+    public function getStatut(): ?string
     {
-        return $this->statut_emprunt;
+        return $this->statut;
     }
 
-    public function setStatutEmprunt(?StatutEmprunt $statut_emprunt): self
+    public function setStatut(string $statut): self
     {
-        $this->statut_emprunt = $statut_emprunt;
+        $this->statut = $statut;
 
         return $this;
     }

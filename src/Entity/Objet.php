@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ObjetRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ObjetRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=ObjetRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class Objet
 {
@@ -33,11 +35,6 @@ class Objet
      * @ORM\Column(type="text")
      */
     private $description;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $image;
 
     /**
      * @ORM\Column(type="integer")
@@ -71,12 +68,6 @@ class Objet
 
 
     /**
-     * @ORM\ManyToOne(targetEntity=StatutObjet::class, inversedBy="objets")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $statut_objet;
-
-    /**
      * @ORM\OneToMany(targetEntity=Emprunt::class, mappedBy="objet", orphanRemoval=true)
      */
     private $emprunts;
@@ -107,10 +98,51 @@ class Objet
      */
     private $lieu;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Photo::class, mappedBy="objet")
+     */
+    private $photos;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $statut;
+
+   
+    /**
+     *
+     *@ORM\PrePersist
+     *
+     * @return void
+     */
+    public function initSlug()
+    {
+        if (empty($this->slug)) {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->getMarque().time().hash('sha1', $this->getDenomination()));
+        }
+    }
+
+    /**
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     *
+     * @return void
+     */
+    public function updateDate()
+    {
+        if (empty($this->date_creation)) {
+            $this->date_creation = new \DateTime();
+        }
+    }
+
     public function __construct()
     {
         $this->emprunts = new ArrayCollection();
         $this->catalogue = new ArrayCollection();
+        $this->photos = new ArrayCollection();
+      
     }
 
     public function getId(): ?int
@@ -150,18 +182,6 @@ class Objet
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): self
-    {
-        $this->image = $image;
 
         return $this;
     }
@@ -238,17 +258,6 @@ class Objet
         return $this;
     }
 
-    public function getStatutObjet(): ?StatutObjet
-    {
-        return $this->statut_objet;
-    }
-
-    public function setStatutObjet(?StatutObjet $statut_objet): self
-    {
-        $this->statut_objet = $statut_objet;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Emprunt[]
@@ -351,4 +360,47 @@ class Objet
 
         return $this;
     }
+
+    /**
+     * @return Collection|Photo[]
+     */
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
+    }
+
+    public function addPhoto(Photo $photo): self
+    {
+        if (!$this->photos->contains($photo)) {
+            $this->photos[] = $photo;
+            $photo->setObjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhoto(Photo $photo): self
+    {
+        if ($this->photos->removeElement($photo)) {
+            // set the owning side to null (unless already changed)
+            if ($photo->getObjet() === $this) {
+                $photo->setObjet(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut): self
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
 }

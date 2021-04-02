@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=SuperAdminRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class SuperAdmin
 {
@@ -48,6 +49,20 @@ class SuperAdmin
      * @ORM\OneToMany(targetEntity=Emprunt::class, mappedBy="super_admin")
      */
     private $emprunts;
+
+        /**
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     *
+     * @return void
+     */
+    public function updateDate()
+    {
+        if (empty($this->date_creation)) {
+            $this->date_creation = new \DateTime();
+        }
+    }
 
     public function __construct()
     {
