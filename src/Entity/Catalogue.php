@@ -29,6 +29,11 @@ class Catalogue
      */
     private $objets;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $categorie_fourmi;
+
     public function __construct()
     {
         $this->objets = new ArrayCollection();
@@ -74,6 +79,18 @@ class Catalogue
         if ($this->objets->removeElement($objet)) {
             $objet->removeCatalogue($this);
         }
+
+        return $this;
+    }
+
+    public function getCategorieFourmi(): ?string
+    {
+        return $this->categorie_fourmi;
+    }
+
+    public function setCategorieFourmi(string $categorie_fourmi): self
+    {
+        $this->categorie_fourmi = $categorie_fourmi;
 
         return $this;
     }
