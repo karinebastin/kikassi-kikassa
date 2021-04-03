@@ -26,7 +26,7 @@ class LieuFixtures extends Fixture implements DependentFixtureInterface
             ->setCp()
             ->setVille()
             ->setTelephone();
-            // ->setRaisonFermeture();
+            ->setRaisonFermeture();
 
 
     $manager->persist($lieu);
