@@ -4,22 +4,13 @@ namespace App\DataFixtures;
 
 use DateTime;
 use Faker\Factory;
-use App\Entity\Objet;
 use App\Entity\Adherent;
-use App\Entity\Catalogue;
-use App\Entity\Categorie;
-use App\Entity\SousCategorie;
-use App\Entity\AdhesionBibliotheque;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 class AdherentFixtures extends Fixture
 {
-
-
     public function random_dates($start, $end)
     {
         
@@ -33,13 +24,14 @@ class AdherentFixtures extends Fixture
         $faker = Factory::create('fr_FR');
         $genders = ['male', 'female'];
         $fourmis = ['Verte', 'Bleue', 'Dorée'];
-               
+        $etats_cotisation = ['Payée', 'Due', 'Exonéré'];
 
         for($i=0; $i<10; $i++){
             $adherent = new Adherent();
             $dateNais = $this->random_dates("01-01-1950", "01-01-2010");
             $gender = $faker->randomElement($genders);
             $fourmi = $faker->randomElement($fourmis);
+            $etat_cotisation = $faker->randomElement($etats_cotisation);
             $adherent->setNom($faker->lastname())
                     ->setPrenom($faker->firstname($gender))
                     ->setEmail($faker->email())
@@ -53,6 +45,7 @@ class AdherentFixtures extends Fixture
                     ->setCategorieFourmi($fourmi)
                     ->setMontantCotisation($fourmi == "Dorée" ? 50 : 10)
                     ->setMoyenPaiement('Liquide')
+                    ->setEtatCotisation($etat_cotisation)
                     ->setCompteActif($faker->boolean(95))
                     ->setAdmin($faker->boolean(70))
                     ->initSlug();
@@ -64,6 +57,5 @@ class AdherentFixtures extends Fixture
 
         $manager->flush();
     }
-  
 
 }

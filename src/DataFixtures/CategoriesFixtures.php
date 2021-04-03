@@ -2,11 +2,9 @@
 
 namespace App\DataFixtures;
 
-use Faker\Factory;
 use App\Entity\Categorie;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 
 class CategoriesFixtures extends Fixture
@@ -29,6 +27,4 @@ class CategoriesFixtures extends Fixture
 
         $manager->flush();
         }
-                        
-                      
                 }

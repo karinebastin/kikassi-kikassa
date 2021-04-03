@@ -35,7 +35,8 @@ class InscriptionFixtures extends Fixture implements DependentFixtureInterface
         $depot = [30, 60, 90, 120];
 
 for($i=0; $i<10; $i++){ 
-    $biblio=new AdhesionBibliotheque(); $finRc=$this->random_dates("03-04-2021", "02-04-2022");
+    $biblio = new AdhesionBibliotheque(); 
+    $finRc = $this->random_dates("03-04-2021", "02-04-2022");
     $mdp = $this->encoder->encodePassword($biblio, 'password');
     $adh = $this->getReference('adherent_' . $i);
     $biblio->setMotDePasse($mdp)
