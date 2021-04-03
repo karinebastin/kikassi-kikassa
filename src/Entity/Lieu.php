@@ -54,11 +54,6 @@ class Lieu
      */
     private $horaire_lieu;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $raison_fermeture;
-
     public function __construct()
     {
         $this->objets = new ArrayCollection();
@@ -191,15 +186,4 @@ class Lieu
         return $this;
     }
 
-    public function getRaisonFermeture(): ?string
-    {
-        return $this->raison_fermeture;
-    }
-
-    public function setRaisonFermeture(?string $raison_fermeture): self
-    {
-        $this->raison_fermeture = $raison_fermeture;
-
-        return $this;
-    }
 }
