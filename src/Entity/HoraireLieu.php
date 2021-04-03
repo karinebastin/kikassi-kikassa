@@ -53,7 +53,7 @@ class HoraireLieu
      */
     private $lieu;
 
-   
+
 
     public function getId(): ?int
     {
