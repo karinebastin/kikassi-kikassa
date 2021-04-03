@@ -77,10 +77,6 @@ class Objet
      */
     private $catalogue;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="objets")
-     */
-    private $categorie;
 
     /**
      * @ORM\ManyToOne(targetEntity=SousCategorie::class, inversedBy="objets")
@@ -108,7 +104,11 @@ class Objet
      */
     private $statut;
 
-   
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $observation;
+
     /**
      *
      *@ORM\PrePersist
@@ -313,18 +313,6 @@ class Objet
         return $this;
     }
 
-    public function getCategorie(): ?Categorie
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(?Categorie $categorie): self
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
     public function getSousCategorie(): ?SousCategorie
     {
         return $this->sous_categorie;
@@ -399,6 +387,18 @@ class Objet
     public function setStatut(string $statut): self
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getObservation(): ?string
+    {
+        return $this->observation;
+    }
+
+    public function setObservation(?string $observation): self
+    {
+        $this->observation = $observation;
 
         return $this;
     }

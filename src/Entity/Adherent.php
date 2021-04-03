@@ -72,12 +72,12 @@ class Adherent
     private $categorie_fourmi;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $montant_cotisation;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $moyen_paiement;
 
@@ -115,6 +115,11 @@ class Adherent
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $etat_cotisation;
 
     /**
      *
@@ -420,6 +425,18 @@ class Adherent
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getEtatCotisation(): ?string
+    {
+        return $this->etat_cotisation;
+    }
+
+    public function setEtatCotisation(string $etat_cotisation): self
+    {
+        $this->etat_cotisation = $etat_cotisation;
 
         return $this;
     }
