@@ -104,7 +104,11 @@ class Objet
      */
     private $statut;
 
-   
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $observation;
+
     /**
      *
      *@ORM\PrePersist
@@ -383,6 +387,18 @@ class Objet
     public function setStatut(string $statut): self
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getObservation(): ?string
+    {
+        return $this->observation;
+    }
+
+    public function setObservation(?string $observation): self
+    {
+        $this->observation = $observation;
 
         return $this;
     }
