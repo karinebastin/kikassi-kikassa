@@ -14,9 +14,17 @@ class CatalogueFixtures extends Fixture
     {
 
     $vert = new Catalogue();
-    $vert->setNomCatalogue("Vert");
+    $vert->setNomCatalogue("Catalogue Vert")
+         ->setCategorieFourmi("Verte");
+    $this->addReference('vert', $vert);
+
+         
     $bleu = new Catalogue();
-    $bleu->setNomCatalogue("Bleu");
+    $bleu->setNomCatalogue("Catalogue Bleu")
+         ->setCategorieFourmi("Bleue");
+    $this->addReference('bleu', $bleu);
+
+
 
     $manager->persist($vert, $bleu);
 

@@ -2,16 +2,12 @@
 
 namespace App\DataFixtures;
 
-use Faker\Factory;
 use App\Entity\Lieu;
-use App\Entity\Objet;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use App\DataFixtures\SousCategoriesFixtures;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 
-class LieuFixtures extends Fixture implements DependentFixtureInterface
+class LieuFixtures extends Fixture
 {
 
     public function load(ObjectManager $manager)
@@ -21,24 +17,18 @@ class LieuFixtures extends Fixture implements DependentFixtureInterface
    
         $lieu = new Lieu();
         
-        $lieu->setNom("Kikassi-kikassa")
-            ->setAdresse()
-            ->setCp()
-            ->setVille()
-            ->setTelephone();
-            // ->setRaisonFermeture();
+        $lieu->setNom("Association Kikassi Kikassa")
+            ->setAdresse("7 rue de la Roquette")
+            ->setCp("13200")
+            ->setVille("ARLES")
+            ->setTelephone("0749000787");
+           
 
-
+            $this->addReference('lieu', $lieu);
     $manager->persist($lieu);
     
 
     $manager->flush();
                         }
-                        public function getDependencies()
-                        {
-                            return [
-                                LieuFixtures::class,
-                                SousCategoriesFixtures::class
-                            ];
-                        }
+                       
                     }
