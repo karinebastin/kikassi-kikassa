@@ -21,7 +21,8 @@ class LieuFixtures extends Fixture
             ->setAdresse("7 rue de la Roquette")
             ->setCp("13200")
             ->setVille("ARLES")
-            ->setTelephone("0749000787");
+            ->setTelephone("0749000787")
+            ->setFermeture(0);
            
 
             $this->addReference('lieu', $lieu);

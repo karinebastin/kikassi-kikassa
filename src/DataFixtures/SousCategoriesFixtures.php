@@ -27,7 +27,10 @@ class SousCategoriesFixtures extends Fixture implements DependentFixtureInterfac
             ->initSlug();
             $manager->persist($sscate);
         }
+        $this->addReference('ssCategorie_' . $i, $sscate);
+
             $i++;
+
           
       }
     

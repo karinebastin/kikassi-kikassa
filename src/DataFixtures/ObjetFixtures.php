@@ -18,18 +18,18 @@ class ObjetFixtures extends Fixture implements DependentFixtureInterface
      public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
-        $objet = ["marteau","perceuse","aspirateur", "casseroles", "robot", "livre", "jouet", "tondeuse"]; 
+        $objets = ["marteau","perceuse","aspirateur", "casseroles", "robot", "livre", "jouet", "tondeuse"]; 
         $pourcentCalcul = [1, 1.5, 2];
         $statut = ["Réservé", "En maintenance", "Disponible"];
         
-    for($i=0; $i<count($objet); $i++){ 
+    for($i=0; $i<count($objets); $i++){ 
         $objet = new Objet();
         $lieu = $this->getReference('lieu');
-        $ssCategorie = $this->getReference('ssCategorie_' . $i);
+        $ssCategorie = $this->getReference('ssCategorie_2');
         $catalogues =  [$this->getReference('vert'),  $this->getReference('bleu')];
-        $objet->setDenomination($objet[$i])
+        $objet->setDenomination($objets[$i])
             ->setMarque($faker->word)
-            ->setDescription($faker->sentence($nbWords = 16, $variableNbWords = true))
+            ->setDescription("Un super objet")
             ->setValeurAchat(rand(20, 120))
             ->setCoefUsure(rand(1,5))
             ->setPourcentCalcul($faker->randomElement($pourcentCalcul))
@@ -38,7 +38,7 @@ class ObjetFixtures extends Fixture implements DependentFixtureInterface
             ->setLieu($lieu)
             ->addCatalogue($faker->randomElement($catalogues))
             ->setStatut($faker->randomElement($statut))
-            ->setObservation($faker->sentence($nbWords = 10, $variableNbWords = true));
+            ->setObservation("Etat moyen");
         
             $this->addReference('objet_' . $i, $objet);
     $manager->persist($objet);
@@ -51,7 +51,8 @@ class ObjetFixtures extends Fixture implements DependentFixtureInterface
                             return [
                                 LieuFixtures::class,
                                 SousCategoriesFixtures::class,
-                                CatalogueFixtures::class
+                                CatalogueFixtures::class,
+                                SousCategoriesFixtures::class
                             ];
                         }
                     }
