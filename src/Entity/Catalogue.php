@@ -24,20 +24,23 @@ class Catalogue
      */
     private $nom_catalogue;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Objet::class, mappedBy="catalogue")
-     */
-    private $objets;
-
+ 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $categorie_fourmi;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Objet::class, mappedBy="catalogue")
+     */
+    private $objets;
+
     public function __construct()
     {
         $this->objets = new ArrayCollection();
     }
+
+ 
 
     public function getId(): ?int
     {
@@ -56,6 +59,20 @@ class Catalogue
         return $this;
     }
 
+  
+
+    public function getCategorieFourmi(): ?string
+    {
+        return $this->categorie_fourmi;
+    }
+
+    public function setCategorieFourmi(string $categorie_fourmi): self
+    {
+        $this->categorie_fourmi = $categorie_fourmi;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Objet[]
      */
@@ -68,7 +85,7 @@ class Catalogue
     {
         if (!$this->objets->contains($objet)) {
             $this->objets[] = $objet;
-            $objet->addCatalogue($this);
+            $objet->setCatalogue($this);
         }
 
         return $this;
@@ -77,20 +94,11 @@ class Catalogue
     public function removeObjet(Objet $objet): self
     {
         if ($this->objets->removeElement($objet)) {
-            $objet->removeCatalogue($this);
+            // set the owning side to null (unless already changed)
+            if ($objet->getCatalogue() === $this) {
+                $objet->setCatalogue(null);
+            }
         }
-
-        return $this;
-    }
-
-    public function getCategorieFourmi(): ?string
-    {
-        return $this->categorie_fourmi;
-    }
-
-    public function setCategorieFourmi(string $categorie_fourmi): self
-    {
-        $this->categorie_fourmi = $categorie_fourmi;
 
         return $this;
     }

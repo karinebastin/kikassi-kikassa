@@ -19,15 +19,18 @@ class SousCategoriesFixtures extends Fixture implements DependentFixtureInterfac
     'ssCatLoisirs' => ["Livres", "Jouets", "Jardinage"]];
 
     $i = 0;
+    $j = 0;
     foreach($sscat as $key){
         foreach($key as $val) {
             $sscate = new SousCategorie();
             $sscate->setNomSsCategorie($val)
             ->setCategorie($this->getReference('categorie_' . $i))
             ->initSlug();
+              $this->addReference('ssCategorie_' . $j, $sscate);
             $manager->persist($sscate);
+            $j++;
         }
-        $this->addReference('ssCategorie_' . $i, $sscate);
+      
 
             $i++;
 

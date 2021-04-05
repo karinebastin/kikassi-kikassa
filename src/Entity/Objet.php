@@ -72,11 +72,6 @@ class Objet
      */
     private $emprunts;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Catalogue::class, inversedBy="objets")
-     */
-    private $catalogue;
-
 
     /**
      * @ORM\ManyToOne(targetEntity=SousCategorie::class, inversedBy="objets")
@@ -110,6 +105,12 @@ class Objet
     private $observation;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Catalogue::class, inversedBy="objets", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $catalogue;
+
+    /**
      *
      *@ORM\PrePersist
      *
@@ -140,7 +141,6 @@ class Objet
     public function __construct()
     {
         $this->emprunts = new ArrayCollection();
-        $this->catalogue = new ArrayCollection();
         $this->photos = new ArrayCollection();
       
     }
@@ -289,29 +289,8 @@ class Objet
         return $this;
     }
 
-    /**
-     * @return Collection|Catalogue[]
-     */
-    public function getCatalogue(): Collection
-    {
-        return $this->catalogue;
-    }
+  
 
-    public function addCatalogue(Catalogue $catalogue): self
-    {
-        if (!$this->catalogue->contains($catalogue)) {
-            $this->catalogue[] = $catalogue;
-        }
-
-        return $this;
-    }
-
-    public function removeCatalogue(Catalogue $catalogue): self
-    {
-        $this->catalogue->removeElement($catalogue);
-
-        return $this;
-    }
 
     public function getSousCategorie(): ?SousCategorie
     {
@@ -399,6 +378,18 @@ class Objet
     public function setObservation(?string $observation): self
     {
         $this->observation = $observation;
+
+        return $this;
+    }
+
+    public function getCatalogue(): ?Catalogue
+    {
+        return $this->catalogue;
+    }
+
+    public function setCatalogue(?Catalogue $catalogue): self
+    {
+        $this->catalogue = $catalogue;
 
         return $this;
     }

@@ -25,7 +25,7 @@ class ObjetFixtures extends Fixture implements DependentFixtureInterface
     for($i=0; $i<count($objets); $i++){ 
         $objet = new Objet();
         $lieu = $this->getReference('lieu');
-        $ssCategorie = $this->getReference('ssCategorie_2');
+        $ssCategorie = $this->getReference('ssCategorie_' . $i);
         $catalogues =  [$this->getReference('vert'),  $this->getReference('bleu')];
         $objet->setDenomination($objets[$i])
             ->setMarque($faker->word)
@@ -36,10 +36,9 @@ class ObjetFixtures extends Fixture implements DependentFixtureInterface
             ->setVitrine($faker->boolean(50))
             ->setSousCategorie($ssCategorie)
             ->setLieu($lieu)
-            ->addCatalogue($faker->randomElement($catalogues))
+            ->setCatalogue($faker->randomElement($catalogues))
             ->setStatut($faker->randomElement($statut))
             ->setObservation("Etat moyen");
-        
             $this->addReference('objet_' . $i, $objet);
     $manager->persist($objet);
     }
