@@ -54,6 +54,16 @@ class Lieu
      */
     private $horaire_lieu;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $fermeture;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $raison_fermeture;
+
     public function __construct()
     {
         $this->objets = new ArrayCollection();
@@ -182,6 +192,30 @@ class Lieu
                 $horaireLieu->setLieu(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFermeture(): ?bool
+    {
+        return $this->fermeture;
+    }
+
+    public function setFermeture(bool $fermeture): self
+    {
+        $this->fermeture = $fermeture;
+
+        return $this;
+    }
+
+    public function getRaisonFermeture(): ?string
+    {
+        return $this->raison_fermeture;
+    }
+
+    public function setRaisonFermeture(?string $raison_fermeture): self
+    {
+        $this->raison_fermeture = $raison_fermeture;
 
         return $this;
     }
