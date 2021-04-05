@@ -105,7 +105,7 @@ class Objet
     private $observation;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Catalogue::class, inversedBy="objets")
+     * @ORM\ManyToOne(targetEntity=Catalogue::class, inversedBy="objets", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $catalogue;
