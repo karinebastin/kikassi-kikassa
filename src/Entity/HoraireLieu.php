@@ -42,10 +42,7 @@ class HoraireLieu
      */
     private $ferme_pm;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $fermeture;
+  
 
     /**
      * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="horaire_lieu")
@@ -53,12 +50,6 @@ class HoraireLieu
      */
     private $lieu;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $raison_fermeture;
-
-   
 
     public function getId(): ?int
     {
@@ -125,18 +116,6 @@ class HoraireLieu
         return $this;
     }
 
-    public function getFermeture(): ?bool
-    {
-        return $this->fermeture;
-    }
-
-    public function setFermeture(bool $fermeture): self
-    {
-        $this->fermeture = $fermeture;
-
-        return $this;
-    }
-
     public function getLieu(): ?Lieu
     {
         return $this->lieu;
@@ -149,16 +128,6 @@ class HoraireLieu
         return $this;
     }
 
-    public function getRaisonFermeture(): ?string
-    {
-        return $this->raison_fermeture;
-    }
 
-    public function setRaisonFermeture(?string $raison_fermeture): self
-    {
-        $this->raison_fermeture = $raison_fermeture;
-
-        return $this;
-    }
 
 }
