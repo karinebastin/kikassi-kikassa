@@ -2,16 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\SuperAdminRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SuperAdminRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=SuperAdminRepository::class)
  * @ORM\HasLifecycleCallbacks
  */
-class SuperAdmin
+class SuperAdmin implements UserInterface
 {
     /**
      * @ORM\Id
@@ -162,5 +163,27 @@ class SuperAdmin
         }
 
         return $this;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function getPassword()
+    {
+        return $this->mot_de_passe;
+    }
+
+    public function getSalt()
+    {
+    }
+
+    public function getUsername()
+    {
+    }
+
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
     }
 }
