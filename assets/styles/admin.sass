@@ -1,12 +1,32 @@
+$main-menu-color : #d5c955
+$admin-menu-color : #8080ff
+$buttons : #f8f8f8
+
+@media (max-width: 767px)
+    .margin-body
+        margin: 250px 0
+
+.admin-footer
+    height:15%    
+.barre-notif, .admin-footer
+    background-color: lighten($main-menu-color, 10%)
+    .bar-btn
+        height: 3rem
+.body-color
+    background-color: $main-menu-color
+
+
 .big-button
-    border-radius: 5px
-    white-space: nowrap
     padding : 3em
+   
+.big-button, .bar-btn
+    border-radius: 5px
+    background-color: $buttons
+    white-space: nowrap
     box-shadow: 4px 4px 2px #737a74
 
 .main-menu
     height: 100vh
-    background-color: #D5C955
 
 .btn-text
     width : 200px

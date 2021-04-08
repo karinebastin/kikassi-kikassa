@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</head>
+	{% block header %}
+		<nav class="barre-notif navbar fixed-top px-5">
+			<div class="bienvenu text-center text-md-left mt-3">
+				<p>Bienvenue Mr Machin Truc</p>
+				<p>Jobs en attente : 4 réservations à confirmer</p>
+			</div>
+			<div class="logout align-self-center m-auto m-sm-0 p-2 p-sm-0">
+				<button type='button' class='btn bar-btn'>
+					<div class="btn-text">
+						Déconnexion</div>
+				</button>
+			</div>
+		</nav>
+	{% endblock %}
+	<body>
+		{% block body %}{% endblock %}
+	</body>
+	<footer>
+		{% block footer %}
+			<nav class="admin-footer d-flex justify-content-center fixed-bottom align-items-center">
+				<button type='button' class='btn bar-btn'>
+					<div class="btn-text">Retour au menu</div>
+				</button>
+			</nav>
+		{% endblock %}
+	</footer>
+</html>
