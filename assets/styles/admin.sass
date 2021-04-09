@@ -1,6 +1,24 @@
+// yarn encore dev-server --hot
+
+@font-face
+  font-family: "Raleway"
+  font-style: normal
+  font-weight: 400
+  src: local('')
+  src: url('../fonts/raleway-v19-latin-regular.eot') format('embedded-opentype')
+  src: url('../fonts/raleway-v19-latin-regular.svg#Raleway') format('svg')
+  src: url('../fonts/raleway-v19-latin-regular.woff') format('woff')
+  src: url('../fonts/raleway-v19-latin-regular.ttf') format('truetype')
+  src: url('../fonts/raleway-v19-latin-regular.woff2') format('woff2')
+
+
 $main-menu-color : #d5c955
-$admin-menu-color : #8080ff
+$adherents-color : #8080ff
+$objets-color : #d48166
+$emprunts-color : #8dA242
+$lieux-color : #006b80
 $buttons : #f8f8f8
+
 
 @media (max-width: 767px)
     .margin-body
@@ -10,15 +28,18 @@ $buttons : #f8f8f8
     height:15%    
 .barre-notif, .admin-footer
     background-color: lighten($main-menu-color, 10%)
+    font-family: "Raleway"
+    font-weight: bold
     .bar-btn
         height: 3rem
 .body-color
     background-color: $main-menu-color
-
+    font-family: "Raleway"
+    font-weight: bold
 
 .big-button
     padding : 3em
-   
+
 .big-button, .bar-btn
     border-radius: 5px
     background-color: $buttons
@@ -32,6 +53,8 @@ $buttons : #f8f8f8
     width : 200px
     font-size: 1.2em
     word-wrap: break-word
+    font-family: "Raleway"
+    font-weight: bold
 
 .long-line-height
     line-height: 36px
