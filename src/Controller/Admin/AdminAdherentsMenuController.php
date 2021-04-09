@@ -13,7 +13,8 @@ class AdminAdherentsMenuController extends AbstractController
     {
         return $this->render('admin/admin_adherents_menu/index.html.twig', [
             'controller_name' => 'AdminAdherentsMenuController',
-            'texts' => ['Inscrire un nouvel adhérent', 'Changer Statut fourmi', 'Modifier / réinscrire un adhérent', 'Passer un adhérent en admin', 'Afficher les adhérents']
+            'color' => 'adherent-color',
+            'items' => [['text' => 'INSCRIRE UN NOUVEL ADHÉRENT', 'icon' => 'plus' ], ['text' => 'CHANGER STATUT FOURMI', 'icon' => 'ant' ],['text' => 'MODIFIER / RÉINSCRIRE UN ADHÉRENT', 'icon' => 'pen' ], ['text' => 'PASSER UN ADHÉRENT EN ADMIN', 'icon' => 'admin' ], ['text' => 'AFFICHER LES ADHÉRENTS', 'icon' => 'show' ] ]
         ]);
     }
 }

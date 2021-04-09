@@ -1,9 +1,30 @@
-{% macro button_icon(text) %}
-	<button
-		class="big-button">
-		{# <img src="./../../public/photos/{{icon}}.jpg" alt="{{icon}}"> #}
-		<div class="btn-text">
-			<p>{{text}}</p>
-		</div>
+{% macro button_icon(text, icon) %}
+	<button type='button' class="big-button  mb-2 mr-md-2">
+		<img class="icons" src="{{asset('icons/' ~ icon ~ '.png')}}" alt=" {{icon}} ">
+		<div class="btn-text">{{text}}</div>
 	</button>
+{% endmacro %}
+
+{% macro footer_color(section)%}
+	<nav class="{{section}} admin-footer d-flex justify-content-center fixed-bottom align-items-center">
+		<button type='button' class='btn bar-btn'>
+			<div class="btn-text">Retour au menu</div>
+		</button>
+	</nav>
+{% endmacro %}
+
+{% macro topnav_color(section)%}
+	<nav class="{{section}} barre-notif navbar fixed-top px-5">
+		<div class="text-center text-md-left mt-3">
+			<p>Bienvenue Mr Machin Truc</p>
+			<p>Jobs en attente : 4 réservations à confirmer</p>
+		</div>
+		<div class="align-self-center m-auto m-sm-0 p-2 p-sm-0">
+			<button type='button' class='btn bar-btn'>
+				<div class="btn-logout">
+					Déconnexion</div>
+			</button>
+		</div>
+	</nav>
+
 {% endmacro %}

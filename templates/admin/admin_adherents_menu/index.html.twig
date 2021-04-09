@@ -4,14 +4,23 @@
 {% block title %}Adhérents
 {% endblock %}
 
+{% block header %}
+	{{macros.topnav_color('section-adherent')}}
+{% endblock %}
+
 {% block body %}
-	<div class="container">
-		<div class="row">
-			{% for text in texts %}
-				<div class="col">
-					{{macros.button_icon(text)}}
-				</div>
-			{% endfor %}
+	<body class="{{color}}">
+		<div class="margin-body d-flex min-vh-100 justify-content-center">
+			<div class="margin-btn d-flex flex-row flex-wrap justify-content-center align-content-center align-items-center">
+				{% for item in items %}
+					{{macros.button_icon(item.text, item.icon)}}
+				{% endfor %}
+			</div>
 		</div>
-	</div>
+	</body>
+{% endblock %}
+{% block footer %}
+	<footer>
+		{{macros.footer_color('section-adherent')}}
+	</footer>
 {% endblock %}

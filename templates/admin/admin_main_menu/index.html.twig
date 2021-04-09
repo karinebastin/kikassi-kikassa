@@ -1,6 +1,11 @@
 {% extends './admin/base-admin.html.twig' %}
+{% import './admin/_macros.html.twig' as macros %}
 
 {% block title %}Menu Admin
+{% endblock %}
+
+{% block header %}
+	{{macros.topnav_color('section-main')}}
 {% endblock %}
 
 {% block body %}
@@ -28,7 +33,7 @@
 						</a>
 						<a href="{{ path('test') }}">
 							<button type="button" class="big-button mb-2 mb-md-0 mr-md-2">
-								<div class="btn-text long-line-height">LES LIEUX DE
+								<div class="btn-logout">LES LIEUX DE
 									<br>STOCKAGE D'OBJETS</div>
 							</button>
 						</a>
@@ -37,4 +42,9 @@
 			</div>
 		</div>
 	</body>
+{% endblock %}
+{% block footer %}
+	<footer>
+		{{macros.footer_color('section-main')}}
+	</footer>
 {% endblock %}

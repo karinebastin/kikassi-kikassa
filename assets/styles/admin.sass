@@ -19,26 +19,48 @@ $emprunts-color : #8dA242
 $lieux-color : #006b80
 $buttons : #f8f8f8
 
+.section-main
+    background-color: lighten($main-menu-color, 10%)
+    
+.adherent-color 
+    background-color: $adherents-color
+
+.section-adherent
+    background-color: lighten($adherents-color, 10%)
+
+.objet-color
+    background-color: $objets-color
+
+.emprunt-color 
+    background-color: $emprunts-color
+
+.lieux-color 
+    background-color: $lieux-color
+
+@media (min-width: 1024px)
+    .margin-btn
+        width: 70%
 
 @media (max-width: 767px)
     .margin-body
-        margin: 250px 0
+        margin: 200px 0
 
 .admin-footer
-    height:15%    
-.barre-notif, .admin-footer
-    background-color: lighten($main-menu-color, 10%)
+    height: 15%   
+
+.body-color, .btn-text, .barre-notif, .admin-footer, .btn-logout
     font-family: "Raleway"
     font-weight: bold
     .bar-btn
         height: 3rem
+        
 .body-color
     background-color: $main-menu-color
-    font-family: "Raleway"
-    font-weight: bold
 
 .big-button
-    padding : 3em
+    height: 180px
+    width: 300px
+    padding: 0 50px
 
 .big-button, .bar-btn
     border-radius: 5px
@@ -49,18 +71,14 @@ $buttons : #f8f8f8
 .main-menu
     height: 100vh
 
-.btn-text
-    width : 200px
+.btn-logout
     font-size: 1.2em
+    word-wrap: break-word   
+
+.btn-text
+    font-size: 1.2em
+    white-space: pre-wrap
     word-wrap: break-word
-    font-family: "Raleway"
-    font-weight: bold
-
-.long-line-height
-    line-height: 36px
-
-.line-height
-    line-height: 72px
 
 a
     text-decoration: none
@@ -70,7 +88,8 @@ a
         color: black
 
 
-
+.icons
+    width: 40px
 
 
 
