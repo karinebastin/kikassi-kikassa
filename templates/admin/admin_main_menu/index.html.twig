@@ -9,29 +9,29 @@
 {% endblock %}
 
 {% block body %}
-	<body class="body-color">
+	<body class='color-main'>
 		<div class="margin-body main-menu container-fluid d-flex justify-content-center align-items-center">
 			<div class="row">
 				<div class="col text-center">
 					<div class="row justify-content-center mb-md-2">
-						<a href="{{ path('menu-adherents') }}">
+						<a href="{{ path('menu-adherent') }}">
 							<button type="button" class="big-button mb-2 mb-md-0 mr-md-2">
 								<div class="btn-text line-height">LES ADH&Eacute;RENTS</div>
 							</button>
 						</a>
-						<a href="{{ path('test') }}">
+						<a href="{{ path('menu-emprunt') }}">
 							<button type="button" class="big-button mb-2 mb-md-0 mr-md-2">
 								<div class="btn-text line-height">LES EMPRUNTS</div>
 							</button>
 						</a>
 					</div>
 					<div class="row justify-content-center">
-						<a href="{{ path('test') }}">
+						<a href="{{ path('menu-objet') }}">
 							<button type="button" class="big-button mb-2 mb-md-0 mr-md-2">
 								<div class="btn-text line-height">LES OBJETS</div>
 							</button>
 						</a>
-						<a href="{{ path('test') }}">
+						<a href="{{ path('menu-lieu') }}">
 							<button type="button" class="big-button mb-2 mb-md-0 mr-md-2">
 								<div class="btn-logout">LES LIEUX DE
 									<br>STOCKAGE D'OBJETS</div>

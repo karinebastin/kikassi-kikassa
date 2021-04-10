@@ -19,23 +19,30 @@ $emprunts-color : #8dA242
 $lieux-color : #006b80
 $buttons : #f8f8f8
 
+.color-main
+    background-color: $main-menu-color
 .section-main
     background-color: lighten($main-menu-color, 10%)
-    
+
 .adherent-color 
     background-color: $adherents-color
-
 .section-adherent
     background-color: lighten($adherents-color, 10%)
 
 .objet-color
     background-color: $objets-color
+.section-objet
+    background-color: lighten($objets-color, 10%) 
 
 .emprunt-color 
     background-color: $emprunts-color
+.section-emprunt
+    background-color: lighten($emprunts-color, 10%) 
 
-.lieux-color 
+.lieu-color 
     background-color: $lieux-color
+.section-lieu
+    background-color: lighten($lieux-color, 10%) 
 
 @media (min-width: 1024px)
     .margin-btn
@@ -54,9 +61,6 @@ $buttons : #f8f8f8
     .bar-btn
         height: 3rem
         
-.body-color
-    background-color: $main-menu-color
-
 .big-button
     height: 180px
     width: 300px
@@ -77,6 +81,12 @@ $buttons : #f8f8f8
 
 .btn-text
     font-size: 1.2em
+    white-space: pre-wrap
+    word-wrap: break-word
+
+.ssmenu-btn-text
+    padding-top : 15%
+    font-size: 1.1em
     white-space: pre-wrap
     word-wrap: break-word
 

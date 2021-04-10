@@ -1,17 +1,26 @@
+{# Macro pour l'affichage des ensembles de boutons des sous-menus #}
+
 {% macro button_icon(text, icon) %}
-	<button type='button' class="big-button  mb-2 mr-md-2">
+	<button type='button' class="big-button d-flex flex-column align-items-center justify-content-center mb-2 mr-md-2">
 		<img class="icons" src="{{asset('icons/' ~ icon ~ '.png')}}" alt=" {{icon}} ">
-		<div class="btn-text">{{text}}</div>
+		<div class="ssmenu-btn-text">{{text}}</div>
 	</button>
 {% endmacro %}
 
+{# Macro pour l'affichage du footer avec couleur différente selon la section #}
+
 {% macro footer_color(section)%}
 	<nav class="{{section}} admin-footer d-flex justify-content-center fixed-bottom align-items-center">
-		<button type='button' class='btn bar-btn'>
-			<div class="btn-text">Retour au menu</div>
-		</button>
+		<a href="{{ path('admin-main-menu') }}">
+			<button type='button' class='btn bar-btn'>
+				<div class="btn-text">Retour au menu</div>
+			</button>
+		</a>
+
 	</nav>
 {% endmacro %}
+
+{# Macro pour l'affichage de la barre de notifications avec couleur différente selon la section #}
 
 {% macro topnav_color(section)%}
 	<nav class="{{section}} barre-notif navbar fixed-top px-5">
@@ -26,5 +35,4 @@
 			</button>
 		</div>
 	</nav>
-
 {% endmacro %}
