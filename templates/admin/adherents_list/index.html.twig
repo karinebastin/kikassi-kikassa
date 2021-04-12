@@ -1,5 +1,56 @@
 {% extends './admin/base-admin.html.twig' %}
 {% import './admin/_macros.html.twig' as macros %}
-{% block title %}{% endblock %}
 
-{% block body %}{% endblock %}
+{% block title %}Liste des Adhérents
+{% endblock %}
+
+{% block body %}
+	<body class={{color}}>
+		<div class="container main-title font-raleway">
+			<h1 class="text-center font-raleway mb-5">Liste des Adhérents</h1>
+			<div class="show">
+				<table class="table table-hover admin-table">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Nom</th>
+							<th scope="col">Prénom</th>
+							<th scope="col">Téléphone</th>
+							<th scope="col">Date d'inscription</th>
+							<th scope="col">Satut fourmi</th>
+							<th scope="col">Inscription Bibliotheque</th>
+							<th scope="col">Compte actif</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for adherent in adherents %}
+							<tr>
+								<th scope="row">{{adherent.id}}</th>
+								<td>{{adherent.nom}}</td>
+								<td>{{adherent.prenom}}</td>
+								<td>{{adherent.telephone}}</td>
+								<td>{{adherent.dateadhesion|date("m/d/Y")}}</td>
+								<td>{{adherent.categoriefourmi}}</td>
+								<td>
+
+									{% if adherent.adhesionbibliotheque == false %}
+										Non inscrit
+									{% else %}
+										{{dump(adherent.adhesionbibliotheque.id)}}
+									{% endif %}
+								</td>
+								<td>
+									{% if adherent.compteactif == 1 %}
+										Oui
+									{% else %}
+										Non
+									{% endif %}
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</body>
+{% endblock %}

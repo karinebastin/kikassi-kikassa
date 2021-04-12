@@ -44,6 +44,11 @@ $buttons : #f8f8f8
 .section-lieu
     background-color: lighten($lieux-color, 10%) 
 
+
+.main-title
+    padding-top: 150px
+    margin-bottom: 200px
+
 @media (min-width: 1024px)
     .margin-btn
         width: 70%
@@ -51,15 +56,22 @@ $buttons : #f8f8f8
 @media (max-width: 767px)
     .margin-body
         margin: 200px 0
+    .main-title
+        padding-top: 200px
 
 .admin-footer
     height: 15%   
 
-.body-color, .btn-text, .barre-notif, .admin-footer, .btn-logout
+.font-raleway
     font-family: "Raleway"
     font-weight: bold
-    .bar-btn
+
+.bar-btn
         height: 3rem
+
+.admin
+    font-family: "Raleway"
+    font-weight: bold    
         
 .big-button
     height: 180px
@@ -96,12 +108,15 @@ a
     &:hover
         text-decoration: none
         color: black
-
-
 .icons
     width: 40px
 
+.admin-table thead tr th
+    background-color: lighten($adherents-color, 10%)
 
-
-
+.admin-table
+    tbody
+        tr
+            td, th
+                background-color: white
 
