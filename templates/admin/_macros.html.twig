@@ -1,17 +1,19 @@
 {# Macro pour l'affichage des ensembles de boutons des sous-menus #}
 
-{% macro button_icon(text, icon) %}
-	<button type='button' class="big-button d-flex flex-column align-items-center justify-content-center mb-2 mr-md-2">
-		<img class="icons" src="{{asset('icons/' ~ icon ~ '.png')}}" alt=" {{icon}} ">
-		<div class="ssmenu-btn-text">{{text}}</div>
-	</button>
+{% macro button_icon(text, icon, link) %}
+	<a href="{{ path(link) }}">
+		<button type='button' class="big-button d-flex flex-column align-items-center justify-content-center mb-2 mr-md-2">
+			<img class="icons" src="{{asset('icons/' ~ icon ~ '.png')}}" alt=" {{icon}} ">
+			<div class="ssmenu-btn-text">{{text}}</div>
+		</button>
+	</a>
 {% endmacro %}
 
 {# Macro pour l'affichage du footer avec couleur différente selon la section #}
 
-{% macro footer_color(section)%}
+{% macro footer_color(section, return_path)%}
 	<nav class="{{section}} admin-footer d-flex justify-content-center fixed-bottom align-items-center">
-		<a href="{{ path('admin-main-menu') }}">
+		<a href="{{ path(return_path) }}">
 			<button type='button' class='btn bar-btn'>
 				<div class="btn-text">Retour au menu</div>
 			</button>

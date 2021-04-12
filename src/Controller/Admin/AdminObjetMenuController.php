@@ -13,8 +13,10 @@ class AdminObjetMenuController extends AbstractController
     {
         return $this->render('admin/admin_objet_menu/index.html.twig', [
             'controller_name' => 'AdminObjetMenuController',
+            'section' => 'section-objet',
             'color' => 'objet-color',
-            'items' => [['text' => "AJOUTER UN NOUVEL OBJET", 'icon' => 'new' ], ['text' => "MODIFIER UN OBJET", 'icon' => 'pen' ],['text' => "AJOUTER / MODIFIER UN CATALOGUE", 'icon' => 'catalog' ], ['text' => 'LES CATÉGORIES / SOUS-CATÉGORIES', 'icon' => 'categories' ], ['text' => 'AFFICHER LES OBJETS', 'icon' => 'show' ] ]
+            'return_path' => 'admin-main-menu',
+            'items' => [['text' => "AJOUTER UN NOUVEL OBJET", 'icon' => 'new', 'link' => 'test'  ], ['text' => "MODIFIER UN OBJET", 'icon' => 'pen', 'link' => 'test'  ],['text' => "AJOUTER / MODIFIER UN CATALOGUE", 'icon' => 'catalog', 'link' => 'test'  ], ['text' => 'LES CATÉGORIES / SOUS-CATÉGORIES', 'icon' => 'categories', 'link' => 'test'  ], ['text' => 'AFFICHER LES OBJETS', 'icon' => 'show', 'link' => 'test'  ] ]
         ]);
     }
 }

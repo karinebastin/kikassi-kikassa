@@ -14,7 +14,9 @@ class AdminEmpruntMenuController extends AbstractController
         return $this->render('admin/admin_emprunt_menu/index.html.twig', [
             'controller_name' => 'AdminEmpruntMenuController',
             'color' => 'emprunt-color',
-            'items' => [['text' => "VALIDER LES RÉSERVATIONS D'OBJETS", 'icon' => 'check' ], ['text' => "ENREGISTRER UN DÉPART D'OBJET", 'icon' => 'leave' ],['text' => "ENREGISTRER UN RETOUR D'OBJET", 'icon' => 'return' ], ['text' => 'CRÉER UN NOUVEL EMPRUNT', 'icon' => 'basket' ], ['text' => 'MODIFIER / SUPPRIMER UN EMPRUNT', 'icon' => 'pen' ], ['text' => 'AFFICHER LES EMPRUNTS', 'icon' => 'show' ] ]
+            'section' => 'section-emprunt',
+            'return_path' => 'admin-main-menu',
+            'items' => [['text' => "VALIDER LES RÉSERVATIONS D'OBJETS", 'icon' => 'check', 'link' => 'test'  ], ['text' => "ENREGISTRER UN DÉPART D'OBJET", 'icon' => 'leave', 'link' => 'test'  ],['text' => "ENREGISTRER UN RETOUR D'OBJET", 'icon' => 'return', 'link' => 'test'  ], ['text' => 'CRÉER UN NOUVEL EMPRUNT', 'icon' => 'basket', 'link' => 'test'  ], ['text' => 'MODIFIER / SUPPRIMER UN EMPRUNT', 'icon' => 'pen', 'link' => 'test'  ], ['text' => 'AFFICHER LES EMPRUNTS', 'icon' => 'show', 'link' => 'test'  ] ]
         ]);
     }
 }

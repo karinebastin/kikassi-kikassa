@@ -1,3 +1,5 @@
+{% import './admin/_macros.html.twig' as macros %}
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -15,22 +17,17 @@
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
+	{# {% block header %}{% endblock %} #}
+
 	{% block header %}
-		{# <nav class="barre-notif navbar fixed-top px-5">
-					<div class="text-center text-md-left mt-3">
-						<p>Bienvenue Mr Machin Truc</p>
-						<p>Jobs en attente : 4 réservations à confirmer</p>
-					</div>
-					<div class="align-self-center m-auto m-sm-0 p-2 p-sm-0">
-						<button type='button' class='btn bar-btn'>
-							<div class="btn-logout">
-								Déconnexion</div>
-						</button>
-					</div>
-				</nav> #}
+		{{macros.topnav_color(section)}}
 	{% endblock %}
 	<body>
 		{% block body %}{% endblock %}
 	</body>
-	{% block footer %}{% endblock %}
+	{% block footer %}
+		<footer>
+			{{macros.footer_color(section, return_path)}}
+		</footer>
+	{% endblock %}
 </html>

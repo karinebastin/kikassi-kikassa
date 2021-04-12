@@ -13,6 +13,8 @@ class AdminMainMenuController extends AbstractController
     {
         return $this->render('admin/admin_main_menu/index.html.twig', [
             'controller_name' => 'AdminMainMenuController',
+            'section' => 'section-main',
+            'return_path' => 'admin-main-menu'
         ]);
     }
 }
