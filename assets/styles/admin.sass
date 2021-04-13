@@ -18,6 +18,7 @@ $objets-color : #d48166
 $emprunts-color : #8dA242
 $lieux-color : #006b80
 $buttons : #f8f8f8
+$lightGrey: #c7cbcb
 
 .color-main
     background-color: $main-menu-color
@@ -44,7 +45,6 @@ $buttons : #f8f8f8
 .section-lieu
     background-color: lighten($lieux-color, 10%) 
 
-
 .main-title
     padding-top: 150px
     margin-bottom: 200px
@@ -60,7 +60,7 @@ $buttons : #f8f8f8
         padding-top: 200px
 
 .admin-footer
-    height: 15%   
+    height: 100px
 
 .font-raleway
     font-family: "Raleway"
@@ -120,3 +120,19 @@ a
             td, th
                 background-color: white
 
+.admin-table tbody tr:hover td, .admin-table tbody tr:hover th
+    background-color: $lightGrey
+
+// .show
+//     width:100vw
+//     overflow-x: scroll
+//     overflow-y: hidden
+
+// table
+//     overflow: hidden
+//     table-layout: fixed
+// th
+//     width: 100%
+
+// table th, table td
+//     overflow: hidden

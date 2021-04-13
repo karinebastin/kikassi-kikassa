@@ -1,4 +1,5 @@
 import { Controller } from 'stimulus';
+import $ from 'jquery';
 
 /*
  * This is an example Stimulus controller!
@@ -11,6 +12,18 @@ import { Controller } from 'stimulus';
  */
 export default class extends Controller {
     connect() {
-        this.element.textContent = 'Hello Stimulus! Edit me in assets/controllers/hello_controller.js';
+        // this.element.textContent = 'Hello Stimulus! Edit me in assets/controllers/hello_controller.js';
+        $(".leftArrow").on('click', function () {
+            console.log('works')
+            const leftPos = $('.show').scrollLeft();
+            $(".show").animate({scrollLeft: leftPos - 300}, 100);
+          });
+          
+        $(".rightArrow").on('click', function () {
+            const leftPos = $('.show').scrollLeft();
+            $('.show').scrollLeft(leftPos + 150);
+          });
     }
+
+  
 }

@@ -1,7 +1,7 @@
 {# Macro pour l'affichage du footer avec couleur différente selon la section #}
 
 {% macro footer_color(section, return_path)%}
-	<nav class="{{section}} admin-footer d-flex justify-content-center fixed-bottom align-items-center">
+	<nav class="{{section}} vw-100 admin-footer d-flex justify-content-center fixed-bottom align-items-center">
 		<a href="{{ path(return_path) }}">
 			<button type='button' class='btn bar-btn'>
 				<div class="font-raleway btn-text">Retour au menu</div>
@@ -14,10 +14,10 @@
 {# Macro pour l'affichage de la barre de notifications avec couleur différente selon la section #}
 
 {% macro topnav_color(section)%}
-	<nav class="{{section}} font-raleway navbar fixed-top px-5">
-		<div class="text-center text-md-left mt-3">
-			<p>Bienvenue Mr Machin Truc</p>
-			<p>Jobs en attente : 4 réservations à confirmer</p>
+	<nav class="{{section}} vw-100 font-raleway navbar fixed-top px-5">
+		<div class="text-center text-md-left my-2">
+			<p class="m-1">Bienvenue Mr Machin Truc</p>
+			<p class="m-1">Jobs en attente : 4 réservations à confirmer</p>
 		</div>
 		<div class="align-self-center m-auto m-sm-0 p-2 p-sm-0">
 			<button type='button' class='btn bar-btn'>

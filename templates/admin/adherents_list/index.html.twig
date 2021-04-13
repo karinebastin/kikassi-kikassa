@@ -4,53 +4,117 @@
 {% block title %}Liste des Adhérents
 {% endblock %}
 
+
 {% block body %}
 	<body class={{color}}>
-		<div class="container main-title font-raleway">
+		<div class="mx-4 main-title font-raleway">
 			<h1 class="text-center font-raleway mb-5">Liste des Adhérents</h1>
-			<div class="show">
-				<table class="table table-hover admin-table">
+			<div class="show" data-controller="hello">
+				<table class="table admin-table table-bordered" id="admin-t">
 					<thead>
-						<tr>
-							<th scope="col">#</th>
-							<th scope="col">Nom</th>
-							<th scope="col">Prénom</th>
-							<th scope="col">Téléphone</th>
-							<th scope="col">Date d'inscription</th>
-							<th scope="col">Satut fourmi</th>
-							<th scope="col">Inscription Bibliotheque</th>
-							<th scope="col">Compte actif</th>
+						<tr class="text-center">
+							<th class="align-middle" scope="col">Id</th>
+							<th class="align-middle" scope="col">
+								Nom
+							</th>
+							<th class="align-middle" scope="col">Adresse</th>
+							<th class="align-middle" scope="col">Téléphone</th>
+							<th class="align-middle" scope="col">email</th>
+							<th class="align-middle" scope="col">Date de naissance</th>
+							<th class="align-middle" scope="col">Lieu de naissance</th>
+							<th class="align-middle" scope="col">Date d'inscription</th>
+							<th class="align-middle" scope="col">Satut fourmi</th>
+							<th class="align-middle" scope="col">Montant cotisation</th>
+							<th class="align-middle" scope="col">Statut de la cotisation</th>
+							<th class="align-middle" scope="col">Adhésion active</th>
+							<th class="align-middle" scope="col">Est Administrateur</th>
+							<th class="align-middle" scope="col">Inscription Bibliotheque</th>
+							<th class="align-middle" scope="col">Satut adhésion bibliothèque</th>
+							<th class="align-middle" scope="col">Montant du dépot permanent</th>
+							<th class="align-middle" scope="col">Date de fin responsabilité civile</th>
+							<th class="align-middle" scope="col">Justificatif de domicile</th>
+							<th class="align-middle" scope="col">Justificatif d'identité</th>
 						</tr>
 					</thead>
 					<tbody>
 						{% for adherent in adherents %}
-							<tr>
-								<th scope="row">{{adherent.id}}</th>
-								<td>{{adherent.nom}}</td>
-								<td>{{adherent.prenom}}</td>
-								<td>{{adherent.telephone}}</td>
-								<td>{{adherent.dateadhesion|date("m/d/Y")}}</td>
-								<td>{{adherent.categoriefourmi}}</td>
-								<td>
+							{% set actif = adherent.dateadhesion|date_modify("+1 year")|date('Y-m-d') > "now"|date('Y-m-d') ? "Compte actif" : "Compte inactif" %}
+							{% set isAdmin = adherent.admin == true ? "Oui" : "Non" %}
+							{% set adBiblio = adherent.adhesionbibliotheque %}
+							{% set biblio = adBiblio == false ? "Non inscrit" : "Inscrit" %}
+							{% set depotP = adBiblio == false ? " /" : adBiblio.depotpermanent ~ " €" %}
+							{% if adBiblio != null %}
+								{% if adBiblio.finrc == null %}
+									{% set finRc = "pas de RC donnée"  %}
+								{% else %}
+									{% set finRc = adBiblio.finrc|date("d-m-Y")  %}
+								{% endif %}
+							{% else %}
+								{% set finRc = " /"  %}
+							{% endif %}
+							{% set statutBiblio = adBiblio == false ? " /" : adBiblio.satutInscription %}
 
-									{% if adherent.adhesionbibliotheque == false %}
-										Non inscrit
-									{% else %}
-										{{dump(adherent.adhesionbibliotheque.id)}}
-									{% endif %}
+							{% if adBiblio != null %}
+								{% if adBiblio.justifdomicile == null %}
+									{% set justifDomicile = "Non"  %}
+								{% else %}
+									{% set justifDomicile = "Oui" %}
+								{% endif %}
+							{% else %}
+								{% set justifDomicile = " /"  %}
+							{% endif %}
+
+							{% if adBiblio != null %}
+								{% if adBiblio.justifidentite == null %}
+									{% set justifId = "Non"  %}
+								{% else %}
+									{% set justifId = "Oui" %}
+								{% endif %}
+							{% else %}
+								{% set justifId = " /"  %}
+							{% endif %}
+
+							<tr class="text-nowrap">
+								<td>
+									<a href="{{path('test')}}">{{adherent.id}}</a>
 								</td>
 								<td>
-									{% if adherent.compteactif == 1 %}
-										Oui
-									{% else %}
-										Non
-									{% endif %}
+									<a href="{{path('test')}}">{{adherent.nomprenom}}</a>
 								</td>
+								<td>{{adherent.adresse}}
+									{{adherent.cp}}
+									{{adherent.ville}}</td>
+								<td>{{adherent.telephone}}</td>
+								<td>{{adherent.email}}</td>
+								<td>{{adherent.datenaissance|date("d/m/Y")}}</td>
+								<td>{{adherent.lieunaissance}}</td>
+								<td>{{adherent.dateadhesion|date("d/m/Y")}}</td>
+								<td>{{adherent.categoriefourmi}}</td>
+								<td>{{adherent.montantcotisation}}
+									€
+								</td>
+								<td>{{adherent.etatcotisation}}
+								</td>
+								<td>{{actif}}</td>
+								<td>{{isAdmin}}</td>
+								<td>{{biblio}}</td>
+								<td>{{statutBiblio}}</td>
+								<td>{{depotP}}</td>
+								<td>{{finRc}}</td>
+								<td>{{justifDomicile}}</td>
+								<td>{{justifId}}</td>
 							</tr>
 						{% endfor %}
 					</tbody>
 				</table>
+
 			</div>
+			{# <button class="leftArrow">SCROLL R
+						</button>
+			
+						<button class="rightArrow">SCROLL L
+						</button> #}
 		</div>
+
 	</body>
 {% endblock %}

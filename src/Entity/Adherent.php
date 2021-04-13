@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
+use App\Entity\Objet;
+use App\Entity\Emprunt;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\AdhesionBibliotheque;
 use App\Repository\AdherentRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -30,6 +33,8 @@ class Adherent
      * @ORM\Column(type="string", length=255)
      */
     private $prenom;
+
+    private $nomprenom;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -148,6 +153,7 @@ class Adherent
             $this->date_adhesion = new \DateTime();
         }
     }
+    
 
     public function __construct()
     {
@@ -180,6 +186,18 @@ class Adherent
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getNomprenom(): ?string
+    {
+        return $this->nom.' '.$this->prenom;
+    }
+
+    public function setNomprenom(string $nomprenom): self
+    {
+        $this->nomprenom = $nomprenom;
 
         return $this;
     }

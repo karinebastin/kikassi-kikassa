@@ -14,6 +14,7 @@ class AdherentsListController extends AbstractController
     {
         $adherents = $repo->findAll();
 
+
         return $this->render('admin/adherents_list/index.html.twig', [
             'controller_name' => 'AdherentsListController',
             'adherents' => $adherents,

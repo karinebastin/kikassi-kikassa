@@ -12,3 +12,4 @@ import "./styles/admin.sass";
 
 // start the Stimulus application
 import "./bootstrap";
+
