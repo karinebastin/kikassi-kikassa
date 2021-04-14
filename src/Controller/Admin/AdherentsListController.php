@@ -18,9 +18,9 @@ class AdherentsListController extends AbstractController
         return $this->render('admin/adherents_list/index.html.twig', [
             'controller_name' => 'AdherentsListController',
             'adherents' => $adherents,
-            'section' => 'section-adherent',
+            'section' => 'section-adherents',
             'return_path' => 'menu-adherent',
-            'color' => 'adherent-color'
+            'color' => 'adherents-color'
         ]);
     }
 }

@@ -1,0 +1,79 @@
+{% extends './admin/base-admin.html.twig' %}
+{% import './admin/_macros.html.twig' as macros %}
+
+{% block title %}Liste des Objets
+{% endblock %}
+
+{% block body %}
+	<body class={{color}}>
+		<div class="mx-4 main-title font-raleway">
+			<h1 class="text-center font-raleway mb-5">Liste des Objets</h1>
+			<div class="show" data-controller="hello">
+				<table class="table admin-table-objets tb-design table-bordered" id="admin-t">
+					<thead>
+						<tr class="text-center">
+							<th class="align-middle" scope="col">Id</th>
+							<th class="align-middle" scope="col">
+								Dénomination
+							</th>
+							<th class="align-middle" scope="col">Marque</th>
+							<th class="align-middle" scope="col">Description</th>
+							<th class="align-middle" scope="col">Valeur d'achat</th>
+							<th class="align-middle" scope="col">Coeficient d'usure
+							</th>
+							<th class="align-middle" scope="col">Pourcentage de calcul</th>
+							<th class="align-middle" scope="col">Mis en vitrine</th>
+							<th class="align-middle" scope="col">Date de création</th>
+							<th class="align-middle" scope="col">Statutde l'objet</th>
+							<th class="align-middle" scope="col">Observation</th>
+							{# <th class="align-middle" scope="col">Adhésion active</th>
+																																																																																																																							<th class="align-middle" scope="col">Est Administrateur</th>
+																																																																																																																							<th class="align-middle" scope="col">Inscription Bibliotheque</th>
+																																																																																																																							<th class="align-middle" scope="col">Satut adhésion bibliothèque</th>
+																																																																																																																							<th class="align-middle" scope="col">Montant du dépot permanent</th>
+																																																																																																																							<th class="align-middle" scope="col">Date de fin responsabilité civile</th>
+																																																																																																																							<th class="align-middle" scope="col">Justificatif de domicile</th>
+																																																																																																																							<th class="align-middle" scope="col">Justificatif d'identité</th> #}
+						</tr>
+					</thead>
+					<tbody>
+						{% for objet in objets %}
+							<tr class="text-nowrap">
+								<td>
+									<a href="{{path('test')}}">{{objet.id}}</a>
+								</td>
+								<td>
+									<a href="{{path('test')}}">{{objet.denomination}}</a>
+								</td>
+								<td>{{objet.marque}}
+								</td>
+								<td>{{objet.description}}</td>
+								<td>{{objet.valeurachat}}
+									€
+								</td>
+								<td>{{objet.coefusure}}</td>
+								<td>{{objet.pourcentcalcul}}</td>
+								<td>{{objet.vitrine}}</td>
+								<td>{{objet.datecreation|date("d/m/Y")}}</td>
+								<td>{{objet.statut}}</td>
+								<td>{{objet.observation}}</td>
+
+
+								{# <td>{{catalogue}}</td>
+																																																																																																																																								<td>{{adherent}}</td>
+																																																																																																																																								<td>{{souscat}}</td>
+																																																																																																																																								<td>{{categorie}}</td>
+																																																																																																																																								<td>{{lieu}}</td> #}
+
+							</tr>
+						</tbody>
+					</tbody>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</body>
+</table></div>{# <button class="leftArrow">SCROLL R
+																																																																			</button>
+																																																																
+																																																																			<button class="rightArrow">SCROLL L
+																																																																			</button> #}</div></body>{% endblock %}

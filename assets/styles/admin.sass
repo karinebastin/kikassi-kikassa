@@ -20,30 +20,22 @@ $lieux-color : #006b80
 $buttons : #f8f8f8
 $lightGrey: #c7cbcb
 
-.color-main
-    background-color: $main-menu-color
-.section-main
-    background-color: lighten($main-menu-color, 10%)
 
-.adherent-color 
-    background-color: $adherents-color
-.section-adherent
-    background-color: lighten($adherents-color, 10%)
+@mixin theme-color($section, $color, $lightColor)
+    .admin-table-#{$section} thead tr th
+        background-color: $lightColor
+    .#{$section}-color
+        background-color: $color
+    .section-#{$section}
+        background-color: $lightColor
+    
 
-.objet-color
-    background-color: $objets-color
-.section-objet
-    background-color: lighten($objets-color, 10%) 
+@include theme-color('objets', $objets-color, lighten($objets-color, 10%))
+@include theme-color('adherents', $adherents-color, lighten($adherents-color, 10%))
+@include theme-color('emprunts', $emprunts-color, lighten($emprunts-color, 10%))
+@include theme-color('lieux', $lieux-color, lighten($lieux-color, 10%))
+@include theme-color('main', $main-menu-color, lighten($main-menu-color, 10%))
 
-.emprunt-color 
-    background-color: $emprunts-color
-.section-emprunt
-    background-color: lighten($emprunts-color, 10%) 
-
-.lieu-color 
-    background-color: $lieux-color
-.section-lieu
-    background-color: lighten($lieux-color, 10%) 
 
 .main-title
     padding-top: 150px
@@ -68,10 +60,6 @@ $lightGrey: #c7cbcb
 
 .bar-btn
         height: 3rem
-
-.admin
-    font-family: "Raleway"
-    font-weight: bold    
         
 .big-button
     height: 180px
@@ -111,16 +99,13 @@ a
 .icons
     width: 40px
 
-.admin-table thead tr th
-    background-color: lighten($adherents-color, 10%)
-
-.admin-table
+.tb-design
     tbody
         tr
             td, th
                 background-color: white
 
-.admin-table tbody tr:hover td, .admin-table tbody tr:hover th
+.tb-design tbody tr:hover td, .tb-design tbody tr:hover th
     background-color: $lightGrey
 
 // .show
@@ -136,3 +121,6 @@ a
 
 // table th, table td
 //     overflow: hidden
+
+
+

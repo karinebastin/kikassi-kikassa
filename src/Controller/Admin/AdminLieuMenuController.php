@@ -13,8 +13,8 @@ class AdminLieuMenuController extends AbstractController
     {
         return $this->render('admin/admin_lieu_menu/index.html.twig', [
             'controller_name' => 'AdminLieuMenuController',
-            'section' => 'section-lieu',
-            'color' => 'lieu-color',
+            'section' => 'section-lieux',
+            'color' => 'lieux-color',
             'return_path' => 'admin-main-menu',
             'items' => [ ['text' => 'AJOUTER UN NOUVEAU LIEU DE STOCKAGE', 'icon' => 'shop', 'link' => 'test'  ], ['text' => "AFFICHER / MODIFIER LES LIEUX DE STOCKAGE D'OBJETS", 'icon' => 'pen', 'link' => 'test'  ]]
         ]);
