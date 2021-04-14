@@ -13,27 +13,27 @@
 				<table class="table admin-table-adherents tb-design table-bordered" id="admin-t">
 					<thead>
 						<tr class="text-center">
-							<th class="align-middle" scope="col">Id</th>
-							<th class="align-middle" scope="col">
+							<th scope="col">Id</th>
+							<th scope="col">
 								Nom
 							</th>
-							<th class="align-middle" scope="col">Adresse</th>
-							<th class="align-middle" scope="col">Téléphone</th>
-							<th class="align-middle" scope="col">email</th>
-							<th class="align-middle" scope="col">Date de naissance</th>
-							<th class="align-middle" scope="col">Lieu de naissance</th>
-							<th class="align-middle" scope="col">Date d'inscription</th>
-							<th class="align-middle" scope="col">Satut fourmi</th>
-							<th class="align-middle" scope="col">Montant cotisation</th>
-							<th class="align-middle" scope="col">Statut de la cotisation</th>
-							<th class="align-middle" scope="col">Adhésion active</th>
-							<th class="align-middle" scope="col">Est Administrateur</th>
-							<th class="align-middle" scope="col">Inscription Bibliotheque</th>
-							<th class="align-middle" scope="col">Satut adhésion bibliothèque</th>
-							<th class="align-middle" scope="col">Montant du dépot permanent</th>
-							<th class="align-middle" scope="col">Date de fin responsabilité civile</th>
-							<th class="align-middle" scope="col">Justificatif de domicile</th>
-							<th class="align-middle" scope="col">Justificatif d'identité</th>
+							<th scope="col">Adresse</th>
+							<th scope="col">Téléphone</th>
+							<th scope="col">email</th>
+							<th scope="col">Date de naissance</th>
+							<th scope="col">Lieu de naissance</th>
+							<th scope="col">Date d'inscription</th>
+							<th scope="col">Satut fourmi</th>
+							<th scope="col">Montant cotisation</th>
+							<th scope="col">Statut de la cotisation</th>
+							<th scope="col">Adhésion active</th>
+							<th scope="col">Est Administrateur</th>
+							<th scope="col">Inscription Bibliotheque</th>
+							<th scope="col">Satut adhésion bibliothèque</th>
+							<th scope="col">Montant du dépot permanent</th>
+							<th scope="col">Date de fin responsabilité civile</th>
+							<th scope="col">Justificatif de domicile</th>
+							<th scope="col">Justificatif d'identité</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -88,21 +88,21 @@
 								<td>{{adherent.email}}</td>
 								<td>{{adherent.datenaissance|date("d/m/Y")}}</td>
 								<td>{{adherent.lieunaissance}}</td>
-								<td>{{adherent.dateadhesion|date("d/m/Y")}}</td>
-								<td>{{adherent.categoriefourmi}}</td>
-								<td>{{adherent.montantcotisation}}
+								<td class="text-center">{{adherent.dateadhesion|date("d/m/Y")}}</td>
+								<td class="text-center">{{adherent.categoriefourmi}}</td>
+								<td class="text-center">{{adherent.montantcotisation}}
 									€
 								</td>
-								<td>{{adherent.etatcotisation}}
+								<td class="text-center">{{adherent.etatcotisation}}
 								</td>
-								<td>{{actif}}</td>
-								<td>{{isAdmin}}</td>
-								<td>{{biblio}}</td>
-								<td>{{statutBiblio}}</td>
-								<td>{{depotP}}</td>
-								<td>{{finRc}}</td>
-								<td>{{justifDomicile}}</td>
-								<td>{{justifId}}</td>
+								<td class="text-center">{{actif}}</td>
+								<td class="text-center">{{isAdmin}}</td>
+								<td class="text-center">{{biblio}}</td>
+								<td class="text-center">{{statutBiblio}}</td>
+								<td class="text-center">{{depotP}}</td>
+								<td class="text-center">{{finRc}}</td>
+								<td class="text-center">{{justifDomicile}}</td>
+								<td class="text-center">{{justifId}}</td>
 							</tr>
 						{% endfor %}
 					</tbody>
@@ -110,10 +110,10 @@
 
 			</div>
 			{# <button class="leftArrow">SCROLL R
-												</button>
-									
-												<button class="rightArrow">SCROLL L
-												</button> #}
+																		</button>
+															
+																		<button class="rightArrow">SCROLL L
+																		</button> #}
 		</div>
 
 	</body>

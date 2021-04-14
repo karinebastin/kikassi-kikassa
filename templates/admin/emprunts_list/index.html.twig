@@ -1,0 +1,73 @@
+{% extends './admin/base-admin.html.twig' %}
+{% import './admin/_macros.html.twig' as macros %}
+
+{% block title %}Liste des Emprunts
+{% endblock %}
+
+{% block body %}
+	<body class={{color}}>
+		<div class="mx-4 main-title font-raleway">
+			<h1 class="text-center font-raleway mb-5">Liste des Emprunts</h1>
+			<div class="show" data-controller="hello">
+				<table class="table admin-table-emprunts tb-design table-bordered" id="admin-t">
+					<thead>
+						<tr class="text-center">
+							<th scope="col">Id</th>
+							<th scope="col">
+								Dénomination
+							</th>
+							<th scope="col">Marque</th>
+							<th scope="col">Description</th>
+							<th scope="col">Valeur d'achat</th>
+							<th scope="col">Coeficient d'usure
+							</th>
+							<th scope="col">Pourcentage de calcul</th>
+							<th scope="col">Mis en vitrine</th>
+							<th scope="col">Date de création</th>
+							<th scope="col">Statut de l'emprunt</th>
+							<th scope="col">Observation</th>
+							<th scope="col">Catalogue</th>
+							<th scope="col">Lieu de stockage de l'emprunt</th>
+							<th scope="col">Sous-categorie</th>
+							<th scope="col">Categorie</th>
+							<th scope="col">Adherent</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						{% for emprunt in emprunts %}
+							{% set proprietaire = emprunt.adherent != null ? emprunt.adherent.nom|capitalize ~ " " ~ emprunt.adherent.prenom|capitalize : "Kikassi Kikassa" %}
+							{% set vitrine = emprunt.vitrine != null ? "Oui" : "Non" %}
+							<tr class="text-nowrap">
+								<td>
+									<a href="{{path('test')}}">{{emprunt.id}}</a>
+								</td>
+								<td>
+									<a href="{{path('test')}}">{{emprunt.denomination|capitalize}}</a>
+								</td>
+								<td>{{emprunt.marque|capitalize}}
+								</td>
+								<td>{{emprunt.description|capitalize}}</td>
+								<td class="text-center">{{emprunt.valeurachat}}
+									€
+								</td>
+								<td class="text-center">{{emprunt.coefusure}}</td>
+								<td class="text-center">{{emprunt.pourcentcalcul}}
+									%</td>
+								<td class="text-center">{{vitrine}}</td>
+								<td>{{emprunt.datecreation|date("d/m/Y")}}</td>
+								<td class="text-center">{{emprunt.statut|capitalize}}</td>
+								<td>{{emprunt.observation|capitalize}}</td>
+								<td class="text-center" class="text-center">{{emprunt.catalogue.nomcatalogue|capitalize}}</td>
+								<td class="text-center">{{emprunt.lieu.nom|capitalize}}</td>
+								<td class="text-center">{{emprunt.souscategorie.nomsscategorie|capitalize}}</td>
+								<td class="text-center">{{emprunt.souscategorie.categorie.nomcategorie|capitalize}}</td>
+								<td class="text-center">{{proprietaire}}</td>
+							</tr>
+						</tbody>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</body>
+{% endblock %}

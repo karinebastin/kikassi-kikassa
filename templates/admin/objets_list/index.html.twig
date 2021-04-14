@@ -12,68 +12,62 @@
 				<table class="table admin-table-objets tb-design table-bordered" id="admin-t">
 					<thead>
 						<tr class="text-center">
-							<th class="align-middle" scope="col">Id</th>
-							<th class="align-middle" scope="col">
+							<th scope="col">Id</th>
+							<th scope="col">
 								Dénomination
 							</th>
-							<th class="align-middle" scope="col">Marque</th>
-							<th class="align-middle" scope="col">Description</th>
-							<th class="align-middle" scope="col">Valeur d'achat</th>
-							<th class="align-middle" scope="col">Coeficient d'usure
+							<th scope="col">Marque</th>
+							<th scope="col">Description</th>
+							<th scope="col">Valeur d'achat</th>
+							<th scope="col">Coeficient d'usure
 							</th>
-							<th class="align-middle" scope="col">Pourcentage de calcul</th>
-							<th class="align-middle" scope="col">Mis en vitrine</th>
-							<th class="align-middle" scope="col">Date de création</th>
-							<th class="align-middle" scope="col">Statutde l'objet</th>
-							<th class="align-middle" scope="col">Observation</th>
-							{# <th class="align-middle" scope="col">Adhésion active</th>
-																																																																																																																							<th class="align-middle" scope="col">Est Administrateur</th>
-																																																																																																																							<th class="align-middle" scope="col">Inscription Bibliotheque</th>
-																																																																																																																							<th class="align-middle" scope="col">Satut adhésion bibliothèque</th>
-																																																																																																																							<th class="align-middle" scope="col">Montant du dépot permanent</th>
-																																																																																																																							<th class="align-middle" scope="col">Date de fin responsabilité civile</th>
-																																																																																																																							<th class="align-middle" scope="col">Justificatif de domicile</th>
-																																																																																																																							<th class="align-middle" scope="col">Justificatif d'identité</th> #}
+							<th scope="col">Pourcentage de calcul</th>
+							<th scope="col">Mis en vitrine</th>
+							<th scope="col">Date de création</th>
+							<th scope="col">Statut de l'objet</th>
+							<th scope="col">Observation</th>
+							<th scope="col">Catalogue</th>
+							<th scope="col">Lieu de stockage de l'objet</th>
+							<th scope="col">Sous-categorie</th>
+							<th scope="col">Categorie</th>
+							<th scope="col">Adherent</th>
+
 						</tr>
 					</thead>
 					<tbody>
 						{% for objet in objets %}
+							{% set proprietaire = objet.adherent != null ? objet.adherent.nom|capitalize ~ " " ~ objet.adherent.prenom|capitalize : "Kikassi Kikassa" %}
+							{% set vitrine = objet.vitrine != null ? "Oui" : "Non" %}
 							<tr class="text-nowrap">
 								<td>
 									<a href="{{path('test')}}">{{objet.id}}</a>
 								</td>
 								<td>
-									<a href="{{path('test')}}">{{objet.denomination}}</a>
+									<a href="{{path('test')}}">{{objet.denomination|capitalize}}</a>
 								</td>
-								<td>{{objet.marque}}
+								<td>{{objet.marque|capitalize}}
 								</td>
-								<td>{{objet.description}}</td>
-								<td>{{objet.valeurachat}}
+								<td>{{objet.description|capitalize}}</td>
+								<td class="text-center">{{objet.valeurachat}}
 									€
 								</td>
-								<td>{{objet.coefusure}}</td>
-								<td>{{objet.pourcentcalcul}}</td>
-								<td>{{objet.vitrine}}</td>
+								<td class="text-center">{{objet.coefusure}}</td>
+								<td class="text-center">{{objet.pourcentcalcul}}
+									%</td>
+								<td class="text-center">{{vitrine}}</td>
 								<td>{{objet.datecreation|date("d/m/Y")}}</td>
-								<td>{{objet.statut}}</td>
-								<td>{{objet.observation}}</td>
-
-
-								{# <td>{{catalogue}}</td>
-																																																																																																																																								<td>{{adherent}}</td>
-																																																																																																																																								<td>{{souscat}}</td>
-																																																																																																																																								<td>{{categorie}}</td>
-																																																																																																																																								<td>{{lieu}}</td> #}
-
+								<td class="text-center">{{objet.statut|capitalize}}</td>
+								<td>{{objet.observation|capitalize}}</td>
+								<td class="text-center" class="text-center">{{objet.catalogue.nomcatalogue|capitalize}}</td>
+								<td class="text-center">{{objet.lieu.nom|capitalize}}</td>
+								<td class="text-center">{{objet.souscategorie.nomsscategorie|capitalize}}</td>
+								<td class="text-center">{{objet.souscategorie.categorie.nomcategorie|capitalize}}</td>
+								<td class="text-center">{{proprietaire}}</td>
 							</tr>
 						</tbody>
-					</tbody>
-				</tr>
-			{% endfor %}
-		</tbody>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
 	</body>
-</table></div>{# <button class="leftArrow">SCROLL R
-																																																																			</button>
-																																																																
-																																																																			<button class="rightArrow">SCROLL L
-																																																																			</button> #}</div></body>{% endblock %}
+{% endblock %}
