@@ -37,7 +37,7 @@ class Objet
     private $description;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
     private $valeur_achat;
 
@@ -47,7 +47,7 @@ class Objet
     private $coef_usure;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
     private $pourcent_calcul;
 
@@ -186,12 +186,12 @@ class Objet
         return $this;
     }
 
-    public function getValeurAchat(): ?int
+    public function getValeurAchat(): ?string
     {
         return $this->valeur_achat;
     }
 
-    public function setValeurAchat(int $valeur_achat): self
+    public function setValeurAchat(string $valeur_achat): self
     {
         $this->valeur_achat = $valeur_achat;
 
@@ -210,12 +210,12 @@ class Objet
         return $this;
     }
 
-    public function getPourcentCalcul(): ?int
+    public function getPourcentCalcul(): ?string
     {
         return $this->pourcent_calcul;
     }
 
-    public function setPourcentCalcul(int $pourcent_calcul): self
+    public function setPourcentCalcul(string $pourcent_calcul): self
     {
         $this->pourcent_calcul = $pourcent_calcul;
 

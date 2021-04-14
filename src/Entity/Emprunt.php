@@ -49,12 +49,12 @@ class Emprunt
     private $depot_rajoute;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
      */
     private $penalites;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=10, scale=2)
      */
     private $prix_emprunt;
 
@@ -175,24 +175,24 @@ class Emprunt
         return $this;
     }
 
-    public function getPenalites(): ?int
+    public function getPenalites(): ?string
     {
         return $this->penalites;
     }
 
-    public function setPenalites(?int $penalites): self
+    public function setPenalites(?string $penalites): self
     {
         $this->penalites = $penalites;
 
         return $this;
     }
 
-    public function getPrixEmprunt(): ?int
+    public function getPrixEmprunt(): ?string
     {
         return $this->prix_emprunt;
     }
 
-    public function setPrixEmprunt(int $prix_emprunt): self
+    public function setPrixEmprunt(string $prix_emprunt): self
     {
         $this->prix_emprunt = $prix_emprunt;
 

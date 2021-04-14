@@ -23,22 +23,22 @@ class HoraireLieu
     private $jour;
 
     /**
-     * @ORM\Column(type="time", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $ouv_am;
 
     /**
-     * @ORM\Column(type="time", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $ferme_am;
 
     /**
-     * @ORM\Column(type="time", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $ouv_pm;
 
     /**
-     * @ORM\Column(type="time", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $ferme_pm;
 
@@ -68,48 +68,48 @@ class HoraireLieu
         return $this;
     }
 
-    public function getOuvAm(): ?\DateTimeInterface
+    public function getOuvAm(): ?string
     {
         return $this->ouv_am;
     }
 
-    public function setOuvAm(?\DateTimeInterface $ouv_am): self
+    public function setOuvAm(string $ouv_am): self
     {
         $this->ouv_am = $ouv_am;
 
         return $this;
     }
 
-    public function getFermeAm(): ?\DateTimeInterface
+    public function getFermeAm(): ?string
     {
         return $this->ferme_am;
     }
 
-    public function setFermeAm(?\DateTimeInterface $ferme_am): self
+    public function setFermeAm(string $ferme_am): self
     {
         $this->ferme_am = $ferme_am;
 
         return $this;
     }
 
-    public function getOuvPm(): ?\DateTimeInterface
+    public function getOuvPm(): ?string
     {
         return $this->ouv_pm;
     }
 
-    public function setOuvPm(?\DateTimeInterface $ouv_pm): self
+    public function setOuvPm(string $ouv_pm): self
     {
         $this->ouv_pm = $ouv_pm;
 
         return $this;
     }
 
-    public function getFermePm(): ?\DateTimeInterface
+    public function getFermePm(): ?string
     {
         return $this->ferme_pm;
     }
 
-    public function setFermePm(?\DateTimeInterface $ferme_pm): self
+    public function setFermePm(string $ferme_pm): self
     {
         $this->ferme_pm = $ferme_pm;
 

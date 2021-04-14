@@ -16,11 +16,6 @@ class HoraireLieuFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
 
-        function time($heure)
-        {
-        $h = strtotime($heure);
-        return new DateTime(date("h:i", $h));
-}
 
         $horaireMerc = new HoraireLieu();
         $horaireSam = new HoraireLieu();
@@ -28,16 +23,17 @@ class HoraireLieuFixtures extends Fixture implements DependentFixtureInterface
     
         
         $horaireMerc->setjour("Mercredi")
-            ->setOuvPm(time("12h00"))
-            ->setFermePm(time("16h00"))
+            ->setOuvPm("12h00")
+            ->setFermePm("16h00")
             ->setLieu($lieu);
 
         $horaireSam->setjour("Samedi")
-            ->setOuvAm(time("10h00"))
-            ->setFermeAm(time("13h00"))
+            ->setOuvAm("10h00")
+            ->setFermeAm("13h00")
             ->setLieu($lieu);
 
-    $manager->persist($horaireMerc, $horaireSam);
+    $manager->persist($horaireMerc);
+    $manager->persist($horaireSam);
     
 
     $manager->flush();
