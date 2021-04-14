@@ -72,7 +72,7 @@ class Adherent
     private $categorie_fourmi;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
      */
     private $montant_cotisation;
 

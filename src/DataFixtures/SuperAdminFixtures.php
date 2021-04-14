@@ -34,6 +34,7 @@ class SuperAdminFixtures extends Fixture
                             ->setMotDePasse($mdp);
 
             $manager->persist($moussaoui);
+            $manager->persist($marvie);
 
         $manager->flush();
 

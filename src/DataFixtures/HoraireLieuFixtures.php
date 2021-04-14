@@ -37,7 +37,8 @@ class HoraireLieuFixtures extends Fixture implements DependentFixtureInterface
             ->setFermeAm(time("13h00"))
             ->setLieu($lieu);
 
-    $manager->persist($horaireMerc, $horaireSam);
+    $manager->persist($horaireMerc);
+    $manager->persist($horaireSam);
     
 
     $manager->flush();
