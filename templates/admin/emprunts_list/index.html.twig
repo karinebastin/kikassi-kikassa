@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-	<body>
+	<body class={{color}}>
 		<div class="mx-4 main-title font-raleway">
 			<h1 class="text-center font-raleway mb-5">Liste des Emprunts</h1>
 			<div class="show" data-controller="hello">
@@ -18,7 +18,7 @@
 							</th>
 							<th scope="col">Objet emprunté</th>
 							<th scope="col">Date de réservation</th>
-							{# <th scope="col">Statut de l'emprunt</th> #}
+							<th scope="col">Statut de l'emprunt</th>
 							<th scope="col">Date de début de l'emprunt</th>
 							<th scope="col">Date de fin de l'emprunt</th>
 							<th scope="col">Remarque de l'emprunteur</th>
@@ -34,13 +34,18 @@
 						{% for emprunt in emprunts %}
 							{% set emprunteur = emprunt.adherent != null ? emprunt.adherent.nom|capitalize ~ " " ~ emprunt.adherent.prenom|capitalize : emprunt.superadmin.nom|capitalize ~ " " ~ emprunt.superadmin.prenom|capitalize %}
 							{% set dateRetour =  emprunt.dateretourobjet is null ? "-" : emprunt.dateretourobjet|date("d/m/Y") %}
+							{% if emprunt.statut != null %}
+								{% set statutEmprunt = emprunt.statut %}
+							{% elseif emprunt.dateretourobjet %}
+								{% set statutEmprunt = "Terminé" %}
+							{% elseif emprunt.datedebut > date() %}
+								{% set statutEmprunt = "Objet réservé" %}
+							{% elseif emprunt.datedebut < date() and emprunt.datefin > date() %}
+								{% set statutEmprunt = "Emprunt en cours" %}
+							{% elseif emprunt.dateretourobjet == null and emprunt.datefin < date() %}
+								{% set statutEmprunt = "En retard" %}
 
-
-							{% set statutEmprunt = emprunt.statut %}
-							{% set statutEmprunt = "Objet réservé" %}
-							{% set statutEmprunt = "Emprunt en cours" %}
-							{% set statutEmprunt = "En retard" %}
-							{% set statutEmprunt = "Terminé" %}
+							{% endif %}
 
 
 							{% set dureeEmprunt = date(emprunt.datefin).diff(date(emprunt.datedebut)) %}
@@ -67,6 +72,8 @@
 								{% set penalitesPayees = "Non" %}
 							{% endif %}
 
+							{% set empruntRegle = emprunt.empruntregle == null ? "Non" : "Oui" %}
+
 							<tr class="text-nowrap">
 								<td>
 									<a href="{{path('test')}}">{{emprunt.id}}</a>
@@ -77,25 +84,25 @@
 								<td class="text-center">{{emprunt.objet.denomination|capitalize}}
 								</td>
 								<td class="text-center">{{emprunt.datereservation|date("d/m/Y")}}</td>
+								<td class="text-center">{{statutEmprunt}}</td>
 								<td class="text-center">{{emprunt.datedebut|date("d/m/Y")}}</td>
 								<td class="text-center">{{emprunt.datefin|date("d/m/Y")}}</td>
 								<td>{{emprunt.remarque}}
 								</td>
-								{# <td class="text-center">{{statutEmprunt}}</td> #}
 								<td class="text-center">
 									{{dateRetour}}</td>
 
 								<td class="text-center">{{emprunt.prixemprunt}}
 									€</td>
-								<td class="text-center">{{emprunt.empruntPaye}}</td>
+								<td class="text-center">{{empruntRegle}}</td>
 								<td class="text-center">{{penalites}}</td>
 								<td class="text-center">{{penalitesPayees}}</td>
 
 							</tr>
 						{% endfor %}
 					</tbody>
-				</tbody>
-			</tbody>
-		</body>
+				</table>
+			</div>
+		</div>
 	</body>
-</table></body></div></body></body></div></body>{% endblock %}
+{% endblock %}
