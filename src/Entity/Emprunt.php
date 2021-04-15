@@ -85,6 +85,11 @@ class Emprunt
     private $statut;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $emprunt_regle;
+
+    /**
      *
      *@ORM\PrePersist
      *
@@ -255,6 +260,18 @@ class Emprunt
     public function setStatut(string $statut): self
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getEmpruntRegle(): ?bool
+    {
+        return $this->emprunt_regle;
+    }
+
+    public function setEmpruntRegle(bool $emprunt_regle): self
+    {
+        $this->emprunt_regle = $emprunt_regle;
 
         return $this;
     }
