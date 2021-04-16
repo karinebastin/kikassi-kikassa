@@ -19,6 +19,7 @@ $emprunts-color : #8dA242
 $lieux-color : #006b80
 $buttons : #f8f8f8
 $lightGrey: #c7cbcb
+$modifyColor:#a3bd21
 
 
 @mixin theme-color($section, $color, $lightColor)
@@ -41,26 +42,23 @@ $lightGrey: #c7cbcb
     padding-top: 150px
     margin-bottom: 200px
 
-@media (min-width: 1024px)
-    .margin-btn
-        width: 70%
 
-@media (max-width: 767px)
-    .margin-body
-        margin: 200px 0
-    .main-title
-        padding-top: 200px
 
 .admin-footer
-    height: 100px
+    height: 90px
 
 .font-raleway
     font-family: "Raleway"
     font-weight: bold
 
+.font-raleway-small
+    font-family: "Raleway"
+    font-size: 1.2em
+
+
 .bar-btn
-        height: 3rem
-        
+    height: 3rem
+   
 .big-button
     height: 180px
     width: 300px
@@ -71,6 +69,9 @@ $lightGrey: #c7cbcb
     background-color: $buttons
     white-space: nowrap
     box-shadow: 4px 4px 2px #737a74
+
+.modify-btn
+    background-color: $modifyColor
 
 .main-menu
     height: 100vh
@@ -111,6 +112,31 @@ a
 
 .tb-design tbody tr:hover td, .tb-design tbody tr:hover th
     background-color: $lightGrey
+
+.bg-bons
+    background-color: #fff
+    border: 2px solid $lightGrey
+    margin: 100px 0
+
+
+
+@media (min-width: 1024px)
+    .margin-btn
+        width: 70%
+
+@media (max-width: 767px)
+    .margin-body, .bg-bons
+        margin: 200px 0
+    .main-title
+        padding-top: 200px
+
+
+
+
+
+
+
+
 
 // .show
 //     width:100vw

@@ -1,0 +1,138 @@
+{% extends './admin/base-admin.html.twig' %}
+{% import './admin/_macros.html.twig' as macros %}
+
+{% set actif = adherent.dateadhesion|date_modify("+1 year")|date('Y-m-d') > "now"|date('Y-m-d') ? "Oui" : "Non" %}
+{% set adBiblio = adherent.adhesionbibliotheque %}
+
+
+{% if adBiblio %}
+	{% set depotP = adBiblio.depotpermanent ~ " €" %}
+	{% set biblio = "Oui" %}
+	{% set statutBiblio = adBiblio.satutInscription %}
+	{% if adBiblio.finrc %}
+		{% set finRc = "Oui (valide jusqu'au " ~ adBiblio.finrc|date("d-m-Y") ~ ")"  %}
+	{% else %}
+		{% set finRc = "pas de RC donnée"  %}
+	{% endif %}
+	{% if adBiblio.justifdomicile %}
+		{% set justifDomicile = "Oui"  %}
+	{% else %}
+		{% set justifDomicile = "Non" %}
+	{% endif %}
+	{% if adBiblio.justifidentite %}
+		{% set justifId = "Oui"  %}
+	{% else %}
+		{% set justifId = "Non" %}
+	{% endif %}
+{% else %}
+	{% set biblio = "Non" %}
+	{% set finRc = " /"  %}
+	{% set justifDomicile = " /"  %}
+	{% set justifId = " /"  %}
+	{% set statutBiblio = " /" %}
+	{% set depotP =  " /"  %}
+{% endif %}
+{% block title %}
+	Détails de l'adhérent
+{% endblock %}
+
+{% block body %}
+	<body class={{color}}>
+		<div class="container d-flex align-items-center">
+			<div class=" bg-bons vw-100">
+				<h3 class="text-center font-raleway my-4">Informations de l'adhérent
+					<br>
+					{{adherent.prenom}}
+					{{adherent.nom}}</h3>
+				<div class="row font-raleway-small px-5">
+					<div class="col-6">
+						<p>
+							<strong>Compte actif :
+							</strong>
+							{{actif}}</p>
+						<p>
+							<strong>Date d'adhésion :
+							</strong>
+							{{adherent.dateadhesion|date("d/m/Y")}}
+						</p>
+						<p>
+							<strong>Nom :</strong>
+							{{adherent.nom}}
+							{{adherent.prenom}}</p>
+						<p>
+							<strong>Date et lieu de naissance :</strong>
+							{{adherent.datenaissance|date("d/m/Y")}}
+							à
+							{{adherent.lieunaissance}}</p>
+						<p>
+							<strong>Adresse :</strong>
+							{{adherent.adresse}}
+							{{adherent.cp}}
+							{{adherent.ville}}</p>
+						<p>
+							<strong>Numéro de Téléphone :</strong>
+							{{adherent.telephone}}</p>
+
+						<p>
+							<strong>Email :</strong>
+							{{adherent.email}}
+						</p>
+						<p>
+							<strong>Montant de l'adhésion :</strong>
+							{{adherent.montantcotisation}}
+							€
+																																																	({{adherent.etatcotisation}})
+
+						</p>
+
+
+					</div>
+					<div class="col-6">
+						<p>
+							<strong>Est Administrateur :</strong>
+							{{adherent.admin ? "Oui" : "Non"}}
+						</p>
+						<p>
+							<strong>Catégorie Fourmi :</strong>
+							{{adherent.categoriefourmi}}</p>
+						<p>
+							<strong>Est inscrit à la Bibliothèque des objets :</strong>
+							{{biblio}}
+							({{statutBiblio}})
+						</p>
+						{% if adBiblio %}
+							<p>
+								<strong>Dépôt de garantie permanent :</strong>
+								{{depotP}}
+							</p>
+							<p>
+								<strong>Responsabilité civile :</strong>
+								{{finRc }}
+							</p>
+							<p>
+								<strong>Justificatif de domicile :</strong>
+								{{justifDomicile}}
+							</p>
+							<p>
+								<strong>Justificatif d'identité :</strong>
+								{{justifId}}</p>
+						{% endif %}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col text-center mb-5">
+						<a href="{{ path('test') }}">
+							<button type='button' class='btn modify-btn bar-btn '>
+								<div class="font-raleway btn-text">Modifier les informations</div>
+							</button>
+						</a>
+					</div>
+				</div>
+
+
+			</div>
+
+		</div>
+
+	</body>
+{% endblock %}

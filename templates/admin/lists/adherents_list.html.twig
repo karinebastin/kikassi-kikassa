@@ -38,48 +38,42 @@
 					</thead>
 					<tbody>
 						{% for adherent in adherents %}
-							{% set actif = adherent.dateadhesion|date_modify("+1 year")|date('Y-m-d') > "now"|date('Y-m-d') ? "Compte actif" : "Compte inactif" %}
-							{% set isAdmin = adherent.admin == true ? "Oui" : "Non" %}
+							{% set actif = adherent.dateadhesion|date_modify("+1 year")|date('Y-m-d') > "now"|date('Y-m-d') ? "Oui" : "Non" %}
 							{% set adBiblio = adherent.adhesionbibliotheque %}
-							{% set biblio = adBiblio == false ? "Non inscrit" : "Inscrit" %}
-							{% set depotP = adBiblio == false ? " /" : adBiblio.depotpermanent ~ " €" %}
-							{% if adBiblio != null %}
-								{% if adBiblio.finrc == null %}
+							{% if adBiblio %}
+								{% set depotP = adBiblio.depotpermanent ~ " €" %}
+								{% set biblio = "Inscrit" %}
+								{% set statutBiblio = adBiblio.satutInscription %}
+								{% if adBiblio.finrc %}
+									{% set finRc =  adBiblio.finrc|date("d-m-Y")  %}
+								{% else %}
 									{% set finRc = "pas de RC donnée"  %}
+								{% endif %}
+								{% if adBiblio.justifdomicile %}
+									{% set justifDomicile = "Oui"  %}
 								{% else %}
-									{% set finRc = adBiblio.finrc|date("d-m-Y")  %}
+									{% set justifDomicile = "Non" %}
+								{% endif %}
+								{% if adBiblio.justifidentite %}
+									{% set justifId = "Oui"  %}
+								{% else %}
+									{% set justifId = "Non" %}
 								{% endif %}
 							{% else %}
+								{% set biblio = "Non inscrit" %}
 								{% set finRc = " /"  %}
-							{% endif %}
-							{% set statutBiblio = adBiblio == false ? " /" : adBiblio.satutInscription %}
-
-							{% if adBiblio != null %}
-								{% if adBiblio.justifdomicile == null %}
-									{% set justifDomicile = "Non"  %}
-								{% else %}
-									{% set justifDomicile = "Oui" %}
-								{% endif %}
-							{% else %}
 								{% set justifDomicile = " /"  %}
-							{% endif %}
-
-							{% if adBiblio != null %}
-								{% if adBiblio.justifidentite == null %}
-									{% set justifId = "Non"  %}
-								{% else %}
-									{% set justifId = "Oui" %}
-								{% endif %}
-							{% else %}
 								{% set justifId = " /"  %}
+								{% set statutBiblio = " /" %}
+								{% set depotP =  " /"  %}
 							{% endif %}
 
 							<tr class="text-nowrap">
 								<td>
-									<a href="{{path('test')}}">{{adherent.id}}</a>
+									<a href="{{path('admin_details_adherent', {'slug': adherent.slug})}}">{{adherent.id}}</a>
 								</td>
 								<td>
-									<a href="{{path('test')}}">{{adherent.nomprenom}}</a>
+									<a href="{{path('admin_details_adherent', {'slug': adherent.slug})}}">{{adherent.nomprenom}}</a>
 								</td>
 								<td>{{adherent.adresse}}
 									{{adherent.cp}}
@@ -96,7 +90,7 @@
 								<td class="text-center">{{adherent.etatcotisation}}
 								</td>
 								<td class="text-center">{{actif}}</td>
-								<td class="text-center">{{isAdmin}}</td>
+								<td class="text-center">{{adherent.admin ? "Oui" : "Non"}}</td>
 								<td class="text-center">{{biblio}}</td>
 								<td class="text-center">{{statutBiblio}}</td>
 								<td class="text-center">{{depotP}}</td>
@@ -110,10 +104,10 @@
 
 			</div>
 			{# <button class="leftArrow">SCROLL R
-																		</button>
-															
-																		<button class="rightArrow">SCROLL L
-																		</button> #}
+																																																																					</button>
+																																																																		
+																																																																					<button class="rightArrow">SCROLL L
+																																																																					</button> #}
 		</div>
 
 	</body>
