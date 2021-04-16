@@ -11,7 +11,7 @@ class AdminMainMenuController extends AbstractController
     #[Route('/admin/menu', name: 'admin-main-menu')]
     public function index(): Response
     {
-        return $this->render('admin/admin_main_menu/index.html.twig', [
+        return $this->render('admin/admin_menus/main_menu.html.twig', [
             'controller_name' => 'AdminMainMenuController',
             'section' => 'section-main',
             'return_path' => 'admin-main-menu'

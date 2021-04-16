@@ -15,7 +15,7 @@ class EmpruntsListController extends AbstractController
         $emprunts = $repo->findAll();
 
 
-        return $this->render('admin/emprunts_list/index.html.twig', [
+        return $this->render('admin/lists/emprunts_list.html.twig', [
             'controller_name' => 'EmpruntsListController',
             'emprunts' => $emprunts,
             'section' => 'section-emprunts',

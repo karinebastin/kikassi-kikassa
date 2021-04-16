@@ -11,7 +11,7 @@ class AdminLieuMenuController extends AbstractController
     #[Route('/admin/lieu', name: 'menu-lieu')]
     public function index(): Response
     {
-        return $this->render('admin/admin_lieu_menu/index.html.twig', [
+        return $this->render('admin/admin_menus/lieux_menu.html.twig', [
             'controller_name' => 'AdminLieuMenuController',
             'section' => 'section-lieux',
             'color' => 'lieux-color',

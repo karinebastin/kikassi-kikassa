@@ -11,7 +11,7 @@ class AdminAdherentsMenuController extends AbstractController
     #[Route('/admin/adherent', name: 'menu-adherent')]
     public function index(): Response
     {
-        return $this->render('admin/admin_adherents_menu/index.html.twig', [
+        return $this->render('admin/admin_menus/adherents_menu.html.twig', [
             'controller_name' => 'AdminAdherentsMenuController',
             'return_path' => 'admin-main-menu',
             'section' => 'section-adherents',

@@ -13,7 +13,7 @@ class lieuxListController extends AbstractController
     public function index(LieuRepository $repo): Response
     {
         $lieux = $repo->findAll();
-        return $this->render('admin/lieux_list/index.html.twig', [
+        return $this->render('admin/lists/lieux_list.html.twig', [
             'controller_name' => 'LieusListController',
             'lieux' => $lieux,
             'section' => 'section-lieux',

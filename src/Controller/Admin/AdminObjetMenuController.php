@@ -11,7 +11,7 @@ class AdminObjetMenuController extends AbstractController
     #[Route('/admin/objet', name: 'menu-objet')]
     public function index(): Response
     {
-        return $this->render('admin/admin_objet_menu/index.html.twig', [
+        return $this->render('admin/admin_menus/objets_menu.html.twig', [
             'controller_name' => 'AdminObjetMenuController',
             'section' => 'section-objets',
             'color' => 'objets-color',

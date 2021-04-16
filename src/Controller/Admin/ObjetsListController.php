@@ -14,7 +14,7 @@ class ObjetsListController extends AbstractController
     {
         $objets = $repo->findAll();
         
-        return $this->render('admin/objets_list/index.html.twig', [
+        return $this->render('admin/lists/objets_list.html.twig', [
             'controller_name' => 'ObjetsListController',
             'objets' => $objets,
             'section' => 'section-objets',
