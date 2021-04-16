@@ -1,5 +1,6 @@
 import { Controller } from 'stimulus';
-import $ from 'jquery';
+const $ = require('jquery');
+require('bootstrap');
 
 /*
  * This is an example Stimulus controller!
@@ -22,8 +23,14 @@ export default class extends Controller {
         $(".rightArrow").on('click', function () {
             const leftPos = $('.show').scrollLeft();
             $('.show').scrollLeft(leftPos + 150);
-          });
+        });
+      
+      $('.modalbtn').on('click', function () {
+        console.log("modal")
+      $('#horairesModal').modal('show')
+    })
     }
+  
 
   
 }

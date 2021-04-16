@@ -1,0 +1,93 @@
+{% extends './admin/base-admin.html.twig' %}
+{% import './admin/_macros.html.twig' as macros %}
+
+{% block title %}Les lieux
+{% endblock %}
+
+{% block body %}
+	<body class={{color}}>
+		<div class="mx-4 main-title font-raleway">
+			<h1 class="text-center font-raleway mb-5">Liste des Lieux<br>
+				de stockage des objets</h1>
+			<div class="show" data-controller="hello">
+				<table class="table admin-table-lieux tb-design table-bordered" id="admin-t">
+					<thead>
+						<tr class="text-center">
+							<th scope="col">Id</th>
+							<th scope="col">
+								Nom
+							</th>
+							<th scope="col">Adresse</th>
+							<th scope="col">Code postal</th>
+							<th scope="col">Ville</th>
+							<th scope="col">Téléphone
+							</th>
+							<th scope="col">Horaires</th>
+							<th scope="col">Fermeture</th>
+							<th scope="col">Raisons de la fermeture</th>
+							<th scope="col">Action...</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						{% for lieu in lieux %}
+							<tr class="text-nowrap">
+								<td class="text-center">
+									<a href="{{path('test')}}">{{lieu.id}}</a>
+								</td>
+								<td>
+									<a href="{{path('test')}}">{{lieu.nom|capitalize}}</a>
+								</td>
+								<td>{{lieu.adresse|capitalize}}
+								</td>
+								<td class="text-center">{{lieu.cp}}</td>
+								<td class="text-center">{{lieu.ville}}</td>
+								<td class="text-center">{{lieu.telephone}}
+								</td>
+								<td class="text-center">
+									<button type="button" class="btn btn-primary modalbtn" data-toggle="modal" data-target="#horairesModal">
+										afficher...
+									</button>
+								</td>
+								<td class="text-center">{{lieu.fermeture ? "Oui" : "Non"}}</td>
+								<td class="text-center">{{lieu.raisonfermeture ? lieu.raisonfermeture : " - "}}</td>
+								<td class="text-center">
+									<a href="{{path('test')}}">
+										<button>Modifier</button>
+									</a>
+								</td>
+							</tr>
+							<div class="modal fade" id="horairesModal" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title">
+												{{lieu.nom|capitalize}}
+												- Horaires</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											{% for horaire in lieu.horairelieu %}
+												<p>
+													{{horaire.jour}}
+													:
+													{{horaire.ouvam ? horaire.ouvam ~ ' - ' ~ horaire.fermeam ~ ' ' : " "}}
+													{{horaire.ouvpm ? horaire.ouvpm ~ ' - ' ~ horaire.fermepm : " "}}</p>
+											{% endfor %}
+
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</body>
+{% endblock %}
