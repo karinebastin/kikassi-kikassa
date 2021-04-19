@@ -1,8 +1,8 @@
 {% extends './admin/base-admin.html.twig' %}
 {% import './admin/_macros.html.twig' as macros %}
 
-{% set proprietaire = objet.adherent != null ? objet.adherent.nom|capitalize ~ " " ~ objet.adherent.prenom|capitalize : "Kikassi Kikassa" %}
-{% set vitrine = objet.vitrine != null ? "Oui" : "Non" %}
+{% set proprietaire = objet.adherent ? objet.adherent.nom|capitalize ~ " " ~ objet.adherent.prenom|capitalize : "Kikassi Kikassa" %}
+{% set vitrine = objet.vitrine ? "Oui" : "Non" %}
 
 {% block body %}
 	<body class={{color}}>
@@ -12,7 +12,6 @@
 					{{objet.id}}</h3>
 				<div class="row font-raleway-small px-5">
 					<div class="col-6">
-
 						<p>
 							<strong>Dénomination :
 							</strong>
@@ -76,9 +75,9 @@
 							<strong>Categorie :</strong>
 							{{objet.souscategorie.categorie.nomcategorie|capitalize}}
 						</p>
-						<p>
-							<strong>Proprietaire de l'objet :</strong>
-							{{proprietaire}}</p>
+						{# <p>
+																																					<strong>Proprietaire de l'objet :</strong>
+																																					{{proprietaire}}</p> #}
 					</div>
 				</div>
 				<div class="row">

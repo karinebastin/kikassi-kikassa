@@ -8,6 +8,9 @@
 	<body class={{color}}>
 		<div class="mx-4 main-title font-raleway">
 			<h1 class="text-center font-raleway mb-5">Liste des Objets</h1>
+			<a href="{{ path('admin_csv_objet') }}">
+				<button class="btn btn-danger">Sortir un CSV</button>
+			</a>
 			<div class="show" data-controller="hello">
 				<table class="table admin-table-objets tb-design table-bordered" id="admin-t">
 					<thead>
@@ -19,8 +22,7 @@
 							<th scope="col">Marque</th>
 							{# <th scope="col">Description</th> #}
 							<th scope="col">Valeur de remplacement</th>
-							{# <th scope="col">Coeficient d'usure
-																																																																																																																							</th> #}
+							{# <th scope="col">Coeficient d'usure</th> #}
 							{# <th scope="col">Pourcentage de calcul</th> #}
 							{# <th scope="col">Mis en vitrine</th> #}
 								<th scope="col"> Date de création</th>
@@ -37,8 +39,8 @@
 					</thead>
 					<tbody>
 						{% for objet in objets %}
-							{% set proprietaire = objet.adherent != null ? objet.adherent.nom|capitalize ~ " " ~ objet.adherent.prenom|capitalize : "Kikassi Kikassa" %}
-							{% set vitrine = objet.vitrine != null ? "Oui" : "Non" %}
+							{% set proprietaire = objet.adherent ? objet.adherent.nom|capitalize ~ " " ~ objet.adherent.prenom|capitalize : "Kikassi Kikassa" %}
+							{% set vitrine = objet.vitrine ? "Oui" : "Non" %}
 							{% set valeurRemplacement = objet.valeurachat * objet.coefusure / 5 %}
 							{% set dateSortieStock = objet.datesortiestock ? objet.datesortiestock|date("d/m/Y") : " /" %}
 							{% set classSortieStock = objet.datesortiestock and objet.datesortiestock|date("Y/m/d") < "now + 1 month"|date("Y/m/d") ? "text-danger" : "" %}
@@ -57,7 +59,7 @@
 
 								</td>
 								{# <td class="text-center">{{objet.coefusure}}</td><td class="text-center">{{objet.pourcentcalcul}}%</td> #}
-								{# <td class="text-center">{{vitrine}}</td> #}
+								<td class="text-center">{{vitrine}}</td>
 								<td>{{objet.datecreation|date("d/m/Y")}}</td>
 								<td class="text-center {{classObjetReserve}} ">{{objet.statut|capitalize}}</td>
 								<td>{{objet.observation|capitalize}}</td>

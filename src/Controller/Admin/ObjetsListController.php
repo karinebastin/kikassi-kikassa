@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Photo;
 use App\Repository\ObjetRepository;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,6 +39,8 @@ class ObjetsListController extends AbstractController
             'color' => 'objets-color'
         ]);
     }
+
+   
 
 
 }
