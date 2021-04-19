@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use DateTime;
 use Faker\Factory;
 use App\Entity\Objet;
 use App\DataFixtures\LieuFixtures;
@@ -15,6 +16,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 class ObjetFixtures extends Fixture implements DependentFixtureInterface
 {
 
+   
      public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
@@ -27,6 +29,7 @@ class ObjetFixtures extends Fixture implements DependentFixtureInterface
         $lieu = $this->getReference('lieu');
         $ssCategorie = $this->getReference('ssCategorie_' . $i);
         $catalogues =  [$this->getReference('vert'),  $this->getReference('bleu')];
+
         $objet->setDenomination($objets[$i])
             ->setMarque($faker->word)
             ->setDescription("Un super objet")

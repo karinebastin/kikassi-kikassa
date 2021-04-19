@@ -23,14 +23,12 @@ class AdherentFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
         $genders = ['male', 'female'];
-        $fourmis = ['Verte', 'Bleue', 'Dorée'];
         $etats_cotisation = ['Payée', 'Due', 'Exonéré'];
 
         for($i=0; $i<10; $i++){
             $adherent = new Adherent();
             $dateNais = $this->random_dates("01-01-1950", "01-01-2010");
             $gender = $faker->randomElement($genders);
-            $fourmi = $faker->randomElement($fourmis);
             $etat_cotisation = $faker->randomElement($etats_cotisation);
             $adherent->setNom($faker->lastname())
                     ->setPrenom($faker->firstname($gender))
@@ -42,8 +40,7 @@ class AdherentFixtures extends Fixture
                     ->setTelephone($faker->phoneNumber)
                     ->setDateNaissance($dateNais)
                     ->setLieuNaissance($faker->city())
-                    ->setCategorieFourmi($fourmi)
-                    ->setMontantCotisation($fourmi == "Dorée" ? 50 : 10)
+                    ->setMontantCotisation(10)
                     ->setMoyenPaiement('Liquide')
                     ->setEtatCotisation($etat_cotisation)
                     ->setCompteActif($faker->boolean(95))

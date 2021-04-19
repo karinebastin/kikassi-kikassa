@@ -71,10 +71,6 @@ class Adherent
      */
     private $lieu_naissance;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $categorie_fourmi;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
@@ -286,17 +282,9 @@ class Adherent
         return $this;
     }
 
-    public function getCategorieFourmi(): ?string
-    {
-        return $this->categorie_fourmi;
-    }
+   
 
-    public function setCategorieFourmi(string $categorie_fourmi): self
-    {
-        $this->categorie_fourmi = $categorie_fourmi;
-
-        return $this;
-    }
+  
 
     public function getMontantCotisation(): ?int
     {
