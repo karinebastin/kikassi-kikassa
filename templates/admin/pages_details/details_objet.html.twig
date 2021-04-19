@@ -1,0 +1,100 @@
+{% extends './admin/base-admin.html.twig' %}
+{% import './admin/_macros.html.twig' as macros %}
+
+{% set proprietaire = objet.adherent != null ? objet.adherent.nom|capitalize ~ " " ~ objet.adherent.prenom|capitalize : "Kikassi Kikassa" %}
+{% set vitrine = objet.vitrine != null ? "Oui" : "Non" %}
+
+{% block body %}
+	<body class={{color}}>
+		<div class="container d-flex align-items-center">
+			<div class=" bg-bons vw-100">
+				<h3 class="text-center font-raleway my-4">Informations de l'objet n°
+					{{objet.id}}</h3>
+				<div class="row font-raleway-small px-5">
+					<div class="col-6">
+
+						<p>
+							<strong>Dénomination :
+							</strong>
+							{{objet.denomination|capitalize}}</p>
+						<p>
+							<strong>Marque :
+							</strong>
+							{{objet.marque|capitalize}}
+						</p>
+						<p>
+							<strong>Description :</strong>
+							{{objet.description|capitalize}}</p>
+						<p>
+							<strong>Valeur d'achat :</strong>
+							{{objet.valeurachat}}
+							€
+						</p>
+						<p>
+							<strong>Coeficient d'usure :</strong>
+							{{objet.coefusure}}
+							/5
+						</p>
+						<p>
+							<strong>Pourcentage de calcul :</strong>
+							{{objet.pourcentcalcul}}
+							%</p>
+
+						<p>
+							<strong>Mis en vitrine :</strong>
+							{{vitrine ? "Oui" : "Non"}}
+						</p>
+						<p>
+							<strong>Date de création :</strong>
+							{{objet.datecreation|date("d/m/Y")}}
+
+						</p>
+
+
+					</div>
+					<div class="col-6">
+						<p>
+							<strong>Statut de l'objet :</strong>
+							{{objet.statut|capitalize}}
+						</p>
+						<p>
+							<strong>Observation :</strong>
+							{{objet.observation|capitalize}}</p>
+						<p>
+							<strong>Catalogue :</strong>
+							{{objet.catalogue.nomcatalogue|capitalize}}
+						</p>
+						<p>
+							<strong>Lieu de stockage de l'objet :</strong>
+							{{objet.lieu.nom|capitalize}}
+						</p>
+						<p>
+							<strong>Sous-categorie :</strong>
+							{{objet.souscategorie.nomsscategorie|capitalize}}
+						</p>
+						<p>
+							<strong>Categorie :</strong>
+							{{objet.souscategorie.categorie.nomcategorie|capitalize}}
+						</p>
+						<p>
+							<strong>Proprietaire de l'objet :</strong>
+							{{proprietaire}}</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col text-center mb-5">
+						<a href="{{ path('test') }}">
+							<button type='button' class='btn modify-btn bar-btn '>
+								<div class="font-raleway btn-text">Modifier l'objet</div>
+							</button>
+						</a>
+					</div>
+				</div>
+
+
+			</div>
+
+		</div>
+
+	</body>
+{% endblock %}

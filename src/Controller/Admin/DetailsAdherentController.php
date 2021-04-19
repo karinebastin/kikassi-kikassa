@@ -14,7 +14,7 @@ class DetailsAdherentController extends AbstractController
 
     {
         $adherent = $adherentRepository->findOneBySlug($slug);
-        dump($slug);
+
 
 
         return $this->render('admin/pages_details/details_adherent.html.twig', [

@@ -40,10 +40,10 @@
 							{% set vitrine = objet.vitrine != null ? "Oui" : "Non" %}
 							<tr class="text-nowrap">
 								<td>
-									<a href="{{path('test')}}">{{objet.id}}</a>
+									<a href="{{path('admin_details_objet', {'slug': objet.slug})}}">{{objet.id}}</a>
 								</td>
 								<td>
-									<a href="{{path('test')}}">{{objet.denomination|capitalize}}</a>
+									<a href="{{path('admin_details_objet', {'slug': objet.slug})}}">{{objet.denomination|capitalize}}</a>
 								</td>
 								<td>{{objet.marque|capitalize}}
 								</td>
