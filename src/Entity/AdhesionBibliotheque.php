@@ -60,6 +60,11 @@ class AdhesionBibliotheque implements UserInterface
      */
     private $adherent;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $categorie_fourmi;
+
       /**
      *
      * @ORM\PrePersist
@@ -195,5 +200,17 @@ class AdhesionBibliotheque implements UserInterface
     public function getRoles()
     {
         return ['ROLE_USER'];
+    }
+
+    public function getCategorieFourmi(): ?string
+    {
+        return $this->categorie_fourmi;
+    }
+
+    public function setCategorieFourmi(string $categorie_fourmi): self
+    {
+        $this->categorie_fourmi = $categorie_fourmi;
+
+        return $this;
     }
 }

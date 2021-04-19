@@ -111,6 +111,11 @@ class Objet
     private $catalogue;
 
     /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $date_sortie_stock;
+
+    /**
      *
      *@ORM\PrePersist
      *
@@ -390,6 +395,18 @@ class Objet
     public function setCatalogue(?Catalogue $catalogue): self
     {
         $this->catalogue = $catalogue;
+
+        return $this;
+    }
+
+    public function getDateSortieStock(): ?\DateTimeInterface
+    {
+        return $this->date_sortie_stock;
+    }
+
+    public function setDateSortieStock(?\DateTimeInterface $date_sortie_stock): self
+    {
+        $this->date_sortie_stock = $date_sortie_stock;
 
         return $this;
     }
