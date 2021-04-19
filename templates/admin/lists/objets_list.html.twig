@@ -17,20 +17,21 @@
 								Dénomination
 							</th>
 							<th scope="col">Marque</th>
-							<th scope="col">Description</th>
-							<th scope="col">Valeur d'achat</th>
-							<th scope="col">Coeficient d'usure
-							</th>
-							<th scope="col">Pourcentage de calcul</th>
-							<th scope="col">Mis en vitrine</th>
-							<th scope="col">Date de création</th>
+							{# <th scope="col">Description</th> #}
+							<th scope="col">Valeur de remplacement</th>
+							{# <th scope="col">Coeficient d'usure
+																																																																																																																							</th> #}
+							{# <th scope="col">Pourcentage de calcul</th> #}
+							{# <th scope="col">Mis en vitrine</th> #}
+								<th scope="col"> Date de création</th>
 							<th scope="col">Statut de l'objet</th>
 							<th scope="col">Observation</th>
 							<th scope="col">Catalogue</th>
-							<th scope="col">Lieu de stockage de l'objet</th>
+							<th scope="col">Date de sortie du stock</th>
 							<th scope="col">Sous-categorie</th>
 							<th scope="col">Categorie</th>
-							<th scope="col">Adherent</th>
+							<th scope="col">Lieu de stockage de l'objet</th>
+							<th scope="col">Propriétaire</th>
 
 						</tr>
 					</thead>
@@ -38,30 +39,34 @@
 						{% for objet in objets %}
 							{% set proprietaire = objet.adherent != null ? objet.adherent.nom|capitalize ~ " " ~ objet.adherent.prenom|capitalize : "Kikassi Kikassa" %}
 							{% set vitrine = objet.vitrine != null ? "Oui" : "Non" %}
+							{% set valeurRemplacement = objet.valeurachat * objet.coefusure / 5 %}
+							{% set dateSortieStock = objet.datesortiestock ? objet.datesortiestock|date("d/m/Y") : " /" %}
+							{% set classSortieStock = objet.datesortiestock and objet.datesortiestock|date("Y/m/d") < "now + 1 month"|date("Y/m/d") ? "text-danger" : "" %}
+							{% set classObjetReserve = objet.statut == "Réservé" ? "text-danger" : "" %}
 							<tr class="text-nowrap">
 								<td>
 									<a href="{{path('admin_details_objet', {'slug': objet.slug})}}">{{objet.id}}</a>
 								</td>
-								<td>
+								<td class="text-center">
 									<a href="{{path('admin_details_objet', {'slug': objet.slug})}}">{{objet.denomination|capitalize}}</a>
 								</td>
-								<td>{{objet.marque|capitalize}}
+								<td class="text-center">{{objet.marque|capitalize}}
 								</td>
-								<td>{{objet.description|capitalize}}</td>
-								<td class="text-center">{{objet.valeurachat}}
-									€
+								{# <td>{{objet.description|capitalize}}</td> #}
+								<td class="text-center">{{valeurRemplacement|format_currency('EUR', locale='fr')}}
+
 								</td>
-								<td class="text-center">{{objet.coefusure}}</td>
-								<td class="text-center">{{objet.pourcentcalcul}}
-									%</td>
-								<td class="text-center">{{vitrine}}</td>
+								{# <td class="text-center">{{objet.coefusure}}</td><td class="text-center">{{objet.pourcentcalcul}}%</td> #}
+								{# <td class="text-center">{{vitrine}}</td> #}
 								<td>{{objet.datecreation|date("d/m/Y")}}</td>
-								<td class="text-center">{{objet.statut|capitalize}}</td>
+								<td class="text-center {{classObjetReserve}} ">{{objet.statut|capitalize}}</td>
 								<td>{{objet.observation|capitalize}}</td>
 								<td class="text-center" class="text-center">{{objet.catalogue.nomcatalogue|capitalize}}</td>
-								<td class="text-center">{{objet.lieu.nom|capitalize}}</td>
+								<td class="text-center {{classSortieStock}}">{{dateSortieStock}}</td>
 								<td class="text-center">{{objet.souscategorie.nomsscategorie|capitalize}}</td>
 								<td class="text-center">{{objet.souscategorie.categorie.nomcategorie|capitalize}}</td>
+
+								<td class="text-center">{{objet.lieu.nom|capitalize}}</td>
 								<td class="text-center">{{proprietaire}}</td>
 							</tr>
 						</tbody>
