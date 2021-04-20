@@ -9,9 +9,7 @@
 	<body class={{color}}>
 		<div class="mx-4 main-title font-raleway">
 			<h1 class="text-center font-raleway mb-5">Liste des Adhérents</h1>
-			<a href="{{ path('admin_csv_adherent') }}">
-				<button class="btn btn-danger">Sortir un CSV</button>
-			</a>
+
 			<div class="show" data-controller="admin">
 				<table class="table admin-table-adherents tb-design table-bordered" id="admin-t">
 					<thead>
@@ -111,7 +109,9 @@
 						{% endfor %}
 					</tbody>
 				</table>
-
+				<a href="{{ path('admin_csv_adherent') }}">
+					<button class="btn btn-danger">Sortir un récapitulatif en CSV</button>
+				</a>
 			</div>
 			{# <button class="leftArrow">SCROLL R</button><button class="rightArrow">SCROLL L</button> #}
 		</div>
