@@ -10,7 +10,16 @@
 			<div class=" bg-bons vw-100">
 				<h3 class="text-center font-raleway my-4">Informations de l'objet n°
 					{{objet.id}}</h3>
-				<div class="row font-raleway-small px-5">
+				<div class="row">
+					<div class="col"></div>
+					{% for photo in objet.photos %}
+						<div class="col p-0 d-flex justify-content-center">
+							<img class="objet-img img-fluid mb-3" alt="photo de {{objet.denomination}}" src="{{asset('photos/' ~ photo.lien)}}"></div>
+					{% endfor %}
+					<div class="col"></div>
+
+				</div>
+				<div class="row font-raleway-small px-sm-1 px-md-5">
 					<div class="col-6">
 						<p>
 							<strong>Dénomination :
@@ -75,9 +84,9 @@
 							<strong>Categorie :</strong>
 							{{objet.souscategorie.categorie.nomcategorie|capitalize}}
 						</p>
-						{# <p>
-																																											<strong>Proprietaire de l'objet :</strong>
-																																										{{proprietaire}}</p> #}
+						<p>
+							<strong>Propriétaire de l'objet :</strong>
+							{{proprietaire}}</p>
 					</div>
 				</div>
 				<div class="row">
