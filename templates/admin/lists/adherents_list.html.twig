@@ -17,9 +17,16 @@
 							<th scope="col">Id</th>
 							<th scope="col">
 								Nom
+								<br>
+								<a href="{{ path('admin_adherents_list_sort', {'item': "nom"}) }}">
+									<i class="fas fa-angle-down"></i>
+								</a>
 							</th>
 							<th scope="col">
 								Prénom
+								<a href="{{ path('admin_adherents_list_sort', {'item': "prenom"}) }}">
+									<i class="fas fa-angle-down"></i>
+								</a>
 							</th>
 							{# <th scope="col">Adresse</th> #}
 							<th scope="col">Téléphone</th>
@@ -35,7 +42,12 @@
 							<th scope="col">Satut fourmi</th>
 
 							<th scope="col">Montant du dépot permanent</th>
-							<th scope="col">Date de fin responsabilité civile</th>
+							<th scope="col">Date de fin responsabilité civile
+								<a href="{{ path('admin_adherents_list_sort', {'item': "fin_rc"}) }}">
+									<i class="fas fa-angle-down"></i>
+
+								</a>
+							</th>
 							{# <th scope="col">Justificatif de domicile</th> #}
 							{# <th scope="col">Justificatif d'identité</th> #}
 						</tr>
