@@ -27,8 +27,12 @@ export default class extends Controller {
       
       $('.modalbtn').on('click', function () {
         console.log("modal")
-      $('#horairesModal').modal('show')
-    })
+        $('#horairesModal').modal('show')
+      });
+      $('.backButton').on('click', function () {
+        console.log('back');
+        window.history.back();
+      } )
     }
   
 

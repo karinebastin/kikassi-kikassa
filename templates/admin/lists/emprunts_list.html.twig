@@ -14,7 +14,10 @@
 						<tr class="text-center">
 							<th scope="col">Id</th>
 							<th scope="col">
-								Emprunteur
+								Nom de l'emprunteur
+							</th>
+							<th scope="col">
+								Prénom de l'emprunteur
 							</th>
 							<th scope="col">Objet emprunté</th>
 							<th scope="col">Date de réservation</th>
@@ -32,9 +35,10 @@
 					</thead>
 					<tbody>
 						{% for emprunt in emprunts %}
-							{% set emprunteur = emprunt.adherent != null ? emprunt.adherent.nom|capitalize ~ " " ~ emprunt.adherent.prenom|capitalize : emprunt.superadmin.nom|capitalize ~ " " ~ emprunt.superadmin.prenom|capitalize %}
-							{% set dateRetour =  emprunt.dateretourobjet is null ? "-" : emprunt.dateretourobjet|date("d/m/Y") %}
-							{% if emprunt.statut != null %}
+							{% set nomEmprunteur = emprunt.adherent ? emprunt.adherent.nom|capitalize : emprunt.superadmin.nom|capitalize %}
+							{% set prenomEmprunteur = emprunt.adherent ? emprunt.adherent.prenom|capitalize : emprunt.superadmin.prenom|capitalize %}
+							{% set dateRetour =  emprunt.dateretourobjet ? emprunt.dateretourobjet|date("d/m/Y") : "-" %}
+							{% if emprunt.statut %}
 								{% set statutEmprunt = emprunt.statut %}
 							{% elseif emprunt.dateretourobjet %}
 								{% set statutEmprunt = "Terminé" %}
@@ -66,20 +70,23 @@
 
 							{% if penalites == "-" %}
 								{% set penalitesPayees = "-" %}
-							{% elseif emprunt.dateretourobjet != null %}
+							{% elseif emprunt.dateretourobjet %}
 								{% set penalitesPayees = "Oui" %}
 							{% else %}
 								{% set penalitesPayees = "Non" %}
 							{% endif %}
 
-							{% set empruntRegle = emprunt.empruntregle == null ? "Non" : "Oui" %}
+							{% set empruntRegle = emprunt.empruntregle ? "Oui" : "Non" %}
 
 							<tr class="text-nowrap">
 								<td>
 									<a href="{{path('test')}}">{{emprunt.id}}</a>
 								</td>
 								<td>
-									{{emprunteur}}
+									{{nomEmprunteur}}
+								</td>
+								<td>
+									{{prenomEmprunteur}}
 								</td>
 								<td class="text-center">{{emprunt.objet.denomination|capitalize}}
 								</td>
@@ -87,7 +94,7 @@
 								<td class="text-center">{{statutEmprunt}}</td>
 								<td class="text-center">{{emprunt.datedebut|date("d/m/Y")}}</td>
 								<td class="text-center">{{emprunt.datefin|date("d/m/Y")}}</td>
-								<td>{{emprunt.remarque}}
+								<td class="text-center">{{emprunt.remarque ? emprunt.remarque : "-"}}
 								</td>
 								<td class="text-center">
 									{{dateRetour}}</td>
@@ -102,6 +109,9 @@
 						{% endfor %}
 					</tbody>
 				</table>
+				<a href="{{ path('admin_csv_emprunt') }}">
+					<button class="btn btn-danger">Sortir un récapitulatif en CSV</button>
+				</a>
 			</div>
 		</div>
 	</body>

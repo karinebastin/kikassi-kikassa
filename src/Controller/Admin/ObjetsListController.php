@@ -2,10 +2,13 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Photo;
 use App\Repository\ObjetRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ObjetsListController extends AbstractController
 {
@@ -22,4 +25,22 @@ class ObjetsListController extends AbstractController
             'color' => 'objets-color'
         ]);
     }
+    #[Route('/admin/details/objet/{slug}', name: 'admin_details_objet')]
+    public function showDetails( $slug, ObjetRepository $objetRepository): Response
+    {
+        $objet = $objetRepository->findOneBySlug($slug);
+
+        
+        return $this->render('admin/pages_details/details_objet.html.twig', [
+            'controller_name' => 'DetailsAdherentController',
+            'objet' => $objet,
+            'return_path' => 'menu-objet',
+            'section' => 'section-objets',
+            'color' => 'objets-color'
+        ]);
+    }
+
+   
+
+
 }
