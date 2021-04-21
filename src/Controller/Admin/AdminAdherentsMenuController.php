@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminAdherentsMenuController extends AbstractController
 {
-    #[Route('/admin/adherent', name: 'menu-adherent')]
+    #[Route('/admin/adherents', name: 'menu-adherent')]
     public function index(): Response
     {
         return $this->render('admin/admin_menus/adherents_menu.html.twig', [

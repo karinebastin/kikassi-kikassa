@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminEmpruntMenuController extends AbstractController
 {
-    #[Route('/admin/emprunt', name: 'menu-emprunt')]
+    #[Route('/admin/emprunts', name: 'menu-emprunt')]
     public function index(): Response
     {
         return $this->render('admin/admin_menus/emprunts_menu.html.twig', [

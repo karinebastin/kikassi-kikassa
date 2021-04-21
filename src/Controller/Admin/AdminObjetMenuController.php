@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminObjetMenuController extends AbstractController
 {
-    #[Route('/admin/objet', name: 'menu-objet')]
+    #[Route('/admin/objets', name: 'menu-objet')]
     public function index(): Response
     {
         return $this->render('admin/admin_menus/objets_menu.html.twig', [

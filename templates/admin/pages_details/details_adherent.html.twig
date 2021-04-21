@@ -6,6 +6,7 @@
 
 
 {% if adBiblio %}
+	{% set fourmi = adBiblio.categoriefourmi %}
 	{% set depotP = adBiblio.depotpermanent ~ " €" %}
 	{% set biblio = "Oui" %}
 	{% set statutBiblio = adBiblio.satutInscription %}
@@ -25,6 +26,7 @@
 		{% set justifId = "Non" %}
 	{% endif %}
 {% else %}
+	{% set fourmi = " /" %}
 	{% set biblio = "Non" %}
 	{% set finRc = " /"  %}
 	{% set justifDomicile = " /"  %}
@@ -80,8 +82,7 @@
 						<p>
 							<strong>Montant de l'adhésion :</strong>
 							{{adherent.montantcotisation}}
-							€
-																																																	({{adherent.etatcotisation}})
+							€ ({{adherent.etatcotisation}})
 
 						</p>
 
@@ -94,7 +95,7 @@
 						</p>
 						<p>
 							<strong>Catégorie Fourmi :</strong>
-							{{adherent.categoriefourmi}}</p>
+							{{fourmi}}</p>
 						<p>
 							<strong>Est inscrit à la Bibliothèque des objets :</strong>
 							{{biblio}}
