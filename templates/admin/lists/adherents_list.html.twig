@@ -16,21 +16,21 @@
 						<tr class="text-center">
 							<th scope="col">Id
 								<br>
-								<a href="{{ path('admin_adherents_list_sort', {'adh': "id", 'order': route }) }}">
-									<i class="fas fa-angle-{{route}}"></i>
+								<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "id", 'order': route }) }}">
+									<i class="fas fa-angle-down"></i>
 								</a>
 							</th>
 							<th scope="col">
 								Nom
 								<br>
-								<a href="{{ path('admin_adherents_list_sort', {'adh': "nom", 'order': route }) }}">
-									<i class="fas fa-angle-{{route}}"></i>
+								<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "nom", 'order': route }) }}">
+									<i class="fas fa-angle-down"></i>
 								</a>
 							</th>
 							<th scope="col">
 								Prénom
-								<a href="{{ path('admin_adherents_list_sort', {'adh': "prenom", 'order': route }) }}">
-									<i class="fas fa-angle-{{route}}"></i>
+								<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "prenom", 'order': route }) }}">
+									<i class="fas fa-angle-down"></i>
 								</a>
 							</th>
 							{# <th scope="col">Adresse</th> #}
@@ -46,19 +46,19 @@
 							{# <th scope="col">Satut adhésion bibliothèque</th> #}
 							<th scope="col">Satut fourmi
 								<br>
-								<a href="{{ path('admin_adherents_list_sort', {'adh': "categorie_fourmi", 'order': route }) }}">
-									<i class="fas fa-angle-{{route}}"></i>
+								<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "categorie_fourmi", 'order': route }) }}">
+									<i class="fas fa-angle-down"></i>
 								</a>
 							</th>
 
 							<th scope="col">Montant du dépot permanent<br>
-								<a href="{{ path('admin_adherents_list_sort', {'adh': "depot_permanent", 'order': route }) }}">
-									<i class="fas fa-angle-{{route}}"></i>
+								<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "depot_permanent", 'order': route }) }}">
+									<i class="fas fa-angle-down"></i>
 								</a>
 							</th>
 							<th scope="col">Date de fin responsabilité civile
-								<a href="{{ path('admin_adherents_list_sort', {'adh': "fin_rc", 'order': route }) }}">
-									<i class="fas fa-angle-{{route}}"></i>
+								<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "fin_rc", 'order': route }) }}">
+									<i class="fas fa-angle-down"></i>
 								</a>
 							</th>
 						</tr>

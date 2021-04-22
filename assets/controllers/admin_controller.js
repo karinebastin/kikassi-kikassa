@@ -1,5 +1,8 @@
 import { Controller } from 'stimulus';
 const $ = require('jquery');
+// var dt = require('datatables.net')();
+// import $ from 'jquery';
+import dt from 'datatables.net';
 require('bootstrap');
 
 /*
@@ -32,7 +35,23 @@ export default class extends Controller {
       $('.backButton').on('click', function () {
         console.log('back');
         window.history.back();
-      } )
+      })
+
+      
+      
+      // $('#admin-t').DataTable();
+      const datatable = $('.some').data('datatable');
+      console.log(datatable)
+    $(function() {
+    $('#presidents').initDataTables(datatable_settings(datatable));
+});
+
+
+      // $("i").on('click', function (e) {
+      //   e.preventDefault();
+      //   $(this).toggleClass("fa-angle-up", "fa-angle-down" );
+      // });
+  
     }
   
 
