@@ -1,8 +1,7 @@
 import { Controller } from 'stimulus';
-const $ = require('jquery');
-// var dt = require('datatables.net')();
 // import $ from 'jquery';
-import dt from 'datatables.net';
+var $  = require( 'jquery' );
+
 require('bootstrap');
 
 /*
@@ -36,15 +35,10 @@ export default class extends Controller {
         console.log('back');
         window.history.back();
       })
+    
 
-      
-      
-      // $('#admin-t').DataTable();
-      const datatable = $('.some').data('datatable');
-      console.log(datatable)
-    $(function() {
-    $('#presidents').initDataTables(datatable_settings(datatable));
-});
+   
+
 
 
       // $("i").on('click', function (e) {

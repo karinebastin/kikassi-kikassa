@@ -9,70 +9,69 @@
 	<body class={{color}}>
 		<div class="mx-4 main-title font-raleway">
 			<h1 class="text-center font-raleway mb-5">Liste des Adhérents</h1>
+			{{form(form)}}
+				<div class="show" data-controller="admin">
+					<table class="table admin-table-adherents tb-design table-bordered" id="admin-t">
+						<thead>
+							<tr class="text-center">
+								<th scope="col">Id
+									<br>
+									<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "id", 'order': route }) }}">
+										<i class="fas fa-angle-down"></i>
+									</a>
+								</th>
+								<th scope="col">
+									Nom
+									<br>
+									<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "nom", 'order': route }) }}">
+										<i class="fas fa-angle-down"></i>
+									</a>
+								</th>
+								<th scope="col">
+									Prénom
+									<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "prenom", 'order': route }) }}">
+										<i class="fas fa-angle-down"></i>
+									</a>
+								</th>
+								{# <th scope="col">Adresse</th> #}
+								<th scope="col">Téléphone</th>
+								<th scope="col">email</th>
+								{# <th scope="col">Date de naissance</th>							<th scope="col">Lieu de naissance</th> #}
+								{# <th scope="col">Date d'inscription</th> #}
+								{# <th scope="col">Montant cotisation</th> #}
+								{# <th scope="col">Statut de la cotisation</th> #}
+									<th scope="col"> Adhésion active</th>
+								{# <th scope="col">Est Administrateur</th> #}
+								<th scope="col">Inscription Bibliotheque</th>
+								{# <th scope="col">Satut adhésion bibliothèque</th> #}
+								<th scope="col">Satut fourmi
+									<br>
+									<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "categorie_fourmi", 'order': route }) }}">
+										<i class="fas fa-angle-down"></i>
+									</a>
+								</th>
 
-			<div class="show" data-controller="admin">
-				<table class="table admin-table-adherents tb-design table-bordered" id="admin-t">
-					<thead>
-						<tr class="text-center">
-							<th scope="col">Id
-								<br>
-								<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "id", 'order': route }) }}">
-									<i class="fas fa-angle-down"></i>
-								</a>
-							</th>
-							<th scope="col">
-								Nom
-								<br>
-								<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "nom", 'order': route }) }}">
-									<i class="fas fa-angle-down"></i>
-								</a>
-							</th>
-							<th scope="col">
-								Prénom
-								<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "prenom", 'order': route }) }}">
-									<i class="fas fa-angle-down"></i>
-								</a>
-							</th>
-							{# <th scope="col">Adresse</th> #}
-							<th scope="col">Téléphone</th>
-							<th scope="col">email</th>
-							{# <th scope="col">Date de naissance</th>							<th scope="col">Lieu de naissance</th> #}
-							{# <th scope="col">Date d'inscription</th> #}
-							{# <th scope="col">Montant cotisation</th> #}
-							{# <th scope="col">Statut de la cotisation</th> #}
-								<th scope="col"> Adhésion active</th>
-							{# <th scope="col">Est Administrateur</th> #}
-							<th scope="col">Inscription Bibliotheque</th>
-							{# <th scope="col">Satut adhésion bibliothèque</th> #}
-							<th scope="col">Satut fourmi
-								<br>
-								<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "categorie_fourmi", 'order': route }) }}">
-									<i class="fas fa-angle-down"></i>
-								</a>
-							</th>
-
-							<th scope="col">Montant du dépot permanent<br>
-								<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "depot_permanent", 'order': route }) }}">
-									<i class="fas fa-angle-down"></i>
-								</a>
-							</th>
-							<th scope="col">Date de fin responsabilité civile
-								<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "fin_rc", 'order': route }) }}">
-									<i class="fas fa-angle-down"></i>
-								</a>
-							</th>
-						</tr>
-					</thead>
-				</th>
-				{# <th scope="col">Justificatif de domicile</th> #}
-				{# <th scope="col">Justificatif d'identité</th> #}
-			</tr>
-		</thead>
+								<th scope="col">Montant du dépot permanent<br>
+									<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "depot_permanent", 'order': route }) }}">
+										<i class="fas fa-angle-down"></i>
+									</a>
+								</th>
+								<th scope="col">Date de fin responsabilité civile
+									<a class='arrowButton' href="{{ path('admin_adherents_list_sort', {'adh': "fin_rc", 'order': route }) }}">
+										<i class="fas fa-angle-down"></i>
+									</a>
+								</th>
+							</tr>
+						</thead>
+					</th>
+					{# <th scope="col">Justificatif de domicile</th> #}
+					{# <th scope="col">Justificatif d'identité</th> #}
+				</tr>
+			</thead>
+		</body>
 	</body>
 </th></tr></thead><tbody>{% for adherent in adherents %}
-{% set actif = adherent.dateadhesion|date_modify("+1 year")|date('Y-m-d') > "now"|date('Y-m-d') ? "Oui" : "Non" %}
-{% set actifClass = actif == "Non" ? "text-danger" : '' %}
-{% set adBiblio = adherent.adhesionbibliotheque %}
+{% set actif = adherent.dateadhesion|date_modify("+1 year")|date('Y-m-d') > "now"|date('Y-m-d') ? "Oui" : "Non" %}{% set actifClass = actif == "Non" ? "text-danger" : '' %}{% set adBiblio = adherent.adhesionbibliotheque %}
 {% if adBiblio %}
 	{% set depotP = adBiblio.depotpermanent ~ " €" %}
 	{% set fourmi = adBiblio.categoriefourmi %}
@@ -105,7 +104,6 @@
 	{% set statutBiblio = " /" %}
 	{% set depotP =  " /"  %}
 {% endif %}
-
 <tr class="text-nowrap {{actifClass}}">
 	<td>
 		<a class="{{actifClass}}" href="{{path('admin_details_adherent', {'slug': adherent.slug})}}">{{adherent.id}}</a>

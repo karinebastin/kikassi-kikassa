@@ -2,21 +2,33 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Adherent;
+use App\Form\FilterType;
+use App\Entity\AdhesionBibliotheque;
 use App\Repository\AdherentRepository;
-use App\Repository\AdhesionBibliothequeRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Repository\AdhesionBibliothequeRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdherentsListController extends AbstractController
 {
     #[Route('/admin/adherents/list', name: 'admin_adherents_list')]
-    public function index(AdherentRepository $repo): Response
+    
+    public function index(AdherentRepository $repo, AdhesionBibliothequeRepository $adh, Request $request): Response
     {
         $adherents = $repo->findAll();
         $route = "down";
-        dump($adherents);
 
+        $fourmi = new AdhesionBibliotheque();
+
+        $form = $this->createForm(FilterType::class, $fourmi);
+
+        $form->handleRequest($request);
+        // $adherents = $adh->filterOut($fourmi);
 
         return $this->render('admin/lists/adherents_list.html.twig', [
             'controller_name' => 'AdherentsListController',
@@ -24,7 +36,8 @@ class AdherentsListController extends AbstractController
             'route' => $route,
             'section' => 'section-adherents',
             'return_path' => 'menu-adherent',
-            'color' => 'adherents-color'
+            'color' => 'adherents-color',
+            'form' => $form->createView(),
         ]);
     }
 
