@@ -110,6 +110,15 @@
 				</div>
 
 			</div>
+			{% for label,messages in app.flashes %}
+				<div class="container text-center my-5 ">
+					<div class="alert alert-{{ label }}">
+						{% for message in messages %}
+							<p>{{message | raw }}</p>
+						{% endfor %}
+					</div>
+				</div>
+			{% endfor %}
 			{{macros.footer_color(section, return_path, arrow, envoi )}}
 			{{ form_end(form)}}
 		</div>

@@ -97,14 +97,15 @@ class AdherentsListController extends AbstractController
  
     
     $biblio = $request->request->get('biblio');
-    
+
+    dump($biblio);
     if($biblio == "oui") {
            return $this->redirectToRoute('adherents_new_biblio', [
              'id' => $adherent->getId(),
          ]);
-    } else {
+    } elseif($biblio == "non") {
         
-        $this->addFlash('success', "Le nouvel adhérent{$adherent->getNomprenom()} a bien été créé");
+        $this->addFlash('success', "Le nouvel adhérent {$adherent->getNomprenom()} a bien été créé");
     }
           
          }
@@ -125,7 +126,6 @@ class AdherentsListController extends AbstractController
     public function newBiblio($id, AdherentRepository $adherentRepository, Request $request, EntityManagerInterface $manager): Response
      {
         $adherent = $adherentRepository->findOneById($id);
-        // dump($adherent);
          $biblio = new AdhesionBibliotheque();
          
          $form = $this->createForm(BiblioFormType::class, $biblio);
@@ -136,12 +136,12 @@ class AdherentsListController extends AbstractController
         if ($form->isSubmitted()  && $form->isValid()) {
              $biblio->setAdherent($adherent);
             $biblio->setSatutInscription("valide");
-           $biblio->setMotDePasse("mdp");
+           $biblio->setMotDePasse($adherent->getNom() . date_format( $adherent->getDateNaissance(), "Y"));
             $manager->persist($biblio);
             $manager->flush();
 
     
-        $this->addFlash('success', "Le nouvel adhérent {$biblio->getAdherent()->getNom()} a bien été créé");
+        $this->addFlash('success', "L'adhérent {$biblio->getAdherent()->getPrenom()} {$biblio->getAdherent()->getNom()}  est bien inscrit à la bibliothèque");
     
          }
         
