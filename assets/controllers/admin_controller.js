@@ -36,6 +36,13 @@ export default class extends Controller {
         window.history.back();
       })
     
+      $('.next').on('click', function (e) {
+        e.preventDefault();
+        console.log($(".first-part"))
+        $(".first-part").addClass("d-none")
+        $(".second-part").addClass("d-block")
+      }
+      )
 
    
 

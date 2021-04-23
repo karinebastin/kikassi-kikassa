@@ -4,8 +4,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\Adherent;
 use App\Form\FilterType;
+use App\Form\BiblioFormType;
+use App\Form\AdhesionFormType;
 use App\Entity\AdhesionBibliotheque;
 use App\Repository\AdherentRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,11 +26,11 @@ class AdherentsListController extends AbstractController
         $adherents = $repo->findAll();
         $route = "down";
 
-        $fourmi = new AdhesionBibliotheque();
+        // $fourmi = new AdhesionBibliotheque();
 
-        $form = $this->createForm(FilterType::class, $fourmi);
+        // $form = $this->createForm(FilterType::class, $fourmi);
 
-        $form->handleRequest($request);
+        // $form->handleRequest($request);
         // $adherents = $adh->filterOut($fourmi);
 
         return $this->render('admin/lists/adherents_list.html.twig', [
@@ -37,7 +40,7 @@ class AdherentsListController extends AbstractController
             'section' => 'section-adherents',
             'return_path' => 'menu-adherent',
             'color' => 'adherents-color',
-            'form' => $form->createView(),
+            // 'form' => $form->createView(),
         ]);
     }
 
@@ -73,6 +76,83 @@ class AdherentsListController extends AbstractController
             'section' => 'section-adherents',
             'return_path' => 'menu-adherent',
             'color' => 'adherents-color'
+        ]);
+    }
+
+    #[Route('/admin/adherents/new', name: 'admin_adherents_new')]
+
+    public function newAdherent(Request $request, EntityManagerInterface $manager): Response
+     {
+         $adherent = new Adherent();
+         
+         $form = $this->createForm(AdhesionFormType::class, $adherent);
+
+         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $adherent->setCompteActif(true);
+            $manager->persist($adherent);
+            $manager->flush();
+ 
+    
+    $biblio = $request->request->get('biblio');
+    
+    if($biblio == "oui") {
+           return $this->redirectToRoute('adherents_new_biblio', [
+             'id' => $adherent->getId(),
+         ]);
+    } else {
+        
+        $this->addFlash('success', "Le nouvel adhérent{$adherent->getNomprenom()} a bien été créé");
+    }
+          
+         }
+        
+        return $this->render('admin/forms/adherents_new.html.twig', [
+            'controller_name' => 'AdherentsListController',
+            'adherent' => $adherent,
+            'arrow' => true,
+            'section' => 'section-adherents',
+            'return_path' => 'menu-adherent',
+            'color' => 'adherents-color',
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/admin/adherents/new/biblio/{id}', name: 'adherents_new_biblio')]
+
+    public function newBiblio($id, AdherentRepository $adherentRepository, Request $request, EntityManagerInterface $manager): Response
+     {
+        $adherent = $adherentRepository->findOneById($id);
+        // dump($adherent);
+         $biblio = new AdhesionBibliotheque();
+         
+         $form = $this->createForm(BiblioFormType::class, $biblio);
+
+         $form->handleRequest($request);
+
+            
+        if ($form->isSubmitted()  && $form->isValid()) {
+             $biblio->setAdherent($adherent);
+            $biblio->setSatutInscription("valide");
+           $biblio->setMotDePasse("mdp");
+            $manager->persist($biblio);
+            $manager->flush();
+
+    
+        $this->addFlash('success', "Le nouvel adhérent {$biblio->getAdherent()->getNom()} a bien été créé");
+    
+         }
+        
+        return $this->render('admin/forms/adherents_biblio.html.twig', [
+            'controller_name' => 'AdherentsListController',
+            'biblio' => $biblio,
+            'arrow' => false,
+            'section' => 'section-adherents',
+            'return_path' => 'menu-adherent',
+            'color' => 'adherents-color',
+            'form' => $form->createView()
         ]);
     }
 }
