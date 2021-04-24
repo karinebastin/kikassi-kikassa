@@ -13,20 +13,12 @@ import "./styles/app.sass";
 import "./styles/test.sass";
 import "./styles/admin.sass";
 import "./styles/detail.sass";
+import "./styles/calendrier.sass";
 import "./styles/splide.min.css";
 
 // start the Stimulus application
-// import "jquery";
-// import "popper.js";
 import "bootstrap";
 import "./bootstrap";
 import "@splidejs/splide";
 import "./slider";
-// import "@fullcalendar/core";
-// import "@fullcalendar/daygrid";
-// import "@fullcalendar/timegrid";
-// import "@fullcalendar/list";
-// import "@fullcalendar/interaction";
-import "./calendar.js";
-// import "@fontawesome";
-// import "./fontawesome";
+import "./calendrier.js";
