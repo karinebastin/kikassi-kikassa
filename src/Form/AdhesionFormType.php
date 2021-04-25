@@ -40,6 +40,7 @@ class AdhesionFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => '',
                 'attr' => ['placeholder' => 'Adresse email'],
+                'required' => false
             ])
             ->add('telephone', TextType::class, [
                 'label' => '',
@@ -61,6 +62,7 @@ class AdhesionFormType extends AbstractType
             ->add('montant_cotisation', TextType::class, [
                 'label' => '',
                 'attr' => ['placeholder' => 'Montant de la cotisation en €'],
+                'required' => false
             ])
             ->add('moyen_paiement', ChoiceType::class, [
                 'choices' => [
@@ -68,7 +70,8 @@ class AdhesionFormType extends AbstractType
                 'Liquide' => "liquide",
                 'Carte Bancaire' => 'cb',
                 'Chèque' => "chèque"
-                ]])
+                ],
+                'required' => false])
             ->add('etat_cotisation', ChoiceType::class, [
                 'choices' => [
                 'Etat du paiement de la cotisation' => null,
@@ -83,8 +86,8 @@ class AdhesionFormType extends AbstractType
                 'Non' => 0,
                 ]
             ])
-            ->add('save', SubmitType::class,['label' => 'Envoyer'])
-         
+            ->add('saveAndContinue', SubmitType::class,[ 'label'=> '<i class="fas fa-arrow-right fa-3x"></i>', 'label_html' => true,'attr' => ['class' => 'border-0 bg-transparent p-0'] ])
+            ->add('save', SubmitType::class,[ 'label'=> '<div class="btn-text p-1 px-2">Valider <br> l\'inscription</div>', 'label_html' => true, 'attr' => ['class' => 'envoi-btn font-raleway'] ])
         ;
     }
 

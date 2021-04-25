@@ -3,6 +3,9 @@
 
 
 {% set envoi = "<div>" ~ form_widget(form.save) ~ "</div>" %}
+{% set continue = "" %}
+{% set arrowClass = 'd-none' %}
+{% set footerPadding = 'l-padding' %}
 
 {% block title %}Adhérents
 {% endblock %}
@@ -10,25 +13,37 @@
 
 {% block body %}
 	<body class={{color}}>
-		<div class="main-title font-raleway">
+		<div class="main-title font-raleway container">
 			<h1 class="text-center font-raleway mb-5">Inscription de
-				{# {{adherent.nom}} #}
+				{{adherent.nomPrenom}}
 				à la Bibliothèque des Objets</h1>
-			{{ form_start(form)}}
+			{% for label, messages in app.flashes %}
+				<div class="container text-center ">
+					<div class="alert alert-{{ label }}">
+						{% for message in messages %}
+							<p>{{message | raw }}</p>
+						{% endfor %}
+					</div>
+				</div>
+			{% endfor %}
+			{{ form_start(form, {'attr': {'autocomplete' : 'off'}})}}
 			<div class="container first-part " data-controller="admin">
 				<div class="row">
 					<div class="col">
 						<div class="form-group">
-							{{ form_widget(form.categorie_fourmi , {'attr': {'class': 'form-control p-4'}}) }}
+
+							{{ form_widget(form.categorie_fourmi ,  {'attr': {'class': 'form-control select-height'}}) }}
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+
+							{{ form_widget(form.depot_permanent, {'attr': {'class': 'form-control select-height'}}) }}
 						</div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.depot_permanent, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
+
 					<div class="col">
 						<div class="form-group">
 							{{ form_widget(form.fin_rc, {'attr': {'class': 'form-control p-4'}}) }}
@@ -38,26 +53,18 @@
 				<div class="row">
 					<div class="col">
 						<div class="form-group">
-							{{ form_widget(form.justif_identite, {'attr': {'class': 'form-control p-4', "placeholder" : "holo"}}) }}
+							{{ form_widget(form.justif_identite, {'attr': {'class': 'form-control select-height'}}) }}
 						</div>
 					</div>
 					<div class="col">
 						<div class="form-group">
-							{{ form_widget(form.justif_domicile, {'attr': {'class': 'form-control p-4'}}) }}
+							{{ form_widget(form.justif_domicile, {'attr': {'class': 'form-control select-height'}}) }}
 						</div>
 					</div>
 				</div>
-				{% for label, messages in app.flashes %}
-					<div class="container text-center ">
-						<div class="alert alert-{{ label }}">
-							{% for message in messages %}
-								<p>{{message | raw }}</p>
-							{% endfor %}
-						</div>
-					</div>
-				{% endfor %}
+
 			</div>
-			{{macros.footer_color(section, return_path, arrow, envoi)}}
+			{{macros.footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding)}}
 
 			{{ form_end(form)}}
 		</div>

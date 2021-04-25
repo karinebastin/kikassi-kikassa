@@ -1,7 +1,6 @@
 import { Controller } from 'stimulus';
 // import $ from 'jquery';
 var $  = require( 'jquery' );
-
 require('bootstrap');
 
 /*
@@ -35,26 +34,67 @@ export default class extends Controller {
         console.log('back');
         window.history.back();
       })
-    
+
+      function replaceClass(el, oldClass, newClass) {
+        const element = $(`.${el}`);
+        if (element.hasClass(oldClass)) {
+          element.removeClass(oldClass)
+        }
+        element.addClass(newClass)
+    }
+
+      $('.prev').on('click', function (e) {
+        e.preventDefault();
+        replaceClass("first-part", "d-none", "d-block")
+        replaceClass("second-part", "d-block", "d-none")
+        replaceClass("prev", "visible", "invisible")
+        replaceClass("next", "invisible", "visible")
+        replaceClass("envoi", 'd-block', 'd-none')
+        replaceClass("continue", 'd-block', 'd-none')
+      })
+
       $('.next').on('click', function (e) {
         e.preventDefault();
-        console.log($(".first-part"))
-        $(".first-part").addClass("d-none")
-        $(".second-part").addClass("d-block")
-      }
-      )
-
+        replaceClass("first-part", "d-block",  "d-none" )
+        replaceClass("second-part", "d-none", "d-block")
+        replaceClass("prev", "invisible", "visible")
+        replaceClass("next", 'visible', 'invisible')
+      })
+    
+     
    
+      $('.biblio-select select').on('change', function () {
+       
+          if ($('.biblio-select select option:selected').val() == "oui") {
+            replaceClass("continue", 'd-none', 'd-block')
+            replaceClass("envoi", 'd-block', 'd-none')
+            replaceClass("next", 'invisible', 'd-none')
 
+            
+          } else if($('.biblio-select select option:selected').val() == "non") {
+            replaceClass("envoi", 'd-none', 'd-block')
+            replaceClass("continue", 'd-block', 'd-none')
+            replaceClass("next", 'invisible', 'd-none')
 
-
-      // $("i").on('click', function (e) {
-      //   e.preventDefault();
-      //   $(this).toggleClass("fa-angle-up", "fa-angle-down" );
-      // });
+            
+          } else {
+            replaceClass("next", 'd-none', 'invisible')
+            replaceClass("envoi", 'd-block', 'd-none')
+            replaceClass("continue", 'd-block', 'd-none')
+          
+        } 
+  })
   
+      $('.continue').on('click', function () {
+    console.log('continue')
+    replaceClass("prev", 'padding-footer', 's-padding')
+
+  })
+      
+   
+      
+      
+      
     }
-  
-
-  
+   
 }

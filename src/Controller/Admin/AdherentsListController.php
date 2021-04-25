@@ -100,8 +100,8 @@ class AdherentsListController extends AbstractController
 
     dump($biblio);
     if($biblio == "oui") {
-           return $this->redirectToRoute('adherents_new_biblio', [
-             'id' => $adherent->getId(),
+        return $this->redirectToRoute('adherents_new_biblio', [
+        'id' => $adherent->getId(),
          ]);
     } elseif($biblio == "non") {
         
@@ -141,14 +141,15 @@ class AdherentsListController extends AbstractController
             $manager->flush();
 
     
-        $this->addFlash('success', "L'adhérent {$biblio->getAdherent()->getPrenom()} {$biblio->getAdherent()->getNom()}  est bien inscrit à la bibliothèque");
+        $this->addFlash('success', "L'adhérent {$biblio->getAdherent()->getPrenom()} {$biblio->getAdherent()->getNom()}  est bien inscrit à la bibliothèque et son adhésion est bien prise en compte");
     
          }
         
         return $this->render('admin/forms/adherents_biblio.html.twig', [
             'controller_name' => 'AdherentsListController',
             'biblio' => $biblio,
-            'arrow' => false,
+            'arrow' => true,
+            'adherent' => $adherent,
             'section' => 'section-adherents',
             'return_path' => 'menu-adherent',
             'color' => 'adherents-color',

@@ -17,48 +17,43 @@ class BiblioFormType extends AbstractType
     {
         $builder
              ->add('categorie_fourmi', ChoiceType::class, [
-                
                 'choices' => [
+                'Catégorie Fourmi' => "",
                 'Verte' => 'verte',
                 'Bleue' => 'bleue',
-                'Dorée' => 'dorée',
-                ],
-                'expanded' => true, 
-                'multiple' => false,])
+                'Dorée' => 'dorée'
+                ]])
             ->add('depot_permanent', ChoiceType::class, [
                 'choices' => [
-                'Montant du dépôt de garantie' => null,
+                'Montant du dépôt de garantie' => "",
                 '30' => 30,
                 '60' => 60,
                 '90' => 90,
-                '120' => 120,
+                '120' => 120
                 ]])
             ->add('fin_rc', DateType::class, [
-                    'label' => '',
                     'widget' => 'single_text',
-                    'attr' => ['placeholder' => 'Date de fin de la responsabilité civile, format : 10/05/1950'],
+                    'attr' => ['placeholder' => 'Date de fin de la responsabilité civile (si donnée), format : 10/05/1950'],
                     'input' => 'datetime',
                     'html5' => false,
                     'format' => 'dd/MM/yyyy',
+                    'required' => false
                 ])
             ->add('justif_identite', ChoiceType::class, [
-                
                     'choices' => [
+                    'Justificatif d\'identité' => "",
                     'Oui' => true,
-                    'Non' => false,
-                    ],
-                    'expanded' => true, 
-                    'multiple' => false,
+                    'Non' => false
+                    ]
                     ])
             ->add('justif_domicile', ChoiceType::class, [
                     'choices' => [
+                    'Justificatif de domicile' => "",
                     'Oui' => true,
-                    'Non' => false,
-                    ],
-                    'expanded' => true, 
-                    'multiple' => false
+                    'Non' => false
+                    ]
                     ])
-                    ->add('save', SubmitType::class,['label' => 'Envoyer'])
+                    ->add('save', SubmitType::class,['label' => '<div class="btn-text px-2">Valider l\'inscription <br> à la Bibliothèque</div>', 'label_html' => true, 'attr' => ['class' => 'envoi-btn font-raleway'] ])
             ;
     }
 

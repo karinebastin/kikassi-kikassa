@@ -2,7 +2,10 @@
 {% import './admin/_macros.html.twig' as macros %}
 
 
-{% set envoi = "<div class='d-none second-part'>" ~ form_widget(form.save) ~ "</div>" %}
+{% set envoi = "<div class='d-none envoi'>" ~ form_widget(form.save) ~ "</div>" %}
+{% set continue = "<div class='d-none padding-footer continue'>" ~ form_widget(form.saveAndContinue) ~ "</div>" %}
+{% set arrowClass = 'visible' %}
+{% set footerPadding = 's-padding' %}
 
 {% block title %}Adhérents
 {% endblock %}
@@ -10,10 +13,20 @@
 
 {% block body %}
 	<body class={{color}}>
+		{{ form_start(form, {'attr': {'autocomplete' : 'off'}})}}
 		<div class="main-title font-raleway">
-			<h1 class="text-center font-raleway mb-5">Entrer un nouvel Adhérent</h1>
-			{{ form_start(form)}}
-			<div class="container first-part " data-controller="admin">
+			<h1 class="first-part text-center font-raleway mb-5">Entrer un nouvel Adhérent</h1>
+			<h1 class="second-part d-none text-center font-raleway mb-5">Entrer un nouvel Adhérent (suite)</h1>
+			{% for label,messages in app.flashes %}
+				<div class="container text-center my-5 ">
+					<div class="alert alert-{{ label }}">
+						{% for message in messages %}
+							<p>{{message | raw }}</p>
+						{% endfor %}
+					</div>
+				</div>
+			{% endfor %}
+			<div class="container first-part" data-controller="admin">
 				<div class="row">
 					<div class="col">
 						<div class="form-group">
@@ -58,7 +71,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="container second-part d-none " data-controller="admin">
+			<div class="container second-part d-none">
 				<div class="row">
 					<div class="col">
 						<div class="form-group">
@@ -99,7 +112,7 @@
 						</div>
 					</div>
 					<div class="col">
-						<div class="form-group">
+						<div class="form-group biblio-select">
 							<select type="radio" name="biblio" class="biblio form-control select-height">
 								<option value="">Inscription à la bibliothèque</option>
 								<option value="oui">Oui</option>
@@ -108,20 +121,12 @@
 						</div>
 					</div>
 				</div>
-
 			</div>
-			{% for label,messages in app.flashes %}
-				<div class="container text-center my-5 ">
-					<div class="alert alert-{{ label }}">
-						{% for message in messages %}
-							<p>{{message | raw }}</p>
-						{% endfor %}
-					</div>
-				</div>
-			{% endfor %}
-			{{macros.footer_color(section, return_path, arrow, envoi )}}
-			{{ form_end(form)}}
 		</div>
+
+		{{macros.footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding )}}
+		{{ form_end(form)}}
+
 
 	</body>
 {% endblock %}

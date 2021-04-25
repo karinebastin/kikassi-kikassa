@@ -1,21 +1,28 @@
 {# Macro pour l'affichage du footer avec couleur différente selon la section #}
 
-{% macro footer_color(section, return_path, arrow, envoi) %}
-	<nav class="{{section}} vw-100 admin-footer d-flex justify-content-center fixed-bottom align-items-center">
+{% macro footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding) %}
+	<nav class="{{section}} vw-100 admin-footer d-flex fixed-bottom align-items-center">
+
+		{% if arrow %}
+			<a href="" class="prev invisible {{footerPadding}}">
+				<i class="fas fa-arrow-left fa-3x"></i>
+			</a>
+		{% endif %}
 		<a href="{{ path(return_path) }}">
 			<button type='button' class='btn bar-btn'>
 				<div class="font-raleway btn-text">Retour au menu</div>
 			</button>
 		</a>
 		{% if arrow %}
-			<button type='button'>
-				<a href="" class="next">
-					<i class="fas fa-hand-point-right"></i>
-				</a>
-			</button>
+			<a href="" class="{{arrowClass}} next {{footerPadding}}">
+				<i class="fas fa-arrow-right fa-3x"></i>
+			</a>
 		{% endif %}
 		{% if envoi %}
 			{{envoi|raw}}
+		{% endif %}
+		{% if continue %}
+			{{continue|raw}}
 		{% endif %}
 	</nav>
 {% endmacro %}
