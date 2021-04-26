@@ -3,7 +3,7 @@
 
 
 {% set envoi = "<div class='d-none envoi'>" ~ form_widget(form.save) ~ "</div>" %}
-{% set continue = "<div class='d-none padding-footer continue'>" ~ form_widget(form.saveAndContinue) ~ "</div>" %}
+{% set continue = "<div class='d-none s-padding continue'>" ~ form_widget(form.saveAndContinue) ~ "</div>" %}
 {% set arrowClass = 'visible' %}
 {% set footerPadding = 's-padding' %}
 
@@ -81,6 +81,7 @@
 					<div class="col">
 						<div class="form-group">
 							{{ form_widget(form.email, {'attr': {'class': 'form-control p-4'}}) }}
+							<p class="email-obligatoire d-none text-danger">Adresse email obligatoire pour l'inscription à la bibliothèque</p>
 						</div>
 					</div>
 				</div>

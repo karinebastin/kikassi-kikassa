@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class BiblioFormType extends AbstractType
 {
@@ -17,15 +18,15 @@ class BiblioFormType extends AbstractType
     {
         $builder
              ->add('categorie_fourmi', ChoiceType::class, [
+                'placeholder' => 'Choisir une Catégorie Fourmi',
                 'choices' => [
-                'Catégorie Fourmi' => "",
                 'Verte' => 'verte',
                 'Bleue' => 'bleue',
                 'Dorée' => 'dorée'
                 ]])
             ->add('depot_permanent', ChoiceType::class, [
+                'placeholder' => 'Montant du dépôt de garantie versé',
                 'choices' => [
-                'Montant du dépôt de garantie' => "",
                 '30' => 30,
                 '60' => 60,
                 '90' => 90,
@@ -40,15 +41,15 @@ class BiblioFormType extends AbstractType
                     'required' => false
                 ])
             ->add('justif_identite', ChoiceType::class, [
+                'placeholder' => 'Justificatif d\'identité remis ?',
                     'choices' => [
-                    'Justificatif d\'identité' => "",
                     'Oui' => true,
                     'Non' => false
                     ]
                     ])
             ->add('justif_domicile', ChoiceType::class, [
+                'placeholder' => 'Justificatif de domicile remis ?',
                     'choices' => [
-                    'Justificatif de domicile' => "",
                     'Oui' => true,
                     'Non' => false
                     ]

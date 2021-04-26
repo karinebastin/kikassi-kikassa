@@ -69,7 +69,8 @@ class AdhesionFormType extends AbstractType
                 'moyen de paiement utilisé' => null,
                 'Liquide' => "liquide",
                 'Carte Bancaire' => 'cb',
-                'Chèque' => "chèque"
+                'Chèque' => "chèque",
+                'Autre...' => "autre"
                 ],
                 'required' => false])
             ->add('etat_cotisation', ChoiceType::class, [

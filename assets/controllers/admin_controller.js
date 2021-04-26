@@ -14,7 +14,6 @@ require('bootstrap');
  */
 export default class extends Controller {
     connect() {
-        // this.element.textContent = 'Hello Stimulus! Edit me in assets/controllers/hello_controller.js';
         $(".leftArrow").on('click', function () {
             console.log('works')
             const leftPos = $('.show').scrollLeft();
@@ -48,6 +47,7 @@ export default class extends Controller {
         replaceClass("first-part", "d-none", "d-block")
         replaceClass("second-part", "d-block", "d-none")
         replaceClass("prev", "visible", "invisible")
+        $('.next').removeClass('d-none')
         replaceClass("next", "invisible", "visible")
         replaceClass("envoi", 'd-block', 'd-none')
         replaceClass("continue", 'd-block', 'd-none')
@@ -59,9 +59,12 @@ export default class extends Controller {
         replaceClass("second-part", "d-none", "d-block")
         replaceClass("prev", "invisible", "visible")
         replaceClass("next", 'visible', 'invisible')
+        if ($('.biblio-select select option:selected').val() == "oui") {
+          replaceClass("continue", 'd-none', 'd-block')
+          replaceClass("next", 'invisible', 'd-none')
+        }
       })
     
-     
    
       $('.biblio-select select').on('change', function () {
        
@@ -69,30 +72,37 @@ export default class extends Controller {
             replaceClass("continue", 'd-none', 'd-block')
             replaceClass("envoi", 'd-block', 'd-none')
             replaceClass("next", 'invisible', 'd-none')
-
+            if ($('#adhesion_form_email').val().length < 1) {
+              replaceClass("email-obligatoire", 'd-none', 'd-block')
+              $('#adhesion_form_email').addClass('is-invalid')
+              $('#adhesion_form_email').on('change', function () {
+                if ($('#adhesion_form_email').val().length > 1) {
+                  $('#adhesion_form_email').removeClass('is-invalid')
+                  replaceClass("email-obligatoire", 'd-block', 'd-none')
+                }
+              })
+            }
             
           } else if($('.biblio-select select option:selected').val() == "non") {
             replaceClass("envoi", 'd-none', 'd-block')
             replaceClass("continue", 'd-block', 'd-none')
             replaceClass("next", 'invisible', 'd-none')
-
+            replaceClass("email-obligatoire", 'd-block', 'd-none')
+            $('#adhesion_form_email').removeClass('is-invalid')
             
           } else {
             replaceClass("next", 'd-none', 'invisible')
             replaceClass("envoi", 'd-block', 'd-none')
             replaceClass("continue", 'd-block', 'd-none')
+            replaceClass("continue", 'padding-footer', 's-padding')
+
           
         } 
   })
   
-      $('.continue').on('click', function () {
-    replaceClass("prev", 'padding-footer', 's-padding')
-
-  })
       
    
-      
-      
+     
       
     }
    
