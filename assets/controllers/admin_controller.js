@@ -86,7 +86,6 @@ export default class extends Controller {
   })
   
       $('.continue').on('click', function () {
-    console.log('continue')
     replaceClass("prev", 'padding-footer', 's-padding')
 
   })
