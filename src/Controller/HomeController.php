@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Objet;
+use App\Repository\EmpruntRepository;
+use App\Repository\CalendrierRepository;
 use App\Repository\SousCategorieRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,11 +25,30 @@ class HomeController extends AbstractController
     /**
      * @Route("/{slug}/detail", name="objetDetail")
      */
-    public function detailsObjet(Objet $objet, SousCategorieRepository $sousCategorie): Response
+    public function detailsObjet(Objet $objet, SousCategorieRepository $sousCategorie, CalendrierRepository $calendrier): Response
     {
+        $events = $calendrier->findAll();
+        // dd($events);
+        $rdvs = [];
+        foreach ($events as $event) {
+            $rdvs[] = [
+                'id' => $event->getId(),
+                'start' => $event->getstart()->format('Y-m-d'),
+                'end' => $event->getEnd()->format('Y-m-d'),
+                'title' => $event->getTitle(),
+                'description' => $event->getDescription(),
+                'backgroundColor' => $event->getBackgroundColor(),
+                'borderColor' => $event->getBorderColor(),
+                'textColor' => $event->getTextColor(),
+                'AllWeek' => $event->getAllWeek(),
+            ];
+        }
+        $data = json_encode($rdvs);
+
         return $this->render('home/detailsObjet.html.twig', [
             'controller_name' => 'HomeController',
-            'objet' => $objet
+            'objet' => $objet,
+            'data' => $data,
         ]);
     }
 }
