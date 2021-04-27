@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Repository\AdhesionBibliothequeRepository;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdherentsListController extends AbstractController
@@ -81,7 +82,7 @@ class AdherentsListController extends AbstractController
 
     #[Route('/admin/adherents/new', name: 'admin_adherents_new')]
 
-    public function newAdherent(Request $request, EntityManagerInterface $manager): Response
+    public function newAdherent(Request $request, EntityManagerInterface $manager, ValidatorInterface $validator): Response
      {
          $adherent = new Adherent();
          
@@ -89,6 +90,16 @@ class AdherentsListController extends AbstractController
 
          $form->handleRequest($request);
 
+         $submitted = "";
+         
+ if ($form->isSubmitted() ){
+
+     $submitted = "was-validated"  ;
+ }
+    
+        
+
+    
         if ($form->isSubmitted() && $form->isValid()) {
             
             $adherent->setCompteActif(true);
@@ -98,7 +109,6 @@ class AdherentsListController extends AbstractController
     
     $biblio = $request->request->get('biblio');
 
-    dump($biblio);
     if($biblio == "oui") {
         return $this->redirectToRoute('adherents_new_biblio', [
         'id' => $adherent->getId(),
@@ -108,8 +118,7 @@ class AdherentsListController extends AbstractController
         $this->addFlash('success', "Le nouvel adhérent {$adherent->getNomprenom()} a bien été créé");
     }
           
-         }
-        
+         }         
         return $this->render('admin/forms/adherents_new.html.twig', [
             'controller_name' => 'AdherentsListController',
             'adherent' => $adherent,
@@ -117,8 +126,9 @@ class AdherentsListController extends AbstractController
             'section' => 'section-adherents',
             'return_path' => 'menu-adherent',
             'color' => 'adherents-color',
-            'form' => $form->createView()
-        ]);
+            'form' => $form->createView(),
+            'submitted' => $submitted
+         ]);
     }
 
     #[Route('/admin/adherents/new/biblio/{id}', name: 'adherents_new_biblio')]

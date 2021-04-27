@@ -13,10 +13,12 @@
 
 {% block body %}
 	<body class={{color}}>
-		{{ form_start(form, {'attr': {'autocomplete' : 'off'}})}}
+		{{ form_start(form, {'attr': {'autocomplete' : 'off', 'novalidate' : true, 'class' : submitted ? submitted : "" }})}}
 		<div class="main-title font-raleway">
 			<h1 class="first-part text-center font-raleway mb-5">Entrer un nouvel Adhérent</h1>
 			<h1 class="second-part d-none text-center font-raleway mb-5">Entrer un nouvel Adhérent (suite)</h1>
+
+
 			{% for label,messages in app.flashes %}
 				<div class="container text-center my-5 ">
 					<div class="alert alert-{{ label }}">
@@ -26,17 +28,34 @@
 					</div>
 				</div>
 			{% endfor %}
+			<div class="container">
+				{% set formErrors = form.vars.errors.form.getErrors(true) %}
+				{{dump(formErrors)}}
+
+				{% if formErrors|length %}
+					<ul class="text-center list-group mb-1">
+						<li class="list-group-item list-group-item-danger my-1">Formulaire non valide :</li>
+						{% for error in formErrors %}
+							<li class="list-group-item list-group-item-danger my-1">{{ error.message }}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+
 			<div class="container first-part" data-controller="admin">
 				<div class="row">
 					<div class="col">
 						<div class="form-group">
 							{{ form_widget(form.nom, {'attr': {'class': 'form-control p-4'}}) }}
 						</div>
+						{# <div>{{ form_errors(form.nom) }}</div> #}
 					</div>
 					<div class="col">
 						<div class="form-group">
 							{{ form_widget(form.prenom, {'attr': {'class': 'form-control p-4'}}) }}
 						</div>
+						{# <div>{{ form_errors(form.prenom) }}</div> #}
+
 					</div>
 				</div>
 				<div class="row">
@@ -110,11 +129,14 @@
 					<div class="col">
 						<div class="form-group">
 							{{ form_widget(form.admin, {'attr': {'class': 'form-control select-height'}}) }}
+							{# {{ form_errors(form.admin) }} #}
+
 						</div>
+
 					</div>
 					<div class="col">
 						<div class="form-group biblio-select">
-							<select type="radio" name="biblio" class="biblio form-control select-height">
+							<select type="radio" name="biblio" class="biblio form-control select-height" required>
 								<option value="">Inscription à la bibliothèque</option>
 								<option value="oui">Oui</option>
 								<option value="non">Non</option>

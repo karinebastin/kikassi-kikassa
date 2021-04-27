@@ -10,6 +10,8 @@ use App\Entity\AdhesionBibliotheque;
 use App\Repository\AdherentRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -27,29 +29,42 @@ class Adherent
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
+
+    #[Assert\NotBlank(message:"Veuillez entrer un nom")]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
+    
+     #[Assert\NotBlank(message:"Veuillez entrer un prénom")]
     private $prenom;
 
     private $nomprenom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
      */
+
+    #[Assert\NotBlank(message:"Veuillez entrer una adresse")]
     private $adresse;
 
     /**
      * @ORM\Column(type="string", length=6)
      */
+
+    #[Assert\NotBlank(message:"Veuillez entrer un code postal")]
     private $cp;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
+    #[Assert\NotBlank(message:"Veuillez entrer une ville")]
     private $ville;
 
     /**
@@ -59,17 +74,26 @@ class Adherent
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
+    #[Assert\NotBlank(message:"Veuillez entrer un numéro de téléphone")]
     private $telephone;
 
     /**
      * @ORM\Column(type="date")
+     * 
      */
+
+    #[Assert\Type("\DateTimeInterface", message:"Veuillez entrer une date de naissance")]
+    #[Assert\NotBlank(message:"Veuillez entrer une date de naissance")]
     private $date_naissance;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
      */
+
+    #[Assert\NotBlank(message:"Veuillez entrer un lieu de naissance")]
     private $lieu_naissance;
 
 
@@ -95,7 +119,10 @@ class Adherent
 
     /**
      * @ORM\Column(type="boolean")
+     * 
      */
+
+   #[Assert\NotNull(message:"Veuillez choisir un statut admin")]
     private $admin;
 
     /**
@@ -264,7 +291,7 @@ class Adherent
         return $this->date_naissance;
     }
 
-    public function setDateNaissance(\DateTimeInterface $date_naissance): self
+    public function setDateNaissance(?\DateTimeInterface $date_naissance): self
     {
         $this->date_naissance = $date_naissance;
 

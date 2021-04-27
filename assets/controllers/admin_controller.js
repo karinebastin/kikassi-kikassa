@@ -62,6 +62,9 @@ export default class extends Controller {
         if ($('.biblio-select select option:selected').val() == "oui") {
           replaceClass("continue", 'd-none', 'd-block')
           replaceClass("next", 'invisible', 'd-none')
+        } else if($('.biblio-select select option:selected').val() == "non") {
+          replaceClass("envoi", 'd-none', 'd-block')
+          replaceClass("next", 'invisible', 'd-none')
         }
       })
     
@@ -75,6 +78,7 @@ export default class extends Controller {
             if ($('#adhesion_form_email').val().length < 1) {
               replaceClass("email-obligatoire", 'd-none', 'd-block')
               $('#adhesion_form_email').addClass('is-invalid')
+              $('#adhesion_form_email').attr("required")
               $('#adhesion_form_email').on('change', function () {
                 if ($('#adhesion_form_email').val().length > 1) {
                   $('#adhesion_form_email').removeClass('is-invalid')
