@@ -17,6 +17,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Repository\AdhesionBibliothequeRepository;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AdherentsListController extends AbstractController
 {
@@ -133,7 +134,7 @@ class AdherentsListController extends AbstractController
 
     #[Route('/admin/adherents/new/biblio/{id}', name: 'adherents_new_biblio')]
 
-    public function newBiblio($id, AdherentRepository $adherentRepository, Request $request, EntityManagerInterface $manager): Response
+    public function newBiblio($id, AdherentRepository $adherentRepository, Request $request, EntityManagerInterface $manager,  UserPasswordEncoderInterface $encoder): Response
      {
         $adherent = $adherentRepository->findOneById($id);
          $biblio = new AdhesionBibliotheque();
@@ -146,7 +147,9 @@ class AdherentsListController extends AbstractController
         if ($form->isSubmitted()  && $form->isValid()) {
              $biblio->setAdherent($adherent);
             $biblio->setSatutInscription("valide");
-           $biblio->setMotDePasse($adherent->getNom() . date_format( $adherent->getDateNaissance(), "Y"));
+           $hash = $encoder->encodePassword($biblio, $adherent->getNom() . date_format( $adherent->getDateNaissance(), "Y"));
+           
+           $biblio->setMotDePasse($hash);
             $manager->persist($biblio);
             $manager->flush();
 
