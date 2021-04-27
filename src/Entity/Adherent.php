@@ -33,6 +33,12 @@ class Adherent
      */
 
     #[Assert\NotBlank(message:"Veuillez entrer un nom")]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'Le nom doit faire plus de {{ limit }} caractères',
+        maxMessage: 'Le nom doit faire {{ limit }} caractères maximum',
+    )]
     private $nom;
 
     /**
@@ -41,6 +47,12 @@ class Adherent
      */
     
      #[Assert\NotBlank(message:"Veuillez entrer un prénom")]
+     #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'Le prénom doit faire plus de {{ limit }} caractères',
+        maxMessage: 'Le prénom doit faire {{ limit }} caractères maximum',
+    )]
     private $prenom;
 
     private $nomprenom;
@@ -50,7 +62,11 @@ class Adherent
      *
      */
 
-    #[Assert\NotBlank(message:"Veuillez entrer una adresse")]
+    #[Assert\NotBlank(message:"Veuillez entrer une adresse")]
+    #[Assert\Length(
+        min: 5,
+        minMessage: 'L\'adresse doit faire plus de {{ limit }} caractères',
+    )]
     private $adresse;
 
     /**
@@ -65,11 +81,18 @@ class Adherent
      * 
      */
     #[Assert\NotBlank(message:"Veuillez entrer une ville")]
+    #[Assert\Length(
+        min: 3,
+        minMessage: 'La ville doit faire plus de {{ limit }} caractères',
+    )]
     private $ville;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    #[Assert\Email(
+        message: 'Veuillez entrer un email valide',
+    )]
     private $email;
 
     /**
@@ -77,6 +100,12 @@ class Adherent
      * 
      */
     #[Assert\NotBlank(message:"Veuillez entrer un numéro de téléphone")]
+    #[Assert\Positive(message:"Veuillez entrer un numéro de téléphone valide ")]
+    #[Assert\Length( min: 10,
+    max:10,
+    exactMessage:"Veuillez entrer un numéro de téléphone valide (10 chiffres sans espace)")]
+    
+    
     private $telephone;
 
     /**
@@ -84,7 +113,7 @@ class Adherent
      * 
      */
 
-    #[Assert\Type("\DateTimeInterface", message:"Veuillez entrer une date de naissance")]
+    #[Assert\Type("\DateTimeInterface", message:"Veuillez entrer une date de naissance valide")]
     #[Assert\NotBlank(message:"Veuillez entrer une date de naissance")]
     private $date_naissance;
 
@@ -94,12 +123,17 @@ class Adherent
      */
 
     #[Assert\NotBlank(message:"Veuillez entrer un lieu de naissance")]
+    #[Assert\Length(
+        min: 3,
+        minMessage: 'Le lieu de naissance doit faire plus de {{ limit }} caractères',
+    )]
     private $lieu_naissance;
 
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
      */
+    #[Assert\PositiveOrZero(message:"Veuillez entrer un montant de cotisation valide")]
     private $montant_cotisation;
 
     /**
@@ -128,6 +162,7 @@ class Adherent
     /**
      * @ORM\OneToOne(targetEntity=AdhesionBibliotheque::class, mappedBy="adherent", cascade={"persist", "remove"})
      */
+    
     private $adhesionBibliotheque;
 
     /**
@@ -148,6 +183,8 @@ class Adherent
     /**
      * @ORM\Column(type="string", length=255)
      */
+
+    #[Assert\NotNull(message:"Veuillez indiquer un état pour la cotisation")]
     private $etat_cotisation;
 
     /**

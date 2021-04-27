@@ -40,7 +40,8 @@ export default class extends Controller {
           element.removeClass(oldClass)
         }
         element.addClass(newClass)
-    }
+      }
+      
 
       $('.prev').on('click', function (e) {
         e.preventDefault();
@@ -70,19 +71,26 @@ export default class extends Controller {
     
    
       $('.biblio-select select').on('change', function () {
-       
-          if ($('.biblio-select select option:selected').val() == "oui") {
+        if ($('.biblio-select select option:selected').val() == "oui") {
             replaceClass("continue", 'd-none', 'd-block')
             replaceClass("envoi", 'd-block', 'd-none')
-            replaceClass("next", 'invisible', 'd-none')
-            if ($('#adhesion_form_email').val().length < 1) {
+          replaceClass("next", 'invisible', 'd-none')
+          
+          if ($('#adhesion_form_email').val().length < 1) {
               replaceClass("email-obligatoire", 'd-none', 'd-block')
-              $('#adhesion_form_email').addClass('is-invalid')
-              $('#adhesion_form_email').attr("required")
+              $('#adhesion_form_email').addClass('is-invalid').attr("required", "true")
+            replaceClass("continue", 'd-block', 'invisible')
+
               $('#adhesion_form_email').on('change', function () {
                 if ($('#adhesion_form_email').val().length > 1) {
                   $('#adhesion_form_email').removeClass('is-invalid')
                   replaceClass("email-obligatoire", 'd-block', 'd-none')
+                  replaceClass("continue", 'invisible', 'd-block')
+                } else if($('#adhesion_form_email').val().length < 1) {
+                  replaceClass("continue", 'd-block', 'invisible')
+                  $('#adhesion_form_email').addClass('is-invalid').attr("required", "true")
+              replaceClass("email-obligatoire", 'd-none', 'd-block')
+
                 }
               })
             }
@@ -92,7 +100,7 @@ export default class extends Controller {
             replaceClass("continue", 'd-block', 'd-none')
             replaceClass("next", 'invisible', 'd-none')
             replaceClass("email-obligatoire", 'd-block', 'd-none')
-            $('#adhesion_form_email').removeClass('is-invalid')
+            $('#adhesion_form_email').removeClass('is-invalid').attr("required", false)
             
           } else {
             replaceClass("next", 'd-none', 'invisible')

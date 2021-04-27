@@ -65,8 +65,8 @@ class AdhesionFormType extends AbstractType
                 'required' => false
             ])
             ->add('moyen_paiement', ChoiceType::class, [
+                'placeholder' => 'moyen de paiement utilisé',
                 'choices' => [
-                'moyen de paiement utilisé' => null,
                 'Liquide' => "liquide",
                 'Carte Bancaire' => 'cb',
                 'Chèque' => "chèque",
@@ -74,8 +74,8 @@ class AdhesionFormType extends AbstractType
                 ],
                 'required' => false])
             ->add('etat_cotisation', ChoiceType::class, [
+                'placeholder' =>  'Etat du paiement de la cotisation',
                 'choices' => [
-                'Etat du paiement de la cotisation' => null,
                 'Payée' => "payée",
                 'Due' => 'due',
                 'Exonéré de cotisation' => "exonéré"
