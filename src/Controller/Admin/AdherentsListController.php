@@ -83,7 +83,7 @@ class AdherentsListController extends AbstractController
 
     #[Route('/admin/adherents/new', name: 'admin_adherents_new')]
 
-    public function newAdherent(Request $request, EntityManagerInterface $manager, ValidatorInterface $validator): Response
+    public function newAdherent(Request $request, EntityManagerInterface $manager): Response
      {
          $adherent = new Adherent();
          
@@ -91,16 +91,8 @@ class AdherentsListController extends AbstractController
 
          $form->handleRequest($request);
 
-         $submitted = "";
-         
- if ($form->isSubmitted() ){
+         $submitted = $form->isSubmitted() ? "was-validated" : "";
 
-     $submitted = "was-validated"  ;
- }
-    
-        
-
-    
         if ($form->isSubmitted() && $form->isValid()) {
             
             $adherent->setCompteActif(true);
@@ -143,7 +135,9 @@ class AdherentsListController extends AbstractController
 
          $form->handleRequest($request);
 
-            
+         $submitted = $form->isSubmitted() ? "was-validated" : "";
+
+
         if ($form->isSubmitted()  && $form->isValid()) {
              $biblio->setAdherent($adherent);
             $biblio->setSatutInscription("valide");
@@ -166,6 +160,7 @@ class AdherentsListController extends AbstractController
             'section' => 'section-adherents',
             'return_path' => 'menu-adherent',
             'color' => 'adherents-color',
+            'submitted' => $submitted,
             'form' => $form->createView()
         ]);
     }

@@ -10,8 +10,6 @@ use App\Entity\AdhesionBibliotheque;
 use App\Repository\AdherentRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

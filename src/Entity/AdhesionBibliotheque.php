@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AdhesionBibliothequeRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AdhesionBibliothequeRepository::class)
@@ -27,6 +28,7 @@ class AdhesionBibliotheque implements UserInterface
     /**
      * @ORM\Column(type="integer")
      */
+    #[Assert\NotBlank(message:"Veuillez entrer motant pour le dépôt versé")]
     private $depot_permanent;
 
     /**
@@ -37,11 +39,16 @@ class AdhesionBibliotheque implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
+
+    #[Assert\NotBlank(message:"Veuillez indiquer si un justificatif d\identité a été fourni")]
+
     private $justif_identite;
 
     /**
      * @ORM\Column(type="boolean")
      */
+
+    #[Assert\NotBlank(message:"Veuillez indiquer si un justificatif de domicile a été fourni")]
     private $justif_domicile;
 
     /**
@@ -63,6 +70,8 @@ class AdhesionBibliotheque implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
+
+    #[Assert\NotBlank(message:"Veuillez choisir une catégorie de fourmi")]
     private $categorie_fourmi;
 
       /**
