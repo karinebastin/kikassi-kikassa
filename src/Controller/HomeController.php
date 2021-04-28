@@ -3,29 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\Objet;
-use App\Repository\EmpruntRepository;
 use App\Repository\CalendrierRepository;
-use App\Repository\SousCategorieRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
-    /**
-     * @Route("/", name="home")
-     */
+    #[Route('/', name: 'home')]
     public function index(): Response
     {
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);
     }
-
-    /**
-     * @Route("/{slug}/detail", name="objetDetail")
-     */
-    public function detailsObjet(Objet $objet, SousCategorieRepository $sousCategorie, CalendrierRepository $calendrier): Response
+    #[Route('/{slug}/detail', name: 'objetDetail')]
+    public function detailsObjet(Objet $objet, CalendrierRepository $calendrier): Response
     {
         $events = $calendrier->findAll();
         // dd($events);
