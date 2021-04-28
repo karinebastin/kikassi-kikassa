@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     locale: "fr",
     firstDay: "1",
     editable: true,
-    dayMaxEvents: true,
+    // dayMaxEvents: true,
     eventSources: [
       {
         url: "/fc-load-events",
