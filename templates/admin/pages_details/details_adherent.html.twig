@@ -11,7 +11,8 @@
 	{% set biblio = "Oui" %}
 	{% set statutBiblio = adBiblio.satutInscription %}
 	{% if adBiblio.finrc %}
-		{% set finRc = "Oui (valide jusqu'au " ~ adBiblio.finrc|date("d-m-Y") ~ ")"  %}
+		{% set finRc = "Oui" ~ " (valide jusqu'au " ~ adBiblio.finrc|date("d-m-Y") ~ ")" %}
+		{% set rcClass = adBiblio.finrc|date("Y-m-d") < "now"|date('Y-m-d') ? " text-danger font-weight-bold" : "" %}
 	{% else %}
 		{% set finRc = "pas de RC donnée"  %}
 	{% endif %}
@@ -29,6 +30,7 @@
 	{% set fourmi = " /" %}
 	{% set biblio = "Non" %}
 	{% set finRc = " /"  %}
+	{% set rcClass = "" %}
 	{% set justifDomicile = " /"  %}
 	{% set justifId = " /"  %}
 	{% set statutBiblio = " /" %}
@@ -89,6 +91,7 @@
 
 					</div>
 					<div class="col-6">
+
 						<p>
 							<strong>Est Administrateur :</strong>
 							{{adherent.admin ? "Oui" : "Non"}}
@@ -108,7 +111,8 @@
 							</p>
 							<p>
 								<strong>Responsabilité civile :</strong>
-								{{finRc }}
+								<span class="{{rcClass}}">
+									{{finRc }}</span>
 							</p>
 							<p>
 								<strong>Justificatif de domicile :</strong>

@@ -22,18 +22,11 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AdherentsListController extends AbstractController
 {
     #[Route('/admin/adherents/list', name: 'admin_adherents_list')]
-    
-    public function index(AdherentRepository $repo, AdhesionBibliothequeRepository $adh, Request $request): Response
+
+    public function index(AdherentRepository $repo): Response
     {
         $adherents = $repo->findAll();
-        $route = "down";
-
-        // $fourmi = new AdhesionBibliotheque();
-
-        // $form = $this->createForm(FilterType::class, $fourmi);
-
-        // $form->handleRequest($request);
-        // $adherents = $adh->filterOut($fourmi);
+        $route = 'down';
 
         return $this->render('admin/lists/adherents_list.html.twig', [
             'controller_name' => 'AdherentsListController',
@@ -42,32 +35,28 @@ class AdherentsListController extends AbstractController
             'section' => 'section-adherents',
             'return_path' => 'menu-adherent',
             'color' => 'adherents-color',
-            // 'form' => $form->createView(),
         ]);
     }
 
-
     #[Route('/admin/adherents/list/{adh}/{order}', name: 'admin_adherents_list_sort')]
-    public function sortDataD($adh, $order,  AdherentRepository $repo): Response
+    public function sortDataD($adh, $order, AdherentRepository $repo): Response
     {
-        
-        $biblio = ["fin_rc", "depot_permanent", "categorie_fourmi"];
-        if(in_array($adh, $biblio) ){
-            if($order == "up") {
-                $adherents = $repo->orderByBiblioField($adh, "DESC"); 
-                $route = "down";
+        $biblio = ['fin_rc', 'depot_permanent', 'categorie_fourmi'];
+        if (in_array($adh, $biblio)) {
+            if ($order == 'up') {
+                $adherents = $repo->orderByBiblioField($adh, 'DESC');
+                $route = 'down';
             } else {
-               $adherents = $repo->orderByBiblioField($adh, "ASC"); 
-               $route = "up";
+                $adherents = $repo->orderByBiblioField($adh, 'ASC');
+                $route = 'up';
             }
         } else {
-            if($order == "up") {
-            $adherents = $repo->findBy(array(), array($adh => "DESC"));
-            $route = "down";
-            }
-            else {
-                $adherents = $repo->findBy(array(), array($adh => "ASC"));
-                $route = "up";
+            if ($order == 'up') {
+                $adherents = $repo->findBy([], [$adh => 'DESC']);
+                $route = 'down';
+            } else {
+                $adherents = $repo->findBy([], [$adh => 'ASC']);
+                $route = 'up';
             }
         }
 
@@ -77,41 +66,46 @@ class AdherentsListController extends AbstractController
             'route' => $route,
             'section' => 'section-adherents',
             'return_path' => 'menu-adherent',
-            'color' => 'adherents-color'
+            'color' => 'adherents-color',
         ]);
     }
 
     #[Route('/admin/adherents/new', name: 'admin_adherents_new')]
 
-    public function newAdherent(Request $request, EntityManagerInterface $manager): Response
-     {
-         $adherent = new Adherent();
-         
-         $form = $this->createForm(AdhesionFormType::class, $adherent);
+    public function newAdherent(
+        Request $request,
+        EntityManagerInterface $manager
+    ): Response {
+        $adherent = new Adherent();
 
-         $form->handleRequest($request);
+        $form = $this->createForm(AdhesionFormType::class, $adherent);
 
-         $submitted = $form->isSubmitted() ? "was-validated" : "";
+        $form->handleRequest($request);
+
+        $submitted = $form->isSubmitted() ? 'was-validated' : '';
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $adherent->setCompteActif(true);
             $manager->persist($adherent);
             $manager->flush();
- 
-    
-    $biblio = $request->request->get('biblio');
 
-    if($biblio == "oui") {
-        return $this->redirectToRoute('adherents_new_biblio', [
-        'id' => $adherent->getId(),
-         ]);
-    } elseif($biblio == "non") {
-        
-        $this->addFlash('success', "Le nouvel adhérent {$adherent->getNomprenom()} a bien été créé");
-    }
-          
-         }         
+            $biblio = $request->request->get('biblio');
+
+            if ($biblio == 'oui') {
+                $this->addFlash(
+                    'success',
+                    "Le nouvel adhérent {$adherent->getNomprenom()} a bien été créé"
+                );
+                return $this->redirectToRoute('adherents_new_biblio', [
+                    'id' => $adherent->getId(),
+                ]);
+            } elseif ($biblio == 'non') {
+                $this->addFlash(
+                    'success',
+                    "Le nouvel adhérent {$adherent->getNomprenom()} a bien été créé"
+                );
+            }
+        }
         return $this->render('admin/forms/adherents_new.html.twig', [
             'controller_name' => 'AdherentsListController',
             'adherent' => $adherent,
@@ -120,38 +114,47 @@ class AdherentsListController extends AbstractController
             'return_path' => 'menu-adherent',
             'color' => 'adherents-color',
             'form' => $form->createView(),
-            'submitted' => $submitted
-         ]);
+            'submitted' => $submitted,
+        ]);
     }
 
     #[Route('/admin/adherents/new/biblio/{id}', name: 'adherents_new_biblio')]
 
-    public function newBiblio($id, AdherentRepository $adherentRepository, Request $request, EntityManagerInterface $manager,  UserPasswordEncoderInterface $encoder): Response
-     {
+    public function newBiblio(
+        $id,
+        AdherentRepository $adherentRepository,
+        Request $request,
+        EntityManagerInterface $manager,
+        UserPasswordEncoderInterface $encoder
+    ): Response {
         $adherent = $adherentRepository->findOneById($id);
-         $biblio = new AdhesionBibliotheque();
-         
-         $form = $this->createForm(BiblioFormType::class, $biblio);
+        $biblio = new AdhesionBibliotheque();
 
-         $form->handleRequest($request);
+        $form = $this->createForm(BiblioFormType::class, $biblio);
 
-         $submitted = $form->isSubmitted() ? "was-validated" : "";
+        $form->handleRequest($request);
 
+        $submitted = $form->isSubmitted() ? 'was-validated' : '';
 
-        if ($form->isSubmitted()  && $form->isValid()) {
-             $biblio->setAdherent($adherent);
-            $biblio->setSatutInscription("valide");
-           $hash = $encoder->encodePassword($biblio, $adherent->getNom() . date_format( $adherent->getDateNaissance(), "Y"));
-           
-           $biblio->setMotDePasse($hash);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $biblio->setAdherent($adherent);
+            $biblio->setSatutInscription('valide');
+            $hash = $encoder->encodePassword(
+                $biblio,
+                $adherent->getNom() .
+                    date_format($adherent->getDateNaissance(), 'Y')
+            );
+
+            $biblio->setMotDePasse($hash);
             $manager->persist($biblio);
             $manager->flush();
 
-    
-        $this->addFlash('success', "L'adhérent {$biblio->getAdherent()->getPrenom()} {$biblio->getAdherent()->getNom()}  est bien inscrit à la bibliothèque et son adhésion est bien prise en compte");
-    
-         }
-        
+            $this->addFlash(
+                'success',
+                "L'adhérent {$biblio->getAdherent()->getPrenom()} {$biblio->getAdherent()->getNom()}  est bien inscrit à la bibliothèque et son adhésion est bien prise en compte"
+            );
+        }
+
         return $this->render('admin/forms/adherents_biblio.html.twig', [
             'controller_name' => 'AdherentsListController',
             'biblio' => $biblio,
@@ -161,7 +164,7 @@ class AdherentsListController extends AbstractController
             'return_path' => 'menu-adherent',
             'color' => 'adherents-color',
             'submitted' => $submitted,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 }

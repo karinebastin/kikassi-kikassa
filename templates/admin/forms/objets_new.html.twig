@@ -1,0 +1,204 @@
+{% extends './admin/base-admin.html.twig' %}
+{% import './admin/_macros.html.twig' as macros %}
+
+
+{% set envoi = "<div>" ~ form_widget(form.save) ~ "</div>" %}
+{% set continue = "" %}
+{% set arrowClass = '' %}
+{% set footerPadding = '' %}
+
+{% block title %}Objets
+{% endblock %}
+
+
+{% block body %}
+	<body class={{color}}>
+		<div class="main-title font-raleway container">
+			<h1 class="text-center font-raleway mb-5">Ajout d'un Nouvel Objet à la Bibliothèque</h1>
+
+			{% for label, messages in app.flashes %}
+				<div class="container text-center ">
+					<div class="alert alert-{{ label }}">
+						{% for message in messages %}
+							<p>{{message | raw }}</p>
+						{% endfor %}
+					</div>
+				</div>
+			{% endfor %}
+
+
+			<div class="container">
+				{% set formErrors = form.vars.errors.form.getErrors(true) %}
+				{% if formErrors|length %}
+					<ul class="text-center list-group mb-1">
+						<li class="list-group-item list-group-item-danger my-1">Formulaire non valide :</li>
+						{% for error in formErrors %}
+							<li class="list-group-item list-group-item-danger my-1">{{ error.message }}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+			{{ form_start(form, {'attr': {'autocomplete' : 'off', 'novalidate' : true, 'class' : submitted ? submitted : "" ,  'enctype':'multipart/form-data'}})}}
+			<div class="container">
+
+
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.denomination ,  {'attr': {'class': 'form-control select-height'}}) }}
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.marque, {'attr': {'class': 'form-control select-height'}}) }}
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.description, {'attr': {'class': 'form-control p-4'}}) }}
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.photos, {'attr': {'class': 'form-control p-4'}}) }}
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.lieu, {'attr': {'class': 'form-control select-height'}}) }}
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.souscategorie, {'attr': {'class': 'form-control select-height'}}) }}
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col">
+						<div class="form-group proprio-select">
+							<select type="radio" name="proprio" class="proprio form-control select-height" required>
+								<option value="">L'objet appartient à</option>
+								<option value="assoc">L'Association</option>
+								<option value="adherent">Un adhérent</option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row">
+					{% include '/admin/forms/search.html.twig' %}
+
+					<div class="searchResult d-block">
+						<h3>Sélectionnez un adhérent :</h3>
+						<table class="table admin-table-objets tb-design table-bordered">
+							<thead>
+								<tr class="text-center">
+									<th scope="col">Nom</th>
+									<th scope="col">Prénom</th>
+									<th scope="col">Téléphone</th>
+									<th scope="col">Statut Fourmi</th>
+									<th scope="col">Selection</th>
+								</tr>
+							</thead>
+							<tbody>
+								{{dump(adherents)}}
+
+								{% if adherents is defined %}
+									{% for adherent in adherents %}
+
+										<td>
+											{{adherent.nom}}
+										</td>
+										<td>
+											{{adherent.prenom}}
+										</td>
+										<td>
+											{{adherent.telephone}}
+										</td>
+										<td>
+											{% if adherent.adhesionbibliotheque %}
+												{{adherent.adhesionbibliotheque.categoriefourmi}}
+											{% else %}
+												/
+											</td>
+										{% endif %}
+										<td>
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value={{adherent.id}}>
+
+											</div>
+										</td>
+									{% endfor %}
+								{% endif %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.observation, {'attr': {'class': 'form-control select-height'}}) }}
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.catalogue, {'attr': {'class': 'form-control select-height'}}) }}
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.valeur_achat, {'attr': {'class': 'form-control select-height'}}) }}
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.coef_usure, {'attr': {'class': 'form-control select-height'}}) }}
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.pourcent_calcul, {'attr': {'class': 'form-control select-height'}}) }}
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.vitrine, {'attr': {'class': 'form-control select-height'}}) }}
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+
+			{{macros.footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding)}}
+			{{ form_end(form)}}
+
+
+		</div>
+	</body>
+{% endblock %}
+{% block footer %}{% endblock %}

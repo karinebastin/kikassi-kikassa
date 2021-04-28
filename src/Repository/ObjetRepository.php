@@ -19,10 +19,19 @@ class ObjetRepository extends ServiceEntityRepository
         parent::__construct($registry, Objet::class);
     }
 
-    // /**
-    //  * @return Objet[] Returns an array of Objet objects
-    //  */
-    /*
+    /**
+     * @return Objet[] Returns an array of Objet objects
+     */
+  
+
+  public function orderByField($field, $order)
+      {
+          return $this->createQueryBuilder('a')
+                      ->orderBy('a.' . $field, $order)
+                      ->getQuery()
+                      ->getResult();
+      }
+  /*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('o')

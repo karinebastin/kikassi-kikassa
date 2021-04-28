@@ -19,27 +19,26 @@ class AdherentRepository extends ServiceEntityRepository
         parent::__construct($registry, Adherent::class);
     }
 
-     /**
-      * @return Adherent[] Returns an array of Adherent objects
-      */
-    
-      public function orderByBiblioField($field, $order)
-      {
-          return $this->createQueryBuilder('a')
-                      ->join('a.adhesionBibliotheque', 'biblio')
-                      ->orderBy('biblio.' . $field, $order)
-                      ->getQuery()
-                      ->getResult();
-      }
+    /**
+     * @return Adherent[] Returns an array of Adherent objects
+     */
 
-      public function orderByField($field, $order)
-      {
-          return $this->createQueryBuilder('a')
-                      ->orderBy('a.' . $field, $order)
-                      ->getQuery()
-                      ->getResult();
-      }
-    
+    public function orderByBiblioField($field, $order)
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.adhesionBibliotheque', 'biblio')
+            ->orderBy('biblio.' . $field, $order)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function orderByField($field, $order)
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.' . $field, $order)
+            ->getQuery()
+            ->getResult();
+    }
 
     /*
     public function findOneBySomeField($value): ?Adherent

@@ -1,0 +1,110 @@
+<?php
+
+namespace App\Form;
+
+use App\Entity\Catalogue;
+use App\Entity\Objet;
+use App\Entity\Categorie;
+use App\Entity\Lieu;
+use App\Entity\SousCategorie;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
+class ObjetFormType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('denomination', TextType::class, [
+                'label' => '',
+                'attr' => ['placeholder' => 'Dénomination de l\'objet'],
+            ])
+            ->add('marque', TextType::class, [
+                'label' => '',
+                'attr' => ['placeholder' => 'Marque de l\'objet'],
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => '',
+                'attr' => ['placeholder' => 'Description de l\'objet'],
+            ])
+            ->add('photos', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => '',
+                'attr' => ['placeholder' => 'photos de l\'objet'],
+                'multiple' => true
+            ])
+            // ->add('categorie', EntityType::class, [
+            //     'class' => Categorie::class,
+            //     'choice_label' => 'categorie',
+            //     'attr' => ['placeholder' => 'Catégorie'],
+            // ])
+            ->add('souscategorie', EntityType::class, [
+                'placeholder' => 'Choisir une sous-catégorie',
+                'class' => SousCategorie::class,
+                'choice_label' => 'nom_ss_categorie'
+            ])
+            ->add('valeur_achat', IntegerType::class, [
+                'label' => '',
+                'attr' => ['placeholder' => 'Valeur du neuf en €'],
+            ])
+            ->add('coef_usure', ChoiceType::class, [
+                'placeholder' =>  'Coefficient d\'usure',
+                'choices' => [
+                '1' => 1,
+                '2' => 2,
+                '3' => 3,
+                '4' => 4,
+                '5' => 5,
+                ]])
+            ->add('pourcent_calcul', ChoiceType::class, [
+                'placeholder' =>  '% de calcul',
+                'choices' => [
+                '1 %' => 1.00,
+                '1,5 %' => 1.50,
+                '2 %' => 2.00
+                ]])
+            ->add('vitrine', ChoiceType::class, [
+                'placeholder' =>  'Objet mis en vitrine',
+                'choices' => [
+                'Oui' => true,
+                'Non' => false
+                ]])
+                ->add('lieu', EntityType::class, [
+                    'placeholder' => 'Choisir un lieu de stockage',
+                    'class' => Lieu::class,
+                    'choice_label' => 'nom',
+                ])
+                ->add('catalogue', EntityType::class, [
+                    'placeholder' => 'Choisir un catalogue',
+                    'class' => Catalogue::class,
+                    'choice_label' => 'nom_catalogue',
+                ])
+
+                ->add('observation', TextType::class, [
+                    'label' => '',
+                    'attr' => ['placeholder' => 'Observations'],
+                    
+                ])
+            
+            ->add('save', SubmitType::class,[ 'label'=> '<div class="btn-text p-1 px-2">Ajouter <br> le nouvel objet</div>', 'label_html' => true, 'attr' => ['class' => 'envoi-btn font-raleway'] ])
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Objet::class,
+        ]);
+    }
+}

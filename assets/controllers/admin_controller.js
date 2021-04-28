@@ -113,8 +113,13 @@ export default class extends Controller {
   })
   
       
-   
+      $('.proprio-select select').on('change', function () {
+        if ($('.proprio-select select option:selected').val() == "adherent") {
+          replaceClass("search-item", 'd-none', 'd-block')
      
+        }
+      })
+
       
     }
    

@@ -16,7 +16,7 @@ class AdminObjetMenuController extends AbstractController
             'section' => 'section-objets',
             'color' => 'objets-color',
             'return_path' => 'admin-main-menu',
-            'items' => [['text' => "AJOUTER UN NOUVEL OBJET", 'icon' => 'new', 'link' => 'test'  ], ['text' => "MODIFIER UN OBJET", 'icon' => 'pen', 'link' => 'test'  ],['text' => "AJOUTER / MODIFIER UN CATALOGUE", 'icon' => 'catalog', 'link' => 'test'  ], ['text' => 'LES CATÉGORIES / SOUS-CATÉGORIES', 'icon' => 'categories', 'link' => 'test'  ], ['text' => 'AFFICHER LES OBJETS', 'icon' => 'show', 'link' => 'admin_objets_list'  ] ]
+            'items' => [['text' => "AJOUTER UN NOUVEL OBJET", 'icon' => 'new', 'link' => 'admin_objets_new'  ], ['text' => "MODIFIER UN OBJET", 'icon' => 'pen', 'link' => 'test'  ],['text' => "AJOUTER / MODIFIER UN CATALOGUE", 'icon' => 'catalog', 'link' => 'test'  ], ['text' => 'LES CATÉGORIES / SOUS-CATÉGORIES', 'icon' => 'categories', 'link' => 'test'  ], ['text' => 'AFFICHER LES OBJETS', 'icon' => 'show', 'link' => 'admin_objets_list'  ] ]
         ]);
     }
 }
