@@ -3,6 +3,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
+import bootstrap from "@fullcalendar/bootstrap";
 
 document.addEventListener("DOMContentLoaded", () => {
   var calendarEl = document.getElementById("calendar");
@@ -38,6 +39,14 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       },
     ],
+    // events: [
+    //   {
+    //     groupId: "association ouverte", // recurrent events in this group move together
+    //     daysOfWeek: ["3", "6"],
+    //     display: "background",
+    //     color: "#5c995e",
+    //   },
+    // ],
     timeZone: "UTC",
   });
   calendar.render();

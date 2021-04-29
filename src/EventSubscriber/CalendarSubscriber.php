@@ -2,7 +2,9 @@
 
 namespace App\EventSubscriber;
 
+
 use App\Repository\CalendrierRepository;
+// use App\Repository\HoraireLieuRepository;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
 use CalendarBundle\Event\CalendarEvent;
@@ -11,13 +13,16 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CalendarSubscriber implements EventSubscriberInterface
 {
+  // private $ouvertureRepository;
   private $bookingRepository;
   private $router;
 
   public function __construct(
+    // HoraireLieuRepository $ouvertureRepository,
     CalendrierRepository $bookingRepository,
     UrlGeneratorInterface $router
   ) {
+    // $this->ouverture = $ouvertureRepository;
     $this->bookingRepository = $bookingRepository;
     $this->router = $router;
   }
@@ -39,11 +44,7 @@ class CalendarSubscriber implements EventSubscriberInterface
     // exemple 
     // You may want to make a custom query from your database to fill the calendar
 
-    // $calendar->addEvent(new Event(
-    //   'Event 1',
-    //   new \DateTime('Tuesday this week'),
-    //   new \DateTime('Wednesdays this week')
-    // ));
+
 
     // // If the end date is null or not defined, it creates a all day event
     // $calendar->addEvent(new Event(
@@ -106,6 +107,8 @@ class CalendarSubscriber implements EventSubscriberInterface
       $bookingEvent->setOptions([
         'backgroundColor' => 'red',
         'borderColor' => 'red',
+        // 'display' => 'background',
+        // 'color' => 'red',
       ]);
       $bookingEvent->addOption(
         'url',
@@ -117,5 +120,54 @@ class CalendarSubscriber implements EventSubscriberInterface
       // finally, add the event to the CalendarEvent to fill the calendar
       $calendar->addEvent($bookingEvent);
     }
+
+    // essai background sans bdd
+    $calendar->addEvent(new Event(
+      'Event 1',
+      new \DateTime('Wednesday this week'),
+      new \DateTime('Saturday this week'),
+      [
+        // 'display' => 'background',
+        'daysOfWeek' => ["4"],
+        'backgroundColor' => '#5c995e',
+      ]
+    ));
+
+    // essai background bug
+    // $ouvertures = $this->ouvertureRepository
+    //   ->createQueryBuilder('ouverture')
+    //   ->where('ouverture.jour')
+    //   ->setParameter('jour', $start)
+    //   // ->setParameter('end', $end->format('Y-m-d'))
+    //   ->getQuery()
+    //   ->getResult();
+    // foreach ($ouvertures as $ouverture) {
+    //   $dayWeek = [];
+    //   switch ($start) {
+    //     case "lundi":
+    //       $dayWeek = 1;
+    //       break;
+    //     case "mardi":
+    //       $dayWeek = 2;
+    //       break;
+    //     case "mercredi":
+    //       $dayWeek = 3;
+    //       break;
+    //     case "jeudi":
+    //       $dayWeek = 4;
+    //       break;
+    //     case "vendredi":
+    //       $dayWeek = 5;
+    //       break;
+    //     case "samedi":
+    //       $dayWeek = 6;
+    //       break;
+    //     case "dimanche":
+    //       $dayWeek = 0;
+    //       break;
+    //   }
+
+
+
   }
 }
