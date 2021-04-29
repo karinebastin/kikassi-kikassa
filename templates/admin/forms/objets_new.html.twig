@@ -4,8 +4,8 @@
 
 {% set envoi = "<div>" ~ form_widget(form.save) ~ "</div>" %}
 {% set continue = "" %}
-{% set arrowClass = '' %}
-{% set footerPadding = '' %}
+{% set arrowClass = 'd-none' %}
+{% set footerPadding = 'm-padding' %}
 
 {% block title %}Objets
 {% endblock %}
@@ -15,7 +15,6 @@
 	<body class={{color}}>
 		<div class="main-title font-raleway container">
 			<h1 class="text-center font-raleway mb-5">Ajout d'un Nouvel Objet à la Bibliothèque</h1>
-
 			{% for label, messages in app.flashes %}
 				<div class="container text-center ">
 					<div class="alert alert-{{ label }}">
@@ -25,8 +24,6 @@
 					</div>
 				</div>
 			{% endfor %}
-
-
 			<div class="container">
 				{% set formErrors = form.vars.errors.form.getErrors(true) %}
 				{% if formErrors|length %}
@@ -38,9 +35,97 @@
 					</ul>
 				{% endif %}
 			</div>
-			{{ form_start(form, {'attr': {'autocomplete' : 'off', 'novalidate' : true, 'class' : submitted ? submitted : "" ,  'enctype':'multipart/form-data'}})}}
-			<div class="container">
 
+			<div class="col">
+				<div class="row">
+					<div class="col">
+						<div class="form-group proprio-select">
+							<select type="radio" name="proprio" class="proprio form-control select-height" required>
+								<option value="">L'objet appartient à</option>
+								<option value="assoc">L'Association</option>
+								<option value="adherent">Un adhérent</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				{{form_start(formSearch)}}
+				<div class="form-inline search-item font-raleway">
+					<label for="adherent">Rechercher un adhérent avec un nom ou prénom
+					</label>
+					{{ form_widget(formSearch.nom, {'attr': {'class': 'form-control select-height'}}) }}
+					<div>{{form_widget(formSearch.search)}}</div>
+				</div>
+				<div></div>
+				<div class="row font-raleway">
+					<div class="col">
+						<div class="searchResult mt-3 mx-4">
+							<label class="">Sélectionnez un adhérent :
+							</label>
+							<table class="table admin-table-objets tb-design table-bordered font-raleway">
+								<thead>
+									<tr class="text-center">
+										<th scope="col">Nom</th>
+										<th scope="col">Prénom</th>
+										<th scope="col">Téléphone</th>
+										<th scope="col">Statut Fourmi</th>
+										<th scope="col">Selection</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% if adherents is defined %}
+										{% for adherent in adherents %}
+											<tr>
+												<td class="text-center">
+													{{adherent.nom|capitalize}}
+												</td>
+												<td class="text-center">
+													{{adherent.prenom|capitalize}}
+												</td>
+												<td class="text-center">
+													{{adherent.telephone}}
+												</td>
+												<td class="text-center">
+													{% if adherent.adhesionbibliotheque %}
+														{{adherent.adhesionbibliotheque.categoriefourmi|capitalize}}
+													{% else %}
+														/
+													{% endif %}
+												</td>
+												<td class="text-center">
+													<div class="form-check">
+														<input name="adherent-select" class="text-center form-check-input" type="checkbox" value={{adherent.id}}>
+													</div>
+												</td>
+											</tr>
+										{% endfor %}
+									{% endif %}
+								</tbody>
+							</table>
+							<div class="d-flex justify-content-between align-items-center mb-3">
+
+								<div>
+									{% if adh is not null %}
+										<div class="row font-raleway form-control select-height width-auto">
+											<p class="p-2">L'objet appartient à :
+												{{ adh.nom}}
+												{{ adh.prenom}}</p>
+										</div>
+									{% endif %}
+								</div>
+								<div>{{form_widget(formSearch.send)}}</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				{{form_end(formSearch)}}
+			</div>
+			{{ form_start(form, {'attr': {'autocomplete' : 'off', 'novalidate' : true, 'class' : submitted ? submitted : "" ,  'enctype':'multipart/form-data' }})}}
+			{% if adh is not null %}
+				<input hidden type="text" name='adherent' value="{{adh.id}}"/>
+			{% endif %}
+
+			<div class="container">
 
 				<div class="row">
 					<div class="col">
@@ -54,8 +139,6 @@
 						</div>
 					</div>
 				</div>
-
-
 				<div class="row">
 					<div class="col">
 						<div class="form-group">
@@ -70,8 +153,6 @@
 						</div>
 					</div>
 				</div>
-
-
 				<div class="row">
 					<div class="col">
 						<div class="form-group">
@@ -85,68 +166,9 @@
 					</div>
 				</div>
 
+				<div class="container">
+					<div class="row"></div>
 
-				<div class="row">
-					<div class="col">
-						<div class="form-group proprio-select">
-							<select type="radio" name="proprio" class="proprio form-control select-height" required>
-								<option value="">L'objet appartient à</option>
-								<option value="assoc">L'Association</option>
-								<option value="adherent">Un adhérent</option>
-							</select>
-						</div>
-					</div>
-				</div>
-
-
-				<div class="row">
-					{% include '/admin/forms/search.html.twig' %}
-
-					<div class="searchResult d-block">
-						<h3>Sélectionnez un adhérent :</h3>
-						<table class="table admin-table-objets tb-design table-bordered">
-							<thead>
-								<tr class="text-center">
-									<th scope="col">Nom</th>
-									<th scope="col">Prénom</th>
-									<th scope="col">Téléphone</th>
-									<th scope="col">Statut Fourmi</th>
-									<th scope="col">Selection</th>
-								</tr>
-							</thead>
-							<tbody>
-								{{dump(adherents)}}
-
-								{% if adherents is defined %}
-									{% for adherent in adherents %}
-
-										<td>
-											{{adherent.nom}}
-										</td>
-										<td>
-											{{adherent.prenom}}
-										</td>
-										<td>
-											{{adherent.telephone}}
-										</td>
-										<td>
-											{% if adherent.adhesionbibliotheque %}
-												{{adherent.adhesionbibliotheque.categoriefourmi}}
-											{% else %}
-												/
-											</td>
-										{% endif %}
-										<td>
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value={{adherent.id}}>
-
-											</div>
-										</td>
-									{% endfor %}
-								{% endif %}
-							</tbody>
-						</table>
-					</div>
 				</div>
 
 
@@ -191,14 +213,10 @@
 					</div>
 				</div>
 
-
+				{{macros.footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding)}}
 			</div>
-
-			{{macros.footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding)}}
-			{{ form_end(form)}}
-
-
 		</div>
+		{{ form_end(form)}}
 	</body>
 {% endblock %}
 {% block footer %}{% endblock %}

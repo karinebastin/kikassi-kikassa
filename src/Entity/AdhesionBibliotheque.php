@@ -40,7 +40,7 @@ class AdhesionBibliotheque implements UserInterface
      * @ORM\Column(type="boolean")
      */
 
-    #[Assert\NotBlank(message:"Veuillez indiquer si un justificatif d\identité a été fourni")]
+    #[Assert\NotNull(message:"Veuillez indiquer si un justificatif d\identité a été fourni")]
 
     private $justif_identite;
 
@@ -48,7 +48,7 @@ class AdhesionBibliotheque implements UserInterface
      * @ORM\Column(type="boolean")
      */
 
-    #[Assert\NotBlank(message:"Veuillez indiquer si un justificatif de domicile a été fourni")]
+    #[Assert\NotNull(message:"Veuillez indiquer si un justificatif de domicile a été fourni")]
     private $justif_domicile;
 
     /**
@@ -74,7 +74,7 @@ class AdhesionBibliotheque implements UserInterface
     #[Assert\NotBlank(message:"Veuillez choisir une catégorie de fourmi")]
     private $categorie_fourmi;
 
-      /**
+    /**
      *
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -158,8 +158,9 @@ class AdhesionBibliotheque implements UserInterface
         return $this->date_inscription;
     }
 
-    public function setDateInscription(\DateTimeInterface $date_inscription): self
-    {
+    public function setDateInscription(
+        \DateTimeInterface $date_inscription
+    ): self {
         $this->date_inscription = $date_inscription;
 
         return $this;

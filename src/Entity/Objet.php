@@ -66,12 +66,10 @@ class Objet
      */
     private $date_creation;
 
-
     /**
      * @ORM\OneToMany(targetEntity=Emprunt::class, mappedBy="objet", orphanRemoval=true)
      */
     private $emprunts;
-
 
     /**
      * @ORM\ManyToOne(targetEntity=SousCategorie::class, inversedBy="objets")
@@ -125,7 +123,11 @@ class Objet
     {
         if (empty($this->slug)) {
             $slugify = new Slugify();
-            $this->slug = $slugify->slugify($this->getMarque().time().hash('sha1', $this->getDenomination()));
+            $this->slug = $slugify->slugify(
+                $this->getMarque() .
+                    time() .
+                    hash('sha1', $this->getDenomination())
+            );
         }
     }
 
@@ -147,7 +149,6 @@ class Objet
     {
         $this->emprunts = new ArrayCollection();
         $this->photos = new ArrayCollection();
-      
     }
 
     public function getId(): ?int
@@ -263,7 +264,6 @@ class Objet
         return $this;
     }
 
-
     /**
      * @return Collection|Emprunt[]
      */
@@ -293,9 +293,6 @@ class Objet
 
         return $this;
     }
-
-  
-
 
     public function getSousCategorie(): ?SousCategorie
     {
@@ -404,11 +401,11 @@ class Objet
         return $this->date_sortie_stock;
     }
 
-    public function setDateSortieStock(?\DateTimeInterface $date_sortie_stock): self
-    {
+    public function setDateSortieStock(
+        ?\DateTimeInterface $date_sortie_stock
+    ): self {
         $this->date_sortie_stock = $date_sortie_stock;
 
         return $this;
     }
-
 }

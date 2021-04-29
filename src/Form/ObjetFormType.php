@@ -2,10 +2,11 @@
 
 namespace App\Form;
 
-use App\Entity\Catalogue;
-use App\Entity\Objet;
-use App\Entity\Categorie;
 use App\Entity\Lieu;
+use App\Entity\Objet;
+use App\Entity\Adherent;
+use App\Entity\Catalogue;
+use App\Entity\Categorie;
 use App\Entity\SousCategorie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -42,7 +44,7 @@ class ObjetFormType extends AbstractType
                 'required' => false,
                 'label' => '',
                 'attr' => ['placeholder' => 'photos de l\'objet'],
-                'multiple' => true
+                'multiple' => true,
             ])
             // ->add('categorie', EntityType::class, [
             //     'class' => Categorie::class,
@@ -52,53 +54,59 @@ class ObjetFormType extends AbstractType
             ->add('souscategorie', EntityType::class, [
                 'placeholder' => 'Choisir une sous-catégorie',
                 'class' => SousCategorie::class,
-                'choice_label' => 'nom_ss_categorie'
+                'choice_label' => 'nom_ss_categorie',
             ])
             ->add('valeur_achat', IntegerType::class, [
                 'label' => '',
                 'attr' => ['placeholder' => 'Valeur du neuf en €'],
             ])
             ->add('coef_usure', ChoiceType::class, [
-                'placeholder' =>  'Coefficient d\'usure',
+                'placeholder' => 'Coefficient d\'usure',
                 'choices' => [
-                '1' => 1,
-                '2' => 2,
-                '3' => 3,
-                '4' => 4,
-                '5' => 5,
-                ]])
+                    '1' => 1,
+                    '2' => 2,
+                    '3' => 3,
+                    '4' => 4,
+                    '5' => 5,
+                ],
+            ])
             ->add('pourcent_calcul', ChoiceType::class, [
-                'placeholder' =>  '% de calcul',
+                'placeholder' => '% de calcul',
                 'choices' => [
-                '1 %' => 1.00,
-                '1,5 %' => 1.50,
-                '2 %' => 2.00
-                ]])
+                    '1 %' => 1.0,
+                    '1,5 %' => 1.5,
+                    '2 %' => 2.0,
+                ],
+            ])
             ->add('vitrine', ChoiceType::class, [
-                'placeholder' =>  'Objet mis en vitrine',
+                'placeholder' => 'Objet mis en vitrine',
                 'choices' => [
-                'Oui' => true,
-                'Non' => false
-                ]])
-                ->add('lieu', EntityType::class, [
-                    'placeholder' => 'Choisir un lieu de stockage',
-                    'class' => Lieu::class,
-                    'choice_label' => 'nom',
-                ])
-                ->add('catalogue', EntityType::class, [
-                    'placeholder' => 'Choisir un catalogue',
-                    'class' => Catalogue::class,
-                    'choice_label' => 'nom_catalogue',
-                ])
+                    'Oui' => true,
+                    'Non' => false,
+                ],
+            ])
+            ->add('lieu', EntityType::class, [
+                'placeholder' => 'Choisir un lieu de stockage',
+                'class' => Lieu::class,
+                'choice_label' => 'nom',
+            ])
+            ->add('catalogue', EntityType::class, [
+                'placeholder' => 'Choisir un catalogue',
+                'class' => Catalogue::class,
+                'choice_label' => 'nom_catalogue',
+            ])
 
-                ->add('observation', TextType::class, [
-                    'label' => '',
-                    'attr' => ['placeholder' => 'Observations'],
-                    
-                ])
-            
-            ->add('save', SubmitType::class,[ 'label'=> '<div class="btn-text p-1 px-2">Ajouter <br> le nouvel objet</div>', 'label_html' => true, 'attr' => ['class' => 'envoi-btn font-raleway'] ])
-        ;
+            ->add('observation', TextType::class, [
+                'label' => '',
+                'attr' => ['placeholder' => 'Observations'],
+            ])
+
+            ->add('save', SubmitType::class, [
+                'label' =>
+                    '<div class="btn-text p-1 px-2">Ajouter <br> le nouvel objet</div>',
+                'label_html' => true,
+                'attr' => ['class' => 'envoi-btn font-raleway'],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

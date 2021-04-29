@@ -2,21 +2,18 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Adherent;
 use App\Entity\Objet;
 use App\Entity\Photo;
 use App\Form\ObjetFormType;
-use App\Repository\AdherentRepository;
+use App\Form\SearchFormType;
 use App\Repository\ObjetRepository;
+use App\Repository\AdherentRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ObjetsListController extends AbstractController
@@ -80,48 +77,46 @@ class ObjetsListController extends AbstractController
         EntityManagerInterface $manager,
         AdherentRepository $AdherentRepository
     ): Response {
-        $formSearch = $this->createFormBuilder()
-            ->add('nom', TextType::class)
-            ->add('search', SubmitType::class, [
-                'label' => '<div class="btn-text p-1 px-2">Ok</div>',
-                'label_html' => true,
-                'attr' => ['class' => 'envoi-btn font-raleway'],
-            ])
-            ->getForm();
-
-        $formSearch->handleRequest($request);
-        $adherents = '';
-
-        if ($formSearch->isSubmitted() && $formSearch->isValid()) {
-            $data = $formSearch->getData();
-            if (
-                $AdherentRepository->findBy([
-                    'nom' => $data,
-                ]) != null
-            ) {
-                $adherents = $AdherentRepository->findBy([
-                    'nom' => $data,
-                ]);
-            } elseif (
-                $AdherentRepository->findBy([
-                    'prenom' => $data,
-                ]) != null
-            ) {
-                $adherents = $AdherentRepository->findBy([
-                    'prenom' => $data,
-                ]);
-            } else {
-                $adherents = 'non trouvé';
-            }
-
-            dump($adherents);
-        }
-
         $objet = new Objet();
+        $adherents = '';
+        $adh = null;
+
+        $formSearch = $this->createForm(SearchFormType::class);
 
         $form = $this->createForm(ObjetFormType::class, $objet);
 
+        $formSearch->handleRequest($request);
+
+        /** @var Form $formSearch */
+        $button = $formSearch->getClickedButton();
+
+        if (
+            $button &&
+            $button->getName() == 'search' &&
+            $formSearch->isSubmitted() &&
+            $formSearch->isValid()
+        ) {
+            $data = $formSearch->getData();
+            $adherents = $AdherentRepository->findByNomPrenom($data['nom']);
+        }
+
+        if (
+            $button &&
+            $button->getName() == 'send' &&
+            $formSearch->isSubmitted() &&
+            $formSearch->isValid()
+        ) {
+            $adh = $AdherentRepository->findOneById(
+                $request->request->get('adherent-select')
+            );
+        }
+
         $form->handleRequest($request);
+
+        $adher = $AdherentRepository->findOneById(
+            $request->request->get('adherent')
+        );
+        $objet->setAdherent($adher);
 
         $submitted = $form->isSubmitted() ? 'was-validated' : '';
 
@@ -149,7 +144,7 @@ class ObjetsListController extends AbstractController
             }
 
             $objet->setStatut('Disponible');
-
+            dump($objet);
             $manager->persist($objet);
 
             $manager->flush();
@@ -167,7 +162,7 @@ class ObjetsListController extends AbstractController
 
         return $this->render('admin/forms/objets_new.html.twig', [
             'controller_name' => 'ObjetsListController',
-            'objet' => $objet,
+
             'adherents' => $adherents,
             'arrow' => true,
             'section' => 'section-objets',
@@ -176,26 +171,7 @@ class ObjetsListController extends AbstractController
             'form' => $form->createView(),
             'formSearch' => $formSearch->createView(),
             'submitted' => $submitted,
+            'adh' => $adh,
         ]);
     }
-
-    // public function contact(Request $request): Response
-    //     {
-    //         $defaultData = ['message' => 'Type your message here'];
-    //         $form = $this->createFormBuilder($defaultData)
-    //             ->add('name', TextType::class)
-    //             ->add('email', EmailType::class)
-    //             ->add('message', TextareaType::class)
-    //             ->add('send', SubmitType::class)
-    //             ->getForm();
-
-    //         $form->handleRequest($request);
-
-    //         if ($form->isSubmitted() && $form->isValid()) {
-    //             // data is an array with "name", "email", and "message" keys
-    //             $data = $form->getData();
-    //         }
-
-    //         // ... render the form
-    //     }
 }

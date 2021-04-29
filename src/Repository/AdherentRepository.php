@@ -40,15 +40,13 @@ class AdherentRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /*
-    public function findOneBySomeField($value): ?Adherent
+    public function findByNomPrenom($value)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
+        return $this->createQueryBuilder('o')
+            ->where('o.nom = :val')
+            ->orWhere('o.prenom = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
 }

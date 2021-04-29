@@ -22,28 +22,14 @@ class ObjetRepository extends ServiceEntityRepository
     /**
      * @return Objet[] Returns an array of Objet objects
      */
-  
 
-  public function orderByField($field, $order)
-      {
-          return $this->createQueryBuilder('a')
-                      ->orderBy('a.' . $field, $order)
-                      ->getQuery()
-                      ->getResult();
-      }
-  /*
-    public function findByExampleField($value)
+    public function orderByField($field, $order)
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.' . $field, $order)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Objet

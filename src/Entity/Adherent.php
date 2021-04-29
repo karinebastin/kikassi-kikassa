@@ -164,7 +164,7 @@ class Adherent
     private $adhesionBibliotheque;
 
     /**
-     * @ORM\OneToMany(targetEntity=Objet::class, mappedBy="adherent")
+     * @ORM\OneToMany(targetEntity=Objet::class, mappedBy="adherent", cascade={"persist"})
      */
     private $objets;
 
