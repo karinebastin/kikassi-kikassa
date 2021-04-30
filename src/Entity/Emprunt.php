@@ -8,6 +8,7 @@ use App\Repository\EmpruntRepository;
 
 /**
  * @ORM\Entity(repositoryClass=EmpruntRepository::class)
+ *  @ORM\HasLifecycleCallbacks
  */
 class Emprunt
 {
@@ -99,7 +100,11 @@ class Emprunt
     {
         if (empty($this->slug)) {
             $slugify = new Slugify();
-            $this->slug = $slugify->slugify($this->getObjet()->getDenomination().time().hash('sha1', $this->getObjet()->getDenomination()));
+            $this->slug = $slugify->slugify(
+                $this->getObjet()->getDenomination() .
+                    time() .
+                    hash('sha1', $this->getObjet()->getDenomination())
+            );
         }
     }
 
@@ -113,8 +118,9 @@ class Emprunt
         return $this->date_reservation;
     }
 
-    public function setDateReservation(?\DateTimeInterface $date_reservation): self
-    {
+    public function setDateReservation(
+        ?\DateTimeInterface $date_reservation
+    ): self {
         $this->date_reservation = $date_reservation;
 
         return $this;
@@ -161,8 +167,9 @@ class Emprunt
         return $this->date_retour_objet;
     }
 
-    public function setDateRetourObjet(?\DateTimeInterface $date_retour_objet): self
-    {
+    public function setDateRetourObjet(
+        ?\DateTimeInterface $date_retour_objet
+    ): self {
         $this->date_retour_objet = $date_retour_objet;
 
         return $this;

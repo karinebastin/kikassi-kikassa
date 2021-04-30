@@ -10,7 +10,6 @@
 {% block title %}Objets
 {% endblock %}
 
-
 {% block body %}
 	<body class={{color}}>
 		<div class="main-title font-raleway container">
@@ -37,31 +36,19 @@
 			</div>
 
 			<div class="col">
-				<div class="row">
-					<div class="col">
-						<div class="form-group proprio-select">
-							<select type="radio" name="proprio" class="proprio form-control select-height" required>
-								<option value="">L'objet appartient à</option>
-								<option value="assoc">L'Association</option>
-								<option value="adherent">Un adhérent</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				{{form_start(formSearch)}}
+				{{form_start(formAdhSearch, {attr : {id : 'form-adh'}})}}
 				<div class="form-inline search-item font-raleway">
 					<label for="adherent">Rechercher un adhérent avec un nom ou prénom
 					</label>
-					{{ form_widget(formSearch.nom, {'attr': {'class': 'form-control select-height'}}) }}
-					<div>{{form_widget(formSearch.search)}}</div>
+					{{ form_widget(formAdhSearch.nom, {'attr': {'class': 'form-control select-height'}}) }}
+					<div>{{form_widget(formAdhSearch.search)}}</div>
 				</div>
-				<div></div>
 				<div class="row font-raleway">
 					<div class="col">
 						<div class="searchResult mt-3 mx-4">
 							<label class="">Sélectionnez un adhérent :
 							</label>
-							<table class="table admin-table-objets tb-design table-bordered font-raleway">
+							<table class="table admin-table-emprunts tb-design table-bordered font-raleway">
 								<thead>
 									<tr class="text-center">
 										<th scope="col">Nom</th>
@@ -106,113 +93,112 @@
 								<div>
 									{% if adh is not null %}
 										<div class="row font-raleway form-control select-height width-auto">
-											<p class="p-2">L'objet appartient à :
+											<p class="p-2">Adhérent sélèctionné :
 												{{ adh.nom}}
 												{{ adh.prenom}}</p>
 										</div>
 									{% endif %}
 								</div>
-								<div>{{form_widget(formSearch.send)}}</div>
+								<div>{{form_widget(formAdhSearch.send)}}</div>
 							</div>
 
 						</div>
 					</div>
 				</div>
-				{{form_end(formSearch)}}
+				{{form_end(formAdhSearch)}}
 			</div>
-			{{ form_start(form, {'attr': {'autocomplete' : 'off', 'novalidate' : true, 'class' : submitted ? submitted : "" ,  'enctype':'multipart/form-data' }})}}
-			{% if adh is not null %}
-				<input hidden type="text" name='adherent' value="{{adh.id}}"/>
-			{% endif %}
+			<div class="col">
+				{{form_start(formObjSearch)}}
+				<div class="form-inline search-item font-raleway">
+					<label for="objet">Rechercher un objet avec un nom d'objet
+					</label>
+					{{ form_widget(formObjSearch.nom, {'attr': {'class': 'form-control select-height'}}) }}
+					<div>{{form_widget(formObjSearch.search)}}</div>
 
+					{% if adh is not null %}
+						<input hidden type="text" name='adherent' value="{{adh.id}}"/>
+					{% endif %}
+				</div>
+				<div class="row font-raleway">
+					<div class="col">
+						<div class="searchResult mt-3 mx-4">
+							<label class="">Sélectionnez un objet :
+							</label>
+							<table class="table admin-table-emprunts tb-design table-bordered font-raleway">
+								<thead>
+									<tr class="text-center">
+										<th scope="col">Dénomination</th>
+										<th scope="col">Marque</th>
+										<th scope="col">Valeur du neuf</th>
+										<th scope="col">Statut</th>
+										<th scope="col">Selection</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% if objets is defined %}
+										{% for objet in objets %}
+											<tr>
+												<td class="text-center">
+													{{objet.denomination|capitalize}}
+												</td>
+												<td class="text-center">
+													{{objet.marque|capitalize}}
+												</td>
+												<td class="text-center">
+													{{objet.valeurachat}}
+												</td>
+												<td class="text-center">
+													{{objet.statut}}
+												</td>
+
+												<td class="text-center">
+													<div class="form-check">
+														<input name="objet-select" class="text-center form-check-input" type="radio" value={{objet.id}}>
+													</div>
+												</td>
+											</tr>
+										{% endfor %}
+									{% endif %}
+								</tbody>
+							</table>
+							<div class="d-flex justify-content-between align-items-center mb-3">
+								<div>
+									{% if obj is not null %}
+										<div class="row font-raleway form-control select-height width-auto">
+											<p class="p-2">Objet séléctionné :
+												{{ obj.denomination}}
+												{{ obj.marque}}</p>
+										</div>
+									{% endif %}
+								</div>
+
+								<div>{{form_widget(formObjSearch.send)}}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{{form_end(formObjSearch)}}
+			</div>
+			{{ form_start(form, {'attr': {'autocomplete' : 'off', 'novalidate' : true, 'class' : submitted ? submitted : "" }})}}
 			<div class="container">
-
 				<div class="row">
 					<div class="col">
 						<div class="form-group">
-							{{ form_widget(form.denomination ,  {'attr': {'class': 'form-control select-height'}}) }}
+							{% if adh is not null %}
+								<input hidden type="text" name='adherent' value="{{adh.id}}"/>
+							{% endif %}
+							{% if obj is not null %}
+								<input hidden type="text" name='objet' value="{{obj.id}}"/>
+							{% endif %}
+							{{ form_widget(form.date_debut ,  {'attr': {'class': 'form-control select-height'}}) }}
 						</div>
 					</div>
 					<div class="col">
 						<div class="form-group">
-							{{ form_widget(form.marque, {'attr': {'class': 'form-control select-height'}}) }}
+							{{ form_widget(form.date_fin ,  {'attr': {'class': 'form-control select-height'}}) }}
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.description, {'attr': {'class': 'form-control p-4'}}) }}
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.photos, {'attr': {'class': 'form-control p-4'}}) }}
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.lieu, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.souscategorie, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-				</div>
-
-				<div class="container">
-					<div class="row"></div>
-
-				</div>
-
-
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.observation, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.catalogue, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-				</div>
-
-
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.valeur_achat, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.coef_usure, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-				</div>
-
-
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.pourcent_calcul, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.vitrine, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-				</div>
-
 				{{macros.footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding)}}
 			</div>
 		</div>

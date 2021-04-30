@@ -16,7 +16,38 @@ class AdminEmpruntMenuController extends AbstractController
             'color' => 'emprunts-color',
             'section' => 'section-emprunts',
             'return_path' => 'admin-main-menu',
-            'items' => [['text' => "VALIDER LES RÉSERVATIONS D'OBJETS", 'icon' => 'check', 'link' => 'test'  ], ['text' => "ENREGISTRER UN DÉPART D'OBJET", 'icon' => 'leave', 'link' => 'test'  ],['text' => "ENREGISTRER UN RETOUR D'OBJET", 'icon' => 'return', 'link' => 'test'  ], ['text' => 'CRÉER UN NOUVEL EMPRUNT', 'icon' => 'basket', 'link' => 'test'  ], ['text' => 'MODIFIER / SUPPRIMER UN EMPRUNT', 'icon' => 'pen', 'link' => 'test'  ], ['text' => 'AFFICHER LES EMPRUNTS', 'icon' => 'show', 'link' => 'admin_emprunts_list'  ] ]
+            'items' => [
+                [
+                    'text' => "VALIDER LES RÉSERVATIONS D'OBJETS",
+                    'icon' => 'check',
+                    'link' => 'test',
+                ],
+                [
+                    'text' => "ENREGISTRER UN DÉPART D'OBJET",
+                    'icon' => 'leave',
+                    'link' => 'test',
+                ],
+                [
+                    'text' => "ENREGISTRER UN RETOUR D'OBJET",
+                    'icon' => 'return',
+                    'link' => 'test',
+                ],
+                [
+                    'text' => 'CRÉER UN NOUVEL EMPRUNT',
+                    'icon' => 'basket',
+                    'link' => 'admin_emprunts_new',
+                ],
+                [
+                    'text' => 'MODIFIER / SUPPRIMER UN EMPRUNT',
+                    'icon' => 'pen',
+                    'link' => 'test',
+                ],
+                [
+                    'text' => 'AFFICHER LES EMPRUNTS',
+                    'icon' => 'show',
+                    'link' => 'admin_emprunts_list',
+                ],
+            ],
         ]);
     }
 }

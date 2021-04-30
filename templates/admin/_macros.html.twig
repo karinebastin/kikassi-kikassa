@@ -54,3 +54,83 @@
 		</button>
 	</a>
 {% endmacro %}
+
+{# Macro pour l'affichage des modules de recherche #}
+
+{# variables :
+titreForm => nom formulaire
+formName => formulaire
+titreRecherche => titre
+tableHeads[] => titre des colonnes ['Nom'=> 'nom', 'Prénom' => "prenom", 'Téléphone' => 'telephone']
+searchedItems[] => entité dans laquelle on cherche
+
+ #}
+{# 
+{{form_start(formName)}}
+<div class="form-inline search-item font-raleway">
+	<label for="adherent">{{titreForm}}
+	</label>
+	{{ form_widget(formName.nom, {'attr': {'class': 'form-control select-height'}}) }}
+	<div>{{form_widget(formName.search)}}</div>
+</div>
+<div></div>
+<div class="row font-raleway">
+	<div class="col">
+		<div class="searchResult mt-3 mx-4">
+			<label class="">{{titreRecherche}}
+			</label>
+			<table class="table admin-table-objets tb-design table-bordered font-raleway">
+				<thead>
+					<tr class="text-center">
+						<th scope="col">{{tableHeads}}</th>
+
+					</tr>
+				</thead>
+				<tbody>
+					{% if searchedItems is defined %}
+						{% for item in searchedItems %}
+							<tr>
+								<td class="text-center">
+									{{item.nom|capitalize}}
+								</td>
+								<td class="text-center">
+									{{adherent.prenom|capitalize}}
+								</td>
+								<td class="text-center">
+									{{adherent.telephone}}
+								</td>
+								<td class="text-center">
+									{% if adherent.adhesionbibliotheque %}
+										{{adherent.adhesionbibliotheque.categoriefourmi|capitalize}}
+									{% else %}
+										/
+									{% endif %}
+								</td>
+								<td class="text-center">
+									<div class="form-check">
+										<input name="adherent-select" class="text-center form-check-input" type="checkbox" value={{adherent.id}}>
+									</div>
+								</td>
+							</tr>
+						{% endfor %}
+					{% endif %}
+				</tbody>
+			</table>
+			<div class="d-flex justify-content-between align-items-center mb-3">
+
+				<div>
+					{% if adh is not null %}
+						<div class="row font-raleway form-control select-height width-auto">
+							<p class="p-2">L'objet appartient à :
+								{{ adh.nom}}
+								{{ adh.prenom}}</p>
+						</div>
+					{% endif %}
+				</div>
+				<div>{{form_widget(formName.send)}}</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+{{form_end(formName)}} #}

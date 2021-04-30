@@ -144,7 +144,6 @@ class ObjetsListController extends AbstractController
             }
 
             $objet->setStatut('Disponible');
-            dump($objet);
             $manager->persist($objet);
 
             $manager->flush();
