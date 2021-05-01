@@ -1,8 +1,9 @@
 {# Macro pour l'affichage du footer avec couleur différente selon la section #}
 
 {% macro footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding) %}
-	<nav class="{{section}} vw-100 admin-footer d-flex fixed-bottom align-items-center">
-
+	<nav
+		class="{{section}} admin-footer d-flex fixed-bottom align-items-center">
+		{# vw-100 #}
 		{% if arrow %}
 			<a href="" class="prev invisible {{footerPadding}}">
 				<i class="fas fa-arrow-left fa-3x"></i>
@@ -54,6 +55,21 @@
 		</button>
 	</a>
 {% endmacro %}
+
+{# Macro pour l'affichage des messages flash #}
+
+{% macro flash_message() %}
+	{% for label, messages in app.flashes %}
+		<div class="container text-center my-5  font-raleway ">
+			<div class="alert alert-{{ label }}">
+				{% for message in messages %}
+					<p>{{message | raw }}</p>
+				{% endfor %}
+			</div>
+		</div>
+	{% endfor %}
+{% endmacro %}
+
 
 {# Macro pour l'affichage des modules de recherche #}
 

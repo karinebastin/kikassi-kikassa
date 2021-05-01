@@ -9,7 +9,7 @@
 	{% set fourmi = adBiblio.categoriefourmi %}
 	{% set depotP = adBiblio.depotpermanent ~ " €" %}
 	{% set biblio = "Oui" %}
-	{% set statutBiblio = adBiblio.satutInscription %}
+	{% set statutBiblio = "(" ~ adBiblio.satutInscription ~ ")" %}
 	{% if adBiblio.finrc %}
 		{% set finRc = "Oui" ~ " (valide jusqu'au " ~ adBiblio.finrc|date("d-m-Y") ~ ")" %}
 		{% set rcClass = adBiblio.finrc|date("Y-m-d") < "now"|date('Y-m-d') ? " text-danger font-weight-bold" : "" %}
@@ -33,7 +33,7 @@
 	{% set rcClass = "" %}
 	{% set justifDomicile = " /"  %}
 	{% set justifId = " /"  %}
-	{% set statutBiblio = " /" %}
+	{% set statutBiblio = "" %}
 	{% set depotP =  " /"  %}
 {% endif %}
 {% block title %}
@@ -48,6 +48,7 @@
 					<br>
 					{{adherent.prenom}}
 					{{adherent.nom}}</h3>
+				{{ macros.flash_message() }}
 				<div class="row font-raleway-small px-5">
 					<div class="col-6">
 						<p>
@@ -102,7 +103,7 @@
 						<p>
 							<strong>Est inscrit à la Bibliothèque des objets :</strong>
 							{{biblio}}
-							({{statutBiblio}})
+							{{statutBiblio}}
 						</p>
 						{% if adBiblio %}
 							<p>

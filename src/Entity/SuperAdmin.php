@@ -7,11 +7,15 @@ use App\Repository\SuperAdminRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=SuperAdminRepository::class)
  * @ORM\HasLifecycleCallbacks
  */
+
+#[UniqueEntity('email', message: "L'adresse email existe déjà dans la base de données")]
 class SuperAdmin implements UserInterface
 {
     /**
@@ -24,21 +28,41 @@ class SuperAdmin implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank(message:"Veuillez entrer un nom")]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'Le nom doit faire plus de {{ limit }} caractères',
+        maxMessage: 'Le nom doit faire {{ limit }} caractères maximum',
+    )]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank(message:"Veuillez entrer un prénom")]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'Le prénom doit faire plus de {{ limit }} caractères',
+        maxMessage: 'Le prénom doit faire {{ limit }} caractères maximum',
+    )]
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank(message:"Veuillez entrer une adresse email")]
+    #[Assert\Email(
+        message: 'Veuillez entrer un email valide',
+    )]
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank(message:"Veuillez entrer un mot de passe de 8 caractères au moins")]
+
     private $mot_de_passe;
 
     /**

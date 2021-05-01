@@ -31,6 +31,8 @@ class EmpruntsListController extends AbstractController
     }
     #[Route('/admin/emprunts/new', name: 'admin_emprunts_new')]
 
+    // AJOUTER LE SUPER ADMIN
+
     public function newEmprunt(
         Request $request,
         EntityManagerInterface $manager,
@@ -51,27 +53,20 @@ class EmpruntsListController extends AbstractController
 
         /** @var Form $formAdhSearch */
         $buttonAdh = $formAdhSearch->getClickedButton();
-        if (
-            $buttonAdh &&
-            $buttonAdh->getName() == 'search' &&
-            $formAdhSearch->isSubmitted() &&
-            $formAdhSearch->isValid()
-        ) {
-            $data = $formAdhSearch->getData();
-            $adherents = $adherentRepository->findByNomPrenom($data['nom']);
-        }
 
         if (
             $buttonAdh &&
-            $buttonAdh->getName() == 'send' &&
             $formAdhSearch->isSubmitted() &&
             $formAdhSearch->isValid()
         ) {
-            $adh = $adherentRepository->findOneById(
-                $request->request->get('adherent-select')
-            );
-            $emprunt->setAdherent($adh);
-            dump($emprunt);
+            if ($buttonAdh->getName() == 'search') {
+                $data = $formAdhSearch->getData();
+                $adherents = $adherentRepository->findByNomPrenom($data['nom']);
+            } elseif ($buttonAdh->getName() == 'send') {
+                $adh = $adherentRepository->findOneById(
+                    $request->request->get('adherent-select')
+                );
+            }
         }
 
         $formObjSearch->handleRequest($request);
@@ -81,36 +76,26 @@ class EmpruntsListController extends AbstractController
 
         if (
             $buttonObj &&
-            $buttonObj->getName() == 'search' &&
             $formObjSearch->isSubmitted() &&
             $formObjSearch->isValid()
         ) {
-            $data = $formObjSearch->getData();
-            $objets = $objetRepository->findBy([
-                'denomination' => $data['nom'],
-            ]);
-            $adh2 = $adherentRepository->findOneById(
-                $request->request->get('adherent')
-            );
-        }
-
-        if (
-            $buttonObj &&
-            $buttonObj->getName() == 'send' &&
-            $formObjSearch->isSubmitted() &&
-            $formObjSearch->isValid()
-        ) {
-            $obj = $objetRepository->findOneById(
-                $request->request->get('objet-select')
-            );
-            $adh3 = $adherentRepository->findOneById(
-                $request->request->get('adherent-deux')
-            );
+            if ($buttonObj->getName() == 'search') {
+                $data = $formObjSearch->getData();
+                $objets = $objetRepository->findBy([
+                    'denomination' => $data['nom'],
+                ]);
+            } elseif ($buttonObj->getName() == 'send') {
+                $obj = $objetRepository->findOneById(
+                    $request->request->get('objet-select')
+                );
+            }
         }
 
         $form->handleRequest($request);
 
-        $adher = $adherentRepository->findOneById($request->request->get('ad'));
+        $adher = $adherentRepository->findOneById(
+            $request->request->get('adherent')
+        );
         $emprunt->setAdherent($adher);
 
         $objt = $objetRepository->findOneById($request->request->get('objet'));
@@ -130,7 +115,6 @@ class EmpruntsListController extends AbstractController
 
         return $this->render('admin/forms/emprunts_new.html.twig', [
             'controller_name' => 'EmpruntsListController',
-
             'adherents' => $adherents,
             'objets' => $objets,
             'arrow' => true,
@@ -142,8 +126,6 @@ class EmpruntsListController extends AbstractController
             'formAdhSearch' => $formAdhSearch->createView(),
             'submitted' => $submitted,
             'adh' => $adh,
-            'adh2' => $adh2,
-            'adh3' => $adh3,
             'obj' => $obj,
         ]);
     }

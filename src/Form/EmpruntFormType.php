@@ -7,6 +7,7 @@ use App\Entity\Objet;
 use App\Entity\Emprunt;
 use App\Entity\Adherent;
 use App\Entity\Catalogue;
+use App\Form\SearchFormType;
 use App\Entity\SousCategorie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

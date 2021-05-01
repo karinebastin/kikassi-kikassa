@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\HoraireLieuRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=HoraireLieuRepository::class)
@@ -20,6 +21,8 @@ class HoraireLieu
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank(message:"Veuillez sélectionner le jour")]
+
     private $jour;
 
     /**
@@ -42,14 +45,11 @@ class HoraireLieu
      */
     private $ferme_pm;
 
-  
-
     /**
      * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="horaire_lieu")
      * @ORM\JoinColumn(nullable=false)
      */
     private $lieu;
-
 
     public function getId(): ?int
     {
@@ -127,7 +127,4 @@ class HoraireLieu
 
         return $this;
     }
-
-
-
 }

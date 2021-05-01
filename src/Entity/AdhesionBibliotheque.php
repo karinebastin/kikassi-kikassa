@@ -28,12 +28,14 @@ class AdhesionBibliotheque implements UserInterface
     /**
      * @ORM\Column(type="integer")
      */
-    #[Assert\NotBlank(message:"Veuillez entrer motant pour le dépôt versé")]
+    #[Assert\NotBlank(message:"Veuillez entrer un montant pour le dépôt permanent versé")]
     private $depot_permanent;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      */
+
+    #[Assert\Type("\DateTimeInterface", message:"Veuillez entrer une date de fin de validité de Responsabilité Civile valide")]
     private $fin_rc;
 
     /**
@@ -71,7 +73,7 @@ class AdhesionBibliotheque implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
 
-    #[Assert\NotBlank(message:"Veuillez choisir une catégorie de fourmi")]
+    #[Assert\NotNull(message:"Veuillez choisir une catégorie de fourmi")]
     private $categorie_fourmi;
 
     /**

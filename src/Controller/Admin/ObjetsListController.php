@@ -75,7 +75,7 @@ class ObjetsListController extends AbstractController
     public function newObjet(
         Request $request,
         EntityManagerInterface $manager,
-        AdherentRepository $AdherentRepository
+        AdherentRepository $adherentRepository
     ): Response {
         $objet = new Objet();
         $adherents = '';
@@ -90,30 +90,20 @@ class ObjetsListController extends AbstractController
         /** @var Form $formSearch */
         $button = $formSearch->getClickedButton();
 
-        if (
-            $button &&
-            $button->getName() == 'search' &&
-            $formSearch->isSubmitted() &&
-            $formSearch->isValid()
-        ) {
-            $data = $formSearch->getData();
-            $adherents = $AdherentRepository->findByNomPrenom($data['nom']);
-        }
-
-        if (
-            $button &&
-            $button->getName() == 'send' &&
-            $formSearch->isSubmitted() &&
-            $formSearch->isValid()
-        ) {
-            $adh = $AdherentRepository->findOneById(
-                $request->request->get('adherent-select')
-            );
+        if ($button && $formSearch->isSubmitted() && $formSearch->isValid()) {
+            if ($button->getName() == 'search') {
+                $data = $formSearch->getData();
+                $adherents = $adherentRepository->findByNomPrenom($data['nom']);
+            } elseif ($button->getName() == 'send') {
+                $adh = $adherentRepository->findOneById(
+                    $request->request->get('adherent-select')
+                );
+            }
         }
 
         $form->handleRequest($request);
 
-        $adher = $AdherentRepository->findOneById(
+        $adher = $adherentRepository->findOneById(
             $request->request->get('adherent')
         );
         $objet->setAdherent($adher);

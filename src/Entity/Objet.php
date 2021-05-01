@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ObjetRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ObjetRepository::class)
@@ -24,36 +25,67 @@ class Objet
     /**
      * @ORM\Column(type="string", length=255)
      */
+
+    #[Assert\NotBlank(message:"Veuillez entrer un nom pour l'objet")]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'Le nom doit faire plus de {{ limit }} caractères',
+        maxMessage: 'Le nom doit faire {{ limit }} caractères maximum',
+    )]
     private $denomination;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank(message:"Veuillez entrer une marque pour l'objet")]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'La marque doit faire plus de {{ limit }} caractères',
+        maxMessage: 'La marque doit faire {{ limit }} caractères maximum',
+    )]
+
     private $marque;
 
     /**
      * @ORM\Column(type="text")
      */
+
+    #[Assert\NotBlank(message:"Veuillez entrer une description pour l'objet")]
+    #[Assert\Length(
+        min: 2,
+        minMessage: 'La description doit faire plus de {{ limit }} caractères'
+    )]
     private $description;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
      */
+    #[Assert\NotBlank(message:"Veuillez entrer une valeur du neuf de l'objet")]
+    #[Assert\Positive(message:"Veuillez entrer une valeur du neuf valide ")]
     private $valeur_achat;
 
     /**
      * @ORM\Column(type="integer")
      */
+
+    #[Assert\NotNull(message:"Veuillez entrer un coefficient d'usure pour l'objet")]
+
     private $coef_usure;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
      */
+    #[Assert\NotNull(message:"Veuillez entrer un pourcentage de calcul pour l'objet")]
+
     private $pourcent_calcul;
 
     /**
      * @ORM\Column(type="boolean")
      */
+    #[Assert\NotNull(message:"Veuillez choisir de mettre ou non l'objet dans la vitrine")]
+
     private $vitrine;
 
     /**
@@ -85,6 +117,8 @@ class Objet
      * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="objets")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Assert\NotNull(message:"Veuillez choisir un lieu de stockage")]
+
     private $lieu;
 
     /**
@@ -106,11 +140,15 @@ class Objet
      * @ORM\ManyToOne(targetEntity=Catalogue::class, inversedBy="objets", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
+
+    #[Assert\NotNull(message:"Veuillez choisir un catalogue")]
     private $catalogue;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      */
+
+    #[Assert\Type("\DateTimeInterface", message:"Veuillez entrer une date de sortie de stock valide")]
     private $date_sortie_stock;
 
     /**

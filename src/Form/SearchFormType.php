@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Objet;
 use App\Entity\AdhesionBibliotheque;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -33,7 +34,7 @@ class SearchFormType extends AbstractType
     // public function configureOptions(OptionsResolver $resolver)
     // {
     //     $resolver->setDefaults([
-    //         'data_class' => AdhesionBibliotheque::class,
+    //         'data_class' => '',
     //     ]);
     // }
 }

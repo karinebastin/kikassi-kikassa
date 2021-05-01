@@ -11,11 +11,15 @@ use App\Repository\AdherentRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=AdherentRepository::class)
  * @ORM\HasLifecycleCallbacks
  */
+
+#[UniqueEntity('email', message: "L'adresse email existe déjà dans la base de données")]
+
 class Adherent
 {
     /**
