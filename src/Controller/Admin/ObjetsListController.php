@@ -2,22 +2,21 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Adherent;
-use App\Entity\AdhesionBibliotheque;
 use App\Entity\Objet;
 use App\Entity\Photo;
+use App\Entity\Adherent;
 use App\Form\ObjetFormType;
 use App\Form\SearchFormType;
+use App\Entity\SousCategorie;
+use App\Form\CategorieFormType;
 use App\Repository\ObjetRepository;
 use App\Repository\AdherentRepository;
-use App\Repository\AdhesionBibliothequeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\SousCategorieRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class ObjetsListController extends AbstractController
 {
@@ -78,38 +77,25 @@ class ObjetsListController extends AbstractController
     public function newObjet(
         Request $request,
         EntityManagerInterface $manager,
-        AdherentRepository $adherentRepository
+        AdherentRepository $adherentRepository,
+        SousCategorieRepository $ssCatRepository
     ): Response {
         $objet = new Objet();
-        $adherents = '';
-        $adh = null;
 
         $formSearch = $this->createForm(SearchFormType::class);
-
+        $formCat = $this->createForm(CategorieFormType::class);
         $form = $this->createForm(ObjetFormType::class, $objet);
-
-        $formSearch->handleRequest($request);
-
-        /** @var Form $formSearch */
-        $button = $formSearch->getClickedButton();
-
-        if ($button && $formSearch->isSubmitted() && $formSearch->isValid()) {
-            if ($button->getName() == 'search') {
-                $data = $formSearch->getData();
-                $adherents = $adherentRepository->findByNomPrenom($data['nom']);
-            } elseif ($button->getName() == 'send') {
-                $adh = $adherentRepository->findOneById(
-                    $request->request->get('adherent-select')
-                );
-            }
-        }
-
         $form->handleRequest($request);
 
-        $adher = $adherentRepository->findOneById(
+        $adherent = $adherentRepository->findOneById(
             $request->request->get('adherent')
         );
-        $objet->setAdherent($adher);
+        $ssCat = $ssCatRepository->findOneById(
+            $request->request->get('ss-cat-sel')
+        );
+
+        $objet->setAdherent($adherent);
+        $objet->setSousCategorie($ssCat);
 
         $submitted = $form->isSubmitted() ? 'was-validated' : '';
 
@@ -117,6 +103,7 @@ class ObjetsListController extends AbstractController
             $directory = 'photos';
 
             $file = $form['photos']->getData();
+
             foreach ($file as $photo) {
                 $extension = $photo->guessExtension();
                 if (!$extension) {
@@ -141,8 +128,6 @@ class ObjetsListController extends AbstractController
 
             $manager->flush();
 
-            // METTRE flash dans la page details objet
-
             $this->addFlash(
                 'success',
                 "Le nouvel objet : {$objet->getDenomination()} {$objet->getMarque()} a bien été créé"
@@ -154,7 +139,6 @@ class ObjetsListController extends AbstractController
 
         return $this->render('admin/forms/objets_new.html.twig', [
             'controller_name' => 'ObjetsListController',
-            'adherents' => $adherents,
             'arrow' => true,
             'section' => 'section-objets',
             'return_path' => 'menu-objet',
@@ -162,7 +146,7 @@ class ObjetsListController extends AbstractController
             'form' => $form->createView(),
             'formSearch' => $formSearch->createView(),
             'submitted' => $submitted,
-            'adh' => $adh,
+            'formCat' => $formCat->createView(),
         ]);
     }
 
@@ -170,40 +154,35 @@ class ObjetsListController extends AbstractController
 
     public function retrieveAdh(
         Request $request,
-        AdherentRepository $adherentRepository,
-        AdhesionBibliothequeRepository $ad,
-        SerializerInterface $serializer
+        AdherentRepository $adherentRepository
     ): Response {
         $adhs = new Adherent();
-        $biblio = new AdhesionBibliotheque();
         $data = $request->request->get('data');
         $adhs = $adherentRepository->findByNomPrenom($data);
+        return $this->json($adhs, 200, [], ['groups' => 'adherent']);
+    }
 
-        $biblio = [];
-        foreach ($adhs as $adh) {
-            if ($adh->getAdhesionBibliotheque() == null) {
-                $biblio[] = $adh;
-            } else {
-                $biblio[] = array_push($adh, [
-                    'fourmi' => $ad
-                        ->findOneBy(['adherent' => $adh->getId()])
-                        ->getCategorieFourmi(),
-                ]);
-            }
-            // if ($ad->findOneBy(['adherent' => $adh->getId()]) == null) {
-            // $biblio[] = "";
-            // } else {
-            //     $biblio[] =  $ad->findOneBy(['adherent' => $adh->getId()])->getCategorieFourmi();
+    #[Route('/admin/objets/new/sel', name: 'admin_objets_sel')]
 
-            // }
-        }
-        dump($biblio);
-        $res = [$adhs, $biblio];
-        // $jsonContent = $serializer->serialize($adhs, 'json', [
-        //     'groups' => 'adherent',
-        // ]);
+    public function selectAdh(
+        Request $request,
+        AdherentRepository $adherentRepository
+    ): Response {
+        $SAdh = new Adherent();
+        $data = $request->request->get('data');
+        $SAdh = $adherentRepository->findById($data);
+        return $this->json($SAdh, 200, [], ['groups' => 'adherent']);
+    }
 
-        // return $this->json($jsonContent);
-        return $this->json($biblio, 200, [], ['groups' => 'adherent']);
+    #[Route('/admin/objets/new/cat', name: 'admin_objets_cat')]
+
+    public function getCats(
+        Request $request,
+        SousCategorieRepository $ssCatRepo
+    ): Response {
+        $ssCats = new SousCategorie();
+        $data = $request->request->get('data');
+        $ssCats = $ssCatRepo->findBy(['categorie' => $data]);
+        return $this->json($ssCats, 200, [], ['groups' => 'categorie']);
     }
 }

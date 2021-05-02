@@ -105,7 +105,10 @@ class Objet
 
     /**
      * @ORM\ManyToOne(targetEntity=SousCategorie::class, inversedBy="objets")
+     *  @ORM\JoinColumn(nullable=false)
      */
+
+    // #[Assert\NotNull(message:"Veuillez choisir une sous-catégorie")]
     private $sous_categorie;
 
     /**

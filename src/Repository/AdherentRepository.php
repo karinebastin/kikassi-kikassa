@@ -43,9 +43,9 @@ class AdherentRepository extends ServiceEntityRepository
     public function findByNomPrenom($value)
     {
         return $this->createQueryBuilder('o')
-            ->where('o.nom = :val')
-            ->orWhere('o.prenom = :val')
-            ->setParameter('val', $value)
+            ->where('o.nom LIKE :val')
+            ->orWhere('o.prenom LIKE :val')
+            ->setParameter('val', $value . '%')
             ->getQuery()
             ->getResult();
     }
