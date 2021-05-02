@@ -15,15 +15,6 @@
 	<body class={{color}}>
 		<div class="main-title font-raleway container">
 			<h1 class="text-center font-raleway mb-5">Ajout d'un Nouvel Objet à la Bibliothèque</h1>
-			{% for label, messages in app.flashes %}
-				<div class="container text-center ">
-					<div class="alert alert-{{ label }}">
-						{% for message in messages %}
-							<p>{{message | raw }}</p>
-						{% endfor %}
-					</div>
-				</div>
-			{% endfor %}
 			<div class="container">
 				{% set formErrors = form.vars.errors.form.getErrors(true) %}
 				{% if formErrors|length %}
@@ -35,27 +26,32 @@
 					</ul>
 				{% endif %}
 			</div>
-
-			<div class="col">
-				<div class="row">
-					<div class="col">
-						<div class="form-group proprio-select">
-							<select type="radio" name="proprio" class="proprio form-control select-height" required>
-								<option value="">L'objet appartient à</option>
-								<option value="assoc">L'Association</option>
-								<option value="adherent">Un adhérent</option>
-							</select>
-						</div>
+			<div class="row">
+				<div class="col">
+					<div class="form-group proprio-select">
+						<select type="radio" name="proprio" class="proprio form-control select-height" required>
+							<option value="">L'objet appartient à</option>
+							<option value="assoc">L'Association</option>
+							<option value="adherent">Un adhérent</option>
+						</select>
 					</div>
 				</div>
-				{{form_start(formSearch)}}
-				<div class="form-inline search-item font-raleway">
-					<label for="adherent">Rechercher un adhérent avec un nom ou prénom
-					</label>
-					{{ form_widget(formSearch.nom, {'attr': {'class': 'form-control select-height'}}) }}
-					<div>{{form_widget(formSearch.search)}}</div>
+			</div>
+			<div class="container my-2 search-adh d-block">
+				<div
+					class="row mx-4">
+					{# search-item  #}
+					{{form_start(formSearch)}}
+					<div class="form-inline font-raleway">
+						<label class="mr-4" for="adherent">Rechercher un adhérent avec un nom ou prénom
+						</label>
+						{{ form_widget(formSearch.nom, {'attr': {'class': 'form-control select-height mr-4'}}) }}
+						{# <div>{{form_widget(formSearch.search)}}</div> #}
+						<a href="{{path('admin_objets_adh')}}">
+							<button type="button" id="search-adherent">Ok</button>
+						</a>
+					</div>
 				</div>
-				<div></div>
 				<div class="row font-raleway">
 					<div class="col">
 						<div class="searchResult mt-3 mx-4">
@@ -71,9 +67,9 @@
 										<th scope="col">Selection</th>
 									</tr>
 								</thead>
-								<tbody>
-									{% if adherents is defined %}
-										{% for adherent in adherents %}
+								<tbody id="search-results">
+									{% if ad is defined %}
+										{% for adherent in ad %}
 											<tr>
 												<td class="text-center">
 													{{adherent.nom|capitalize}}
@@ -118,103 +114,98 @@
 						</div>
 					</div>
 				</div>
-				{{form_end(formSearch)}}
 			</div>
+			{{form_end(formSearch)}}
+
+
 			{{ form_start(form, {'attr': {'autocomplete' : 'off', 'novalidate' : true, 'class' : submitted ? submitted : "" ,  'enctype':'multipart/form-data' }})}}
 			{% if adh is not null %}
 				<input hidden type="text" name='adherent' value="{{adh.id}}"/>
 			{% endif %}
 
-			<div class="container">
 
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.denomination ,  {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.marque, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						{{ form_widget(form.denomination ,  {'attr': {'class': 'form-control select-height'}}) }}
 					</div>
 				</div>
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.description, {'attr': {'class': 'form-control p-4'}}) }}
-						</div>
+				<div class="col">
+					<div class="form-group">
+						{{ form_widget(form.marque, {'attr': {'class': 'form-control select-height'}}) }}
 					</div>
 				</div>
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.photos, {'attr': {'class': 'form-control p-4'}}) }}
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.lieu, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.souscategorie, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-				</div>
-
-				<div class="container">
-					<div class="row"></div>
-
-				</div>
-
-
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.observation, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.catalogue, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-				</div>
-
-
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.valeur_achat, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.coef_usure, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-				</div>
-
-
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.pourcent_calcul, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.vitrine, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-				</div>
-
-				{{macros.footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding)}}
 			</div>
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						{{ form_widget(form.description, {'attr': {'class': 'form-control p-4'}}) }}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						{{ form_widget(form.photos, {'attr': {'class': 'form-control p-4'}}) }}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						{{ form_widget(form.lieu, {'attr': {'class': 'form-control select-height'}}) }}
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group">
+						{{ form_widget(form.souscategorie, {'attr': {'class': 'form-control select-height'}}) }}
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						{{ form_widget(form.observation, {'attr': {'class': 'form-control select-height'}}) }}
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group">
+						{{ form_widget(form.catalogue, {'attr': {'class': 'form-control select-height'}}) }}
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						{{ form_widget(form.valeur_achat, {'attr': {'class': 'form-control select-height'}}) }}
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group">
+						{{ form_widget(form.coef_usure, {'attr': {'class': 'form-control select-height'}}) }}
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						{{ form_widget(form.pourcent_calcul, {'attr': {'class': 'form-control select-height'}}) }}
+					</div>
+				</div>
+				<div class="col">
+					<div class="form-group">
+						{{ form_widget(form.vitrine, {'attr': {'class': 'form-control select-height'}}) }}
+					</div>
+				</div>
+			</div>
+
+			{{macros.footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding)}}
+
 		</div>
 		{{ form_end(form)}}
 	</body>

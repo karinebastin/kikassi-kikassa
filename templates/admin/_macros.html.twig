@@ -2,7 +2,7 @@
 
 {% macro footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding) %}
 	<nav
-		class="{{section}} admin-footer d-flex fixed-bottom align-items-center">
+		class="{{section}} admin-footer d-flex fixed-bottom align-items-center" data-controller="admin">
 		{# vw-100 #}
 		{% if arrow %}
 			<a href="" class="prev invisible {{footerPadding}}">

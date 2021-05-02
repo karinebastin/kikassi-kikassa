@@ -112,15 +112,37 @@ export default class extends Controller {
         } 
   })
   
-      
       $('.proprio-select select').on('change', function () {
-        if ($('.proprio-select select option:selected').val() == "adherent") {
-          replaceClass("search-item", 'd-none', 'd-block')
-     
+        if ($('.proprio-select select option:selected').val() == "assoc") {
+          replaceClass("search-adh", 'd-block', 'd-none')
+        } else {
+          replaceClass("search-adh", 'd-none', 'd-block')
+
         }
       })
-   
-      
+
+      $('#search-adherent').on('click', function (e) {
+        e.preventDefault();
+        const searched = $('#search_form_nom').val();
+        $.ajax({
+          url: 'new/adh',
+          type: 'POST',
+          data: {'data' : searched},
+          dataType : 'json', 
+          success : function(json){ 
+            console.log('success')
+            $.each(json, function (index, value) {
+              // if (value.adhesionbibliotheque) {
+              //   $('#search-results').append(`<tr><td class='text-center'>${value.nom}</td><td class='text-center'>${value.prenom}</td><td class='text-center'>${value.telephone}</td><td class='text-center'>${value.adhesionbibliotheque.categoriefourmi}</td></tr>`)
+              // }
+
+              console.log(value);
+             
+          });
+     
+          }
+        });
+        
+      })
     }
-   
 }

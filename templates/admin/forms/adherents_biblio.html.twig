@@ -17,18 +17,8 @@
 			<h1 class="text-center font-raleway mb-5">Inscription de
 				{{adherent.nomPrenom}}
 				à la Bibliothèque des Objets</h1>
-			{% for label, messages in app.flashes %}
-				<div class="container text-center ">
-					<div class="alert alert-{{ label }}">
-						{% for message in messages %}
-							<p>{{message | raw }}</p>
-						{% endfor %}
-					</div>
-				</div>
-			{% endfor %}
 			<div class="container">
 				{% set formErrors = form.vars.errors.form.getErrors(true) %}
-
 				{% if formErrors|length %}
 					<ul class="text-center list-group mb-1">
 						<li class="list-group-item list-group-item-danger my-1">Formulaire non valide :</li>

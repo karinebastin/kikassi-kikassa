@@ -14,15 +14,6 @@
 	<body class={{color}}>
 		<div class="main-title font-raleway container">
 			<h1 class="text-center font-raleway mb-5">Ajout d'un Nouvel Objet à la Bibliothèque</h1>
-			{% for label, messages in app.flashes %}
-				<div class="container text-center ">
-					<div class="alert alert-{{ label }}">
-						{% for message in messages %}
-							<p>{{message | raw }}</p>
-						{% endfor %}
-					</div>
-				</div>
-			{% endfor %}
 			<div class="container">
 				{% set formErrors = form.vars.errors.form.getErrors(true) %}
 				{% if formErrors|length %}

@@ -4,7 +4,6 @@
 {% set actif = adherent.dateadhesion|date_modify("+1 year")|date('Y-m-d') > "now"|date('Y-m-d') ? "Oui" : "Non" %}
 {% set adBiblio = adherent.adhesionbibliotheque %}
 
-
 {% if adBiblio %}
 	{% set fourmi = adBiblio.categoriefourmi %}
 	{% set depotP = adBiblio.depotpermanent ~ " €" %}

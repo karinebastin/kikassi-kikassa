@@ -3,18 +3,21 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Adherent;
+use App\Entity\AdhesionBibliotheque;
 use App\Entity\Objet;
 use App\Entity\Photo;
 use App\Form\ObjetFormType;
 use App\Form\SearchFormType;
 use App\Repository\ObjetRepository;
 use App\Repository\AdherentRepository;
+use App\Repository\AdhesionBibliothequeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class ObjetsListController extends AbstractController
 {
@@ -151,7 +154,6 @@ class ObjetsListController extends AbstractController
 
         return $this->render('admin/forms/objets_new.html.twig', [
             'controller_name' => 'ObjetsListController',
-
             'adherents' => $adherents,
             'arrow' => true,
             'section' => 'section-objets',
@@ -162,5 +164,46 @@ class ObjetsListController extends AbstractController
             'submitted' => $submitted,
             'adh' => $adh,
         ]);
+    }
+
+    #[Route('/admin/objets/new/adh', name: 'admin_objets_adh')]
+
+    public function retrieveAdh(
+        Request $request,
+        AdherentRepository $adherentRepository,
+        AdhesionBibliothequeRepository $ad,
+        SerializerInterface $serializer
+    ): Response {
+        $adhs = new Adherent();
+        $biblio = new AdhesionBibliotheque();
+        $data = $request->request->get('data');
+        $adhs = $adherentRepository->findByNomPrenom($data);
+
+        $biblio = [];
+        foreach ($adhs as $adh) {
+            if ($adh->getAdhesionBibliotheque() == null) {
+                $biblio[] = $adh;
+            } else {
+                $biblio[] = array_push($adh, [
+                    'fourmi' => $ad
+                        ->findOneBy(['adherent' => $adh->getId()])
+                        ->getCategorieFourmi(),
+                ]);
+            }
+            // if ($ad->findOneBy(['adherent' => $adh->getId()]) == null) {
+            // $biblio[] = "";
+            // } else {
+            //     $biblio[] =  $ad->findOneBy(['adherent' => $adh->getId()])->getCategorieFourmi();
+
+            // }
+        }
+        dump($biblio);
+        $res = [$adhs, $biblio];
+        // $jsonContent = $serializer->serialize($adhs, 'json', [
+        //     'groups' => 'adherent',
+        // ]);
+
+        // return $this->json($jsonContent);
+        return $this->json($biblio, 200, [], ['groups' => 'adherent']);
     }
 }

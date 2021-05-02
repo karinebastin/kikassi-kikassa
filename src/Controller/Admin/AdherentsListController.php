@@ -88,9 +88,9 @@ class AdherentsListController extends AbstractController
         
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
+        //     $data = $form->getData();
 
-        dump($adherentRepository->findByNomPrenom($adherent->getNom()));
+        // dump($adherentRepository->findByNomPrenom($adherent->getNom()));
             // $adherents = $adherentRepository->findByNomPrenom($data['nom']);
             // if($adhRepo->findByNomPrenom($adherent))
             $adherent->setCompteActif(true);
