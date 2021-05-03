@@ -63,7 +63,7 @@
 		<div class="container text-center my-5  font-raleway ">
 			<div class="alert alert-{{ label }}">
 				{% for message in messages %}
-					<p>{{message | raw }}</p>
+					<p class="m-0">{{message|raw }}</p>
 				{% endfor %}
 			</div>
 		</div>
@@ -78,7 +78,7 @@
 	<div class="container my-2 mb-4 search-{{item}} d-block" id="">
 		<div class="row mx-4 justify-content-center">
 			<div class="form-inline font-raleway">
-				<label class="mr-4" for="nom">{{label}}
+				<label class="mr-4" for="nom">{{label|raw}}
 				</label>
 				{{ form_widget(form.nom, {'attr': {'class': 'form-control select-height mr-4'}}) }}
 				<a href="{{path('search_' ~ item, {'param': param })}}">

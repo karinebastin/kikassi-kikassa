@@ -74,8 +74,7 @@ class AdherentsListController extends AbstractController
 
     public function newAdherent(
         Request $request,
-        EntityManagerInterface $manager,
-        AdherentRepository $adherentRepository,
+        EntityManagerInterface $manager
     ): Response {
         $adherent = new Adherent();
 
@@ -84,15 +83,8 @@ class AdherentsListController extends AbstractController
         $form->handleRequest($request);
 
         $submitted = $form->isSubmitted() ? 'was-validated' : '';
-        
-        
 
         if ($form->isSubmitted() && $form->isValid()) {
-        //     $data = $form->getData();
-
-        // dump($adherentRepository->findByNomPrenom($adherent->getNom()));
-            // $adherents = $adherentRepository->findByNomPrenom($data['nom']);
-            // if($adhRepo->findByNomPrenom($adherent))
             $adherent->setCompteActif(true);
             $manager->persist($adherent);
             $manager->flush();

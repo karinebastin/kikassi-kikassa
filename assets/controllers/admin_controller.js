@@ -182,8 +182,6 @@ export default class extends Controller {
       selectOption(selected, res, url);
     })
 
-
-
     $('#search-objet').on('click', function (e) {
       e.preventDefault()
       $('#search-results-objet').empty();
@@ -202,7 +200,6 @@ export default class extends Controller {
         } else {
           $('#search-results-objet').append("<tr><td class='text-center' colspan='4'>Pas d'objet trouvé</td></tr>")
         }
-       
       }
 
       selectOption(searched, res, url)
@@ -218,6 +215,7 @@ export default class extends Controller {
       
       const url = 'new/selobj';
       selectOption(selected, res, url);
+      console.log( $('#hidden-obj').val(), $('#hidden-adh').val())
     })
 
 
