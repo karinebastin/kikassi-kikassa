@@ -45,51 +45,15 @@
 										<th scope="col">Nom</th>
 										<th scope="col">Prénom</th>
 										<th scope="col">Téléphone</th>
-										<th scope="col">Statut Fourmi</th>
+										{# <th scope="col">Statut Fourmi</th> #}
 										<th scope="col">Selection</th>
 									</tr>
 								</thead>
-								<tbody>
-									{% if adherents is defined %}
-										{% for adherent in adherents %}
-											<tr>
-												<td class="text-center">
-													{{adherent.nom|capitalize}}
-												</td>
-												<td class="text-center">
-													{{adherent.prenom|capitalize}}
-												</td>
-												<td class="text-center">
-													{{adherent.telephone}}
-												</td>
-												<td class="text-center">
-													{% if adherent.adhesionbibliotheque %}
-														{{adherent.adhesionbibliotheque.categoriefourmi|capitalize}}
-													{% else %}
-														/
-													{% endif %}
-												</td>
-												<td class="text-center">
-													<div class="form-check">
-														<input name="adherent-select" class="text-center form-check-input" type="radio" value={{adherent.id}}>
-													</div>
-												</td>
-											</tr>
-										{% endfor %}
-									{% endif %}
-								</tbody>
+								<tbody></tbody>
 							</table>
 							<div class="d-flex justify-content-between align-items-center mb-3">
 
-								<div>
-									{% if adh is not null %}
-										<div class="row font-raleway form-control select-height width-auto">
-											<p class="p-2">Adhérent sélèctionné :
-												{{ adh.nom}}
-												{{ adh.prenom}}</p>
-										</div>
-									{% endif %}
-								</div>
+								<div class=""></div>
 								<div>{{form_widget(formAdhSearch.send)}}</div>
 							</div>
 
