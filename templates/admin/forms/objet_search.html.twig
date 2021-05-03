@@ -1,0 +1,10 @@
+{% import './admin/_macros.html.twig' as macros %}
+
+{% set label = 'Rechercher un objet avec un nom' %}
+{% set item = 'objet' %}
+{% set select = 'objet' %}
+{% set form = formObjSearch %}
+{% set theads = ['Dénomination', 'Marque', 'Statut', 'Montant <br> de dépôt de garantie', 'Séléction' ] %}
+
+
+{{macros.search_module(form, label, item, param, select, theads) }}

@@ -31,15 +31,13 @@ class ObjetRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /*
-    public function findOneBySomeField($value): ?Objet
+    public function findByText($value)
     {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
+            ->where('o.denomination LIKE :val')
+            ->orWhere('o.marque LIKE :val')
+            ->setParameter('val', $value . '%')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
 }

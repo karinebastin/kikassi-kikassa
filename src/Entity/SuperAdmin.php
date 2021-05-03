@@ -6,8 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\SuperAdminRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -23,6 +24,8 @@ class SuperAdmin implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+
+   #[Groups(['person'])]
     private $id;
 
     /**
@@ -35,6 +38,8 @@ class SuperAdmin implements UserInterface
         minMessage: 'Le nom doit faire plus de {{ limit }} caractères',
         maxMessage: 'Le nom doit faire {{ limit }} caractères maximum',
     )]
+
+   #[Groups(['person'])]
     private $nom;
 
     /**
@@ -47,6 +52,8 @@ class SuperAdmin implements UserInterface
         minMessage: 'Le prénom doit faire plus de {{ limit }} caractères',
         maxMessage: 'Le prénom doit faire {{ limit }} caractères maximum',
     )]
+
+   #[Groups(['person'])]
     private $prenom;
 
     /**
@@ -56,6 +63,8 @@ class SuperAdmin implements UserInterface
     #[Assert\Email(
         message: 'Veuillez entrer un email valide',
     )]
+
+   #[Groups(['person'])]
     private $email;
 
     /**
@@ -68,6 +77,8 @@ class SuperAdmin implements UserInterface
     /**
      * @ORM\Column(type="date")
      */
+
+   #[Groups(['person'])]
     private $date_creation;
 
     /**

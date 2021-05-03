@@ -29,14 +29,15 @@ class Adherent
      * @ORM\Column(type="integer")
      *  
      */
-#[Groups(['adherent'])]
+    
+#[Groups(['person'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * 
      */
-    #[Groups(['adherent'])]
+    #[Groups(['person'])]
 
     #[Assert\NotBlank(message:"Veuillez entrer un nom")]
     #[Assert\Length(
@@ -51,7 +52,7 @@ class Adherent
      * @ORM\Column(type="string", length=255)
      * 
      */
-#[Groups(['adherent'])]
+#[Groups(['person'])]
     
      #[Assert\NotBlank(message:"Veuillez entrer un prénom")]
      #[Assert\Length(
@@ -75,7 +76,7 @@ class Adherent
         min: 5,
         minMessage: 'L\'adresse doit faire plus de {{ limit }} caractères',
     )]
-#[Groups(['adherent'])]
+#[Groups(['person'])]
 
     private $adresse;
 
@@ -84,7 +85,7 @@ class Adherent
      */
 
     #[Assert\NotBlank(message:"Veuillez entrer un code postal")]
-#[Groups(['adherent'])]
+#[Groups(['person'])]
     
     private $cp;
 
@@ -97,7 +98,7 @@ class Adherent
         min: 3,
         minMessage: 'La ville doit faire plus de {{ limit }} caractères',
     )]
-#[Groups(['adherent'])]
+#[Groups(['person'])]
 
     private $ville;
 
@@ -107,7 +108,7 @@ class Adherent
     #[Assert\Email(
         message: 'Veuillez entrer un email valide',
     )]
-#[Groups(['adherent'])]
+#[Groups(['person'])]
 
     private $email;
 
@@ -120,7 +121,7 @@ class Adherent
     #[Assert\Length( min: 10,
     max:10,
     exactMessage:"Veuillez entrer un numéro de téléphone valide (10 chiffres sans espace)")]
-#[Groups(['adherent'])]
+#[Groups(['person'])]
     
     
     private $telephone;
@@ -129,7 +130,7 @@ class Adherent
      * @ORM\Column(type="date")
      * 
      */
-    #[Groups(['adherent'])]
+    #[Groups(['person'])]
 
     #[Assert\Type("\DateTimeInterface", message:"Veuillez entrer une date de naissance valide")]
     #[Assert\NotBlank(message:"Veuillez entrer une date de naissance")]
@@ -140,7 +141,7 @@ class Adherent
      * @ORM\Column(type="string", length=255)
      *
      */
-    #[Groups(['adherent'])]
+    #[Groups(['person'])]
 
     #[Assert\NotBlank(message:"Veuillez entrer un lieu de naissance")]
     #[Assert\Length(
@@ -153,7 +154,7 @@ class Adherent
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
      */
-#[Groups(['adherent'])]
+#[Groups(['person'])]
 
     #[Assert\PositiveOrZero(message:"Veuillez entrer un montant de cotisation valide")]
     private $montant_cotisation;
@@ -161,21 +162,21 @@ class Adherent
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-#[Groups(['adherent'])]
+#[Groups(['person'])]
 
     private $moyen_paiement;
 
     /**
      * @ORM\Column(type="date")
      */
-#[Groups(['adherent'])]
+#[Groups(['person'])]
 
     private $date_adhesion;
 
     /**
      * @ORM\Column(type="boolean")
      */
-#[Groups(['adherent'])]
+#[Groups(['person'])]
 
     private $compte_actif;
 
@@ -183,7 +184,7 @@ class Adherent
      * @ORM\Column(type="boolean")
      * 
      */
-    #[Groups(['adherent'])]
+    #[Groups(['person'])]
 
    #[Assert\NotNull(message:"Veuillez choisir un statut admin")]
     private $admin;
@@ -192,7 +193,7 @@ class Adherent
      * @ORM\OneToOne(targetEntity=AdhesionBibliotheque::class, mappedBy="adherent", cascade={"persist", "remove"})
      */
 
-    #[Groups(['adherent'])]
+    #[Groups(['person'])]
     
     private $adhesionBibliotheque;
 
@@ -211,14 +212,14 @@ class Adherent
     /**
      * @ORM\Column(type="string", length=255)
      */
-#[Groups(['adherent'])]
+#[Groups(['person'])]
     
     private $slug;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    #[Groups(['adherent'])]
+    #[Groups(['person'])]
 
     #[Assert\NotNull(message:"Veuillez indiquer un état pour la cotisation")]
     private $etat_cotisation;

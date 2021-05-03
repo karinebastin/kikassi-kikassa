@@ -44,6 +44,13 @@ class EmpruntFormType extends AbstractType
                 'html5' => false,
                 'format' => 'dd/MM/yyyy',
             ])
+            ->add('emprunt_regle', ChoiceType::class, [
+                'placeholder' => 'L\'emprunt est-il réglé ce jour ?',
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false,
+                ],
+            ])
 
             ->add('save', SubmitType::class, [
                 'label' =>

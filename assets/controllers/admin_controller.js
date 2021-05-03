@@ -115,9 +115,9 @@ export default class extends Controller {
   
     $('.proprio-select select').on('change', function () {
       if ($('.proprio-select select option:selected').val() == "assoc") {
-        replaceClass("search-adh", 'd-block', 'd-none')
+        replaceClass("search-adherent", 'd-block', 'd-none')
       } else {
-        replaceClass("search-adh", 'd-none', 'd-block')
+        replaceClass("search-adherent", 'd-none', 'd-block')
 
       }
     })
@@ -139,21 +139,27 @@ export default class extends Controller {
 
     $('#search-adherent').on('click', function (e) {
       e.preventDefault()
-      $('#search-results').empty();
-      const searched = $('#search_form_nom').val();
+      $('#search-results-adherent').empty();
+      const searched = $('.search-adherent').find('#search_form_nom').val();
       const url = 'new/adh'
       const res = (json) => {
-          if (json.length > 0) {
-        $.each(json, function (index, value) {
-           $('#search-results').append(`<tr><td class='text-center'>${value.nom}</td><td class='text-center'>${value.prenom}</td><td class='text-center'>${value.telephone}</td><td class="text-center">
-            <div class="form-check adh-check">
-              <input name="adherent-select" class="text-center form-check-input" type="radio" value=${value.id}>
-            </div>
-          </td></tr>`) });
+        if (json.adherent.length > 0 && json.admin.length > 0) {
+          appendRes(json.adherent)
+          appendRes(json.admin)
+        } else if (json.admin.length > 0) {
+          appendRes(json.admin)
+        } else if (json.adherent.length > 0) {
+          appendRes(json.adherent)
         } else {
-          $('#search-results').append("<tr><td class='text-center' colspan='4'>Pas d'adhérent trouvé</td></tr>")
+          $('#search-results-adherent').append("<tr><td class='text-center' colspan='4'>Pas d'adhérent ou de super-admin trouvé</td></tr>")
+       }
+        function appendRes(item) {
+          item.map(el => $('#search-results-adherent').append(`<tr><td class='text-center'>${el.nom}</td><td class='text-center'>${el.prenom}</td><td class='text-center'>${el.email}</td><td class="text-center">
+        <div class="form-check adh-check">
+         <input name="adherent-select" class="text-center form-check-input" type="radio" value=${el.id}>
+      </div>
+     </td></tr>`))
         }
-       
       }
 
       selectOption(searched, res, url)
@@ -161,16 +167,60 @@ export default class extends Controller {
     
     $('#select-adherent').on('click', function (e) {
       e.preventDefault()
-      $('#selected').empty()
+      $('#selected-adherent').empty()
         const selected = $('input:radio[name="adherent-select"]:checked').val()
       $('#hidden-adh').val($.trim(selected))
 
-      const res = (json) =>  json.map(val => $('#selected').append(`<div class="row font-raleway form-control select-height width-auto" ><p class="p-2">L'objet appartient à : ${$.trim(val.prenom)} ${$.trim(val.nom)} </p></div>`));
+      const res = (json) =>{
+        function appendSel(item, titre) {
+           item.map(val => $('#selected-adherent').append(`<div class="row font-raleway form-control select-height width-auto ml-1" ><p class="p-2"> ${titre} : ${$.trim(val.prenom)} ${$.trim(val.nom)} </p></div>`))
+        }
+        json.adherent ? appendSel(json.adherent, "Adhérent") : appendSel(json.admin, "Super-admin")
+       };
       
       const url = 'new/sel';
       selectOption(selected, res, url);
     })
+
+
+
+    $('#search-objet').on('click', function (e) {
+      e.preventDefault()
+      $('#search-results-objet').empty();
+      const searched = $('.search-objet').find('#search_form_nom').val();
+      const url = 'new/obj'
+      const res = (json) => {
+          if (json.length > 0) {
+        $.each(json, function (index, value) {
+          $('#search-results-objet').append(`<tr><td class='text-center'>${value.denomination}</td><td class='text-center'>${value.marque}</td><td class='text-center'>${value.statut}</td>
+          <td class='text-center'>xxx</td>
+           <td class="text-center">
+            <div class="form-check obj-check">
+              <input name="objet-select" class="text-center form-check-input" type="radio" value=${value.id}>
+            </div>
+          </td></tr>`) });
+        } else {
+          $('#search-results-objet').append("<tr><td class='text-center' colspan='4'>Pas d'objet trouvé</td></tr>")
+        }
+       
+      }
+
+      selectOption(searched, res, url)
+    })
     
+    $('#select-objet').on('click', function (e) {
+      e.preventDefault()
+      $('#selected-objet').empty()
+        const selected = $('input:radio[name="objet-select"]:checked').val()
+      $('#hidden-obj').val($.trim(selected))
+
+      const res = (json) =>  json.map(val => $('#selected-objet').append(`<div class="row font-raleway form-control select-height width-auto ml-1" ><p class="p-2">Objet : ${$.trim(val.denomination)} ${$.trim(val.marque)} </p></div>`));
+      
+      const url = 'new/selobj';
+      selectOption(selected, res, url);
+    })
+
+
     $('.categorie-select select').on('change', function () {
       $('#ss-cat-select').empty()
   const selCat = $('.categorie-select select option:selected').val()
@@ -184,26 +234,8 @@ export default class extends Controller {
 
     })
 
-
-
-
-
-
-
-
   }
 }
-   
 
-   
-     
- 
-
-
-
-
-    
-   
-    
 
 

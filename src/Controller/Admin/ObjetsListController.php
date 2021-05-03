@@ -150,30 +150,6 @@ class ObjetsListController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/objets/new/adh', name: 'admin_objets_adh')]
-
-    public function retrieveAdh(
-        Request $request,
-        AdherentRepository $adherentRepository
-    ): Response {
-        $adhs = new Adherent();
-        $data = $request->request->get('data');
-        $adhs = $adherentRepository->findByNomPrenom($data);
-        return $this->json($adhs, 200, [], ['groups' => 'adherent']);
-    }
-
-    #[Route('/admin/objets/new/sel', name: 'admin_objets_sel')]
-
-    public function selectAdh(
-        Request $request,
-        AdherentRepository $adherentRepository
-    ): Response {
-        $SAdh = new Adherent();
-        $data = $request->request->get('data');
-        $SAdh = $adherentRepository->findById($data);
-        return $this->json($SAdh, 200, [], ['groups' => 'adherent']);
-    }
-
     #[Route('/admin/objets/new/cat', name: 'admin_objets_cat')]
 
     public function getCats(

@@ -6,6 +6,7 @@
 {% set continue = "" %}
 {% set arrowClass = 'd-none' %}
 {% set footerPadding = 'm-padding' %}
+{% set param = 'emprunts' %}
 
 {% block title %}Objets
 {% endblock %}
@@ -25,128 +26,18 @@
 					</ul>
 				{% endif %}
 			</div>
-
 			<div class="col">
-				{{form_start(formAdhSearch, {attr : {id : 'form-adh'}})}}
-				<div class="form-inline search-item font-raleway">
-					<label for="adherent">Rechercher un adhérent avec un nom ou prénom
-					</label>
-					{{ form_widget(formAdhSearch.nom, {'attr': {'class': 'form-control select-height'}}) }}
-					<div>{{form_widget(formAdhSearch.search)}}</div>
-				</div>
-				<div class="row font-raleway">
-					<div class="col">
-						<div class="searchResult mt-3 mx-4">
-							<label class="">Sélectionnez un adhérent :
-							</label>
-							<table class="table admin-table-emprunts tb-design table-bordered font-raleway">
-								<thead>
-									<tr class="text-center">
-										<th scope="col">Nom</th>
-										<th scope="col">Prénom</th>
-										<th scope="col">Téléphone</th>
-										{# <th scope="col">Statut Fourmi</th> #}
-										<th scope="col">Selection</th>
-									</tr>
-								</thead>
-								<tbody></tbody>
-							</table>
-							<div class="d-flex justify-content-between align-items-center mb-3">
-
-								<div class=""></div>
-								<div>{{form_widget(formAdhSearch.send)}}</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
-				{{form_end(formAdhSearch)}}
+				{% include '/admin/forms/adherent_search.html.twig' %}
 			</div>
-			<div class="col">
-				{{form_start(formObjSearch)}}
-				<div class="form-inline search-item font-raleway">
-					<label for="objet">Rechercher un objet avec un nom d'objet
-					</label>
-					{{ form_widget(formObjSearch.nom, {'attr': {'class': 'form-control select-height'}}) }}
-					<div>{{form_widget(formObjSearch.search)}}</div>
-
-					{% if adh is not null %}
-						<input hidden type="text" name='adherent' value="{{adh.id}}"/>
-					{% endif %}
-				</div>
-				<div class="row font-raleway">
-					<div class="col">
-						<div class="searchResult mt-3 mx-4">
-							<label class="">Sélectionnez un objet :
-							</label>
-							<table class="table admin-table-emprunts tb-design table-bordered font-raleway">
-								<thead>
-									<tr class="text-center">
-										<th scope="col">Dénomination</th>
-										<th scope="col">Marque</th>
-										<th scope="col">Valeur du neuf</th>
-										<th scope="col">Statut</th>
-										<th scope="col">Selection</th>
-									</tr>
-								</thead>
-								<tbody>
-									{% if objets is defined %}
-										{% for objet in objets %}
-											<tr>
-												<td class="text-center">
-													{{objet.denomination|capitalize}}
-												</td>
-												<td class="text-center">
-													{{objet.marque|capitalize}}
-												</td>
-												<td class="text-center">
-													{{objet.valeurachat}}
-												</td>
-												<td class="text-center">
-													{{objet.statut}}
-												</td>
-
-												<td class="text-center">
-													<div class="form-check">
-														<input name="objet-select" class="text-center form-check-input" type="radio" value={{objet.id}}>
-													</div>
-												</td>
-											</tr>
-										{% endfor %}
-									{% endif %}
-								</tbody>
-							</table>
-							<div class="d-flex justify-content-between align-items-center mb-3">
-								<div>
-									{% if obj is not null %}
-										<div class="row font-raleway form-control select-height width-auto">
-											<p class="p-2">Objet séléctionné :
-												{{ obj.denomination}}
-												{{ obj.marque}}</p>
-										</div>
-									{% endif %}
-								</div>
-
-								<div>{{form_widget(formObjSearch.send)}}</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
-				{{form_end(formObjSearch)}}
-			</div>
+			<div class="col">{% include '/admin/forms/objet_search.html.twig' %}</div>
 			{{ form_start(form, {'attr': {'autocomplete' : 'off', 'novalidate' : true, 'class' : submitted ? submitted : "" }})}}
 
 			<div class="container">
 				<div class="row">
 					<div class="col">
 						<div class="form-group">
-							{% if adh is not null %}
-								<input hidden type="text" name='adherent' value="{{adh.id}}"/>
-							{% endif %}
-							{% if obj is not null %}
-								<input hidden type="text" name='objet' value="{{obj.id}}"/>
-							{% endif %}
+							<input hidden id='hidden-adh' type="text" name='adherent' value=""/>
+							<input hidden id='hidden-obj' type="text" name='objet' value=""/>
 							{{ form_widget(form.date_debut ,  {'attr': {'class': 'form-control select-height'}}) }}
 						</div>
 					</div>

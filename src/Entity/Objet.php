@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ObjetRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -20,6 +21,8 @@ class Objet
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+
+    #[Groups(['objet'])]
     private $id;
 
     /**
@@ -33,6 +36,9 @@ class Objet
         minMessage: 'Le nom doit faire plus de {{ limit }} caractères',
         maxMessage: 'Le nom doit faire {{ limit }} caractères maximum',
     )]
+
+    #[Groups(['objet'])]
+
     private $denomination;
 
     /**
@@ -46,6 +52,9 @@ class Objet
         maxMessage: 'La marque doit faire {{ limit }} caractères maximum',
     )]
 
+
+    #[Groups(['objet'])]
+
     private $marque;
 
     /**
@@ -57,6 +66,9 @@ class Objet
         min: 2,
         minMessage: 'La description doit faire plus de {{ limit }} caractères'
     )]
+
+    #[Groups(['objet'])]
+
     private $description;
 
     /**
@@ -64,6 +76,9 @@ class Objet
      */
     #[Assert\NotBlank(message:"Veuillez entrer une valeur du neuf de l'objet")]
     #[Assert\Positive(message:"Veuillez entrer une valeur du neuf valide ")]
+   
+    #[Groups(['objet'])]
+   
     private $valeur_achat;
 
     /**
@@ -72,6 +87,8 @@ class Objet
 
     #[Assert\NotNull(message:"Veuillez entrer un coefficient d'usure pour l'objet")]
 
+    #[Groups(['objet'])]
+
     private $coef_usure;
 
     /**
@@ -79,12 +96,15 @@ class Objet
      */
     #[Assert\NotNull(message:"Veuillez entrer un pourcentage de calcul pour l'objet")]
 
+    #[Groups(['objet'])]
+
     private $pourcent_calcul;
 
     /**
      * @ORM\Column(type="boolean")
      */
     #[Assert\NotNull(message:"Veuillez choisir de mettre ou non l'objet dans la vitrine")]
+    #[Groups(['objet'])]
 
     private $vitrine;
 
@@ -96,6 +116,8 @@ class Objet
     /**
      * @ORM\Column(type="date")
      */
+    #[Groups(['objet'])]
+
     private $date_creation;
 
     /**
@@ -108,12 +130,16 @@ class Objet
      *  @ORM\JoinColumn(nullable=false)
      */
 
-    // #[Assert\NotNull(message:"Veuillez choisir une sous-catégorie")]
+    #[Assert\NotNull(message:"Veuillez choisir une sous-catégorie")]
+   
     private $sous_categorie;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+
+    #[Groups(['objet'])]
+
     private $slug;
 
     /**
@@ -132,11 +158,17 @@ class Objet
     /**
      * @ORM\Column(type="string", length=255)
      */
+
+    #[Groups(['objet'])]
+
     private $statut;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
+
+    #[Groups(['objet'])]
+
     private $observation;
 
     /**
