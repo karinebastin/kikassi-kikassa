@@ -30,8 +30,9 @@ class InscriptionFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
-        $depot = [30, 60, 90, 120];
+        $depot = [0, 30, 60, 90, 120];
         $fourmis = ['Verte', 'Bleue', 'Dorée'];
+        $roles = [['ROLE_ADMIN'], ['ROLE_USER']];
 
         for ($i = 0; $i < 10; $i++) {
             $biblio = new AdhesionBibliotheque();
@@ -49,6 +50,7 @@ class InscriptionFixtures extends Fixture implements DependentFixtureInterface
                 ->setJustifDomicile($faker->boolean(70))
                 ->setSatutInscription('valide')
                 ->setCategorieFourmi($fourmi)
+                ->setRoles($faker->randomElement($roles))
                 ->setAdherent($adh);
             $manager->persist($biblio);
         }

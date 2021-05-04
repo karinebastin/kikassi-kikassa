@@ -129,10 +129,10 @@ class AdherentsListController extends AbstractController
         $adherent = $adherentRepository->findOneById($id);
 
         $biblio = new AdhesionBibliotheque();
-        $adherent->getAdmin()
+        $admin = $request->request->get('admin');
+        $admin == 'oui'
             ? $biblio->setRoles(['ROLE_ADMIN'])
             : $biblio->setRoles(['ROLE_USER']);
-        dump($biblio);
         $form = $this->createForm(BiblioFormType::class, $biblio);
 
         $form->handleRequest($request);
@@ -155,7 +155,7 @@ class AdherentsListController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "L'adhérent {$biblio->getAdherent()->getPrenom()} {$biblio->getAdherent()->getNom()}  est bien inscrit à la bibliothèque des objets"
+                "L'adhésion et l'inscription à la bibliothèque des objets de {$biblio->getAdherent()->getPrenom()} {$biblio->getAdherent()->getNom()} sont bien prises en compte"
             );
             return $this->redirectToRoute('admin_details_adherent', [
                 'slug' => $adherent->getSlug(),

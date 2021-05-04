@@ -83,13 +83,6 @@ class AdhesionFormType extends AbstractType
                     'Exonéré de cotisation' => 'exonéré',
                 ],
             ])
-            ->add('admin', ChoiceType::class, [
-                'placeholder' => 'Accorder des droits d\'admin',
-                'choices' => [
-                    'Oui' => true,
-                    'Non' => false,
-                ],
-            ])
 
             ->add('saveAndContinue', SubmitType::class, [
                 'label' => '<i class="fas fa-arrow-right fa-3x"></i>',

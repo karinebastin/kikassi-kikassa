@@ -43,10 +43,18 @@
 					</div>
 				</div>
 				<div class="row">
-
 					<div class="col">
 						<div class="form-group">
 							{{ form_widget(form.fin_rc, {'attr': {'class': 'form-control p-4'}}) }}
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group admin-select">
+							<select type="radio" name="admin" class="admin form-control select-height" required>
+								<option value="">Donner des droits admin</option>
+								<option value="oui">Oui</option>
+								<option value="non">Non</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -60,16 +68,12 @@
 						<div class="form-group">
 							{{ form_widget(form.justif_domicile, {'attr': {'class': 'form-control select-height'}}) }}
 						</div>
-
 					</div>
 				</div>
-
 			</div>
 			{{macros.footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding)}}
-
 			{{ form_end(form)}}
 		</div>
-
 	</body>
 {% endblock %}
 {% block footer %}{% endblock %}

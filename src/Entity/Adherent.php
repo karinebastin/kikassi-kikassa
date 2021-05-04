@@ -180,14 +180,6 @@ class Adherent
 
     private $compte_actif;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     * 
-     */
-    #[Groups(['person'])]
-
-   #[Assert\NotNull(message:"Veuillez choisir un statut admin")]
-    private $admin;
 
     /**
      * @ORM\OneToOne(targetEntity=AdhesionBibliotheque::class, mappedBy="adherent", cascade={"persist", "remove"})
@@ -436,17 +428,6 @@ class Adherent
         return $this;
     }
 
-    public function getAdmin(): ?bool
-    {
-        return $this->admin;
-    }
-
-    public function setAdmin(bool $admin): self
-    {
-        $this->admin = $admin;
-
-        return $this;
-    }
 
     public function getAdhesionBibliotheque(): ?AdhesionBibliotheque
     {
