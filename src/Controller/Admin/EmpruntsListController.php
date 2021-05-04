@@ -42,11 +42,14 @@ class EmpruntsListController extends AbstractController
     ): Response {
         $emprunt = new Emprunt();
         $objet = new Objet();
+
         $formObjSearch = $this->createForm(SearchFormType::class);
         $formSearch = $this->createForm(SearchFormType::class);
         $form = $this->createForm(EmpruntFormType::class, $emprunt);
 
         $form->handleRequest($request);
+
+        // Je récupère l'adhérent est je vérifie si c'est un adhérent ou super-admin
 
         $adherent = $adherentRepository->findOneById(
             $request->request->get('adherent')
@@ -59,76 +62,99 @@ class EmpruntsListController extends AbstractController
             ? $emprunt->setAdherent($adherent)
             : $emprunt->setSuperAdmin($admin);
 
+        //Je récupère l'objet
+
         $objet = $objetRepository->findOneById($request->request->get('objet'));
         $emprunt->setObjet($objet);
+
         $submitted = $form->isSubmitted() ? 'was-validated' : '';
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (($adherent && $adherent->getAdhesionBibliotheque()) || $admin) {
-                $now = new \DateTime();
-                if ($emprunt->getDateDebut() > $now) {
-                    $emprunt->setDateReservation($now);
-                }
-                if ($emprunt->getDateFin() < $emprunt->getDateDebut()) {
+            //  Je vérifie si l'objet peut être emprunté
+            if ($objet->getStatut() == 'Disponible') {
+                //Je vérifie si l'emprunteur est bien un adhérent inscrit à la
+                // bibliothèque ou un super-admin
+                if (
+                    ($adherent && $adherent->getAdhesionBibliotheque()) ||
+                    $admin
+                ) {
+                    // Je set la date de réservation uniquement si l'emprunt ne débute pas le jour même, et je la met à aujourd'hui
+                    $now = new \DateTime();
+                    if ($emprunt->getDateDebut() > $now) {
+                        $emprunt->setDateReservation($now);
+                    }
+                    if ($emprunt->getDateFin() < $emprunt->getDateDebut()) {
+                        $this->addFlash(
+                            'danger',
+                            "La date de fin d'emprunt ne peut pas être avant la date de début"
+                        );
+                    }
+
+                    //je set le statut de l'emprunt et je le met à "en cours" si l'emprunt débute aujourd'hui ou à "accepté par l'admin" si non
+                    $emprunt->setStatut(
+                        $emprunt->getDateDebut() == $now
+                            ? 'Emprunt en cours'
+                            : 'Accepté par l\'Admin'
+                    );
+                    // calcul du prix de l'emprunt :
+                    $obj = $emprunt->getObjet();
+                    $days = $emprunt
+                        ->getDateDebut()
+                        ->diff($emprunt->getDateFin())->days;
+                    $prix =
+                        (((($obj->getValeurAchat() *
+                            $obj->getPourcentCalcul()) /
+                            100) *
+                            $obj->getCoefUsure()) /
+                            5) *
+                        $days;
+                    $emprunt->setPrixEmprunt($prix);
+
+                    // calcul du montant de dépôt de garantie à rajouter au dépôt permanent :
+                    $finrc = $adherent->getAdhesionBibliotheque()->getFinRc();
+                    $depot_perm = $adherent
+                        ->getAdhesionBibliotheque()
+                        ->getDepotPermanent();
+
+                    if ($adherent) {
+                        if ($finrc > $now) {
+                            $depot_rajoute =
+                                ($obj->getValeurAchat() *
+                                    $obj->getCoefUsure()) /
+                                    5 /
+                                    3 -
+                                $depot_perm;
+                            dump('rc valide');
+                        } else {
+                            $depot_rajoute =
+                                ($obj->getValeurAchat() *
+                                    $obj->getCoefUsure()) /
+                                    5 -
+                                $depot_perm;
+                            dump('pas rc ou rc perimee');
+                        }
+                    } else {
+                        $depot_rajoute = 0;
+                        dump('est admin');
+                    }
+
+                    $emprunt->setDepotRajoute(
+                        $depot_rajoute < 0 ? 0 : $depot_rajoute
+                    );
+                    //Je set le  statut de l'objet à réservé
+                    $objet->setStatut('Réservé');
+                    $manager->persist($emprunt);
+                    $manager->flush();
+                } else {
                     $this->addFlash(
                         'danger',
-                        "La date de fin d'emprunt ne peu pas être avant la date de début"
+                        "Emprunt impossible, <br> L'adhérent {$adherent->getNomprenom()} n'est pas inscrit à la bibliothèque"
                     );
                 }
-                $emprunt->setStatut(
-                    $emprunt->getDateDebut() == $now
-                        ? 'Emprunt en cours'
-                        : 'Accepté par l\'Admin'
-                );
-
-                $obj = $emprunt->getObjet();
-                $days = $emprunt->getDateDebut()->diff($emprunt->getDateFin())
-                    ->days;
-                $prix =
-                    (((($obj->getValeurAchat() * $obj->getPourcentCalcul()) /
-                        100) *
-                        $obj->getCoefUsure()) /
-                        5) *
-                    $days;
-
-                $emprunt->setPrixEmprunt($prix);
-                $emprunt->setPenalites($emprunt->getEmpruntRegle() ? 0 : $prix);
-
-                $finrc = $adherent->getAdhesionBibliotheque()->getFinRc();
-                $depot_perm = $adherent
-                    ->getAdhesionBibliotheque()
-                    ->getDepotPermanent();
-
-                if ($adherent) {
-                    if ($finrc > $now) {
-                        $depot_rajoute =
-                            ($obj->getValeurAchat() * $obj->getCoefUsure()) /
-                                5 /
-                                3 -
-                            $depot_perm;
-                        dump('rc valide');
-                    } else {
-                        $depot_rajoute =
-                            ($obj->getValeurAchat() * $obj->getCoefUsure()) /
-                                5 -
-                            $depot_perm;
-                        dump('pas rc ou rc perimee');
-                    }
-                } else {
-                    $depot_rajoute = 0;
-                    dump('est admin');
-                }
-
-                $emprunt->setDepotRajoute(
-                    $depot_rajoute < 0 ? 0 : $depot_rajoute
-                );
-                $objet->setStatut('réservé');
-                $manager->persist($emprunt);
-                $manager->flush();
             } else {
                 $this->addFlash(
                     'danger',
-                    "Emprunt impossible, <br> L'adhérent {$adherent->getNomprenom()} n'est pas inscrit à la bibliothèque"
+                    "L'objet {$objet->getDenomination()} n'est pas disponible pour un emprunt"
                 );
             }
         }
