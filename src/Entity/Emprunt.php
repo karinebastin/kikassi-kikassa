@@ -77,7 +77,7 @@ class Emprunt
      * @ORM\ManyToOne(targetEntity=Objet::class, inversedBy="emprunts")
      * @ORM\JoinColumn(nullable=false)
      */
-    #[Assert\NotNull(message:"Veuillez choisir un objet à emprunter")]
+    // #[Assert\NotNull(message:"Veuillez choisir un objet à emprunter")]
 
     private $objet;
 
