@@ -141,6 +141,7 @@ class AdherentsListController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $biblio->setAdherent($adherent);
+            $biblio->setEmail($adherent->getEmail());
             $biblio->setSatutInscription('valide');
             $hash = $encoder->encodePassword(
                 $biblio,
@@ -154,7 +155,7 @@ class AdherentsListController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "L'adhérent {$biblio->getAdherent()->getPrenom()} {$biblio->getAdherent()->getNom()}  est bien inscrit à la bibliothèque et son adhésion est bien prise en compte"
+                "L'adhérent {$biblio->getAdherent()->getPrenom()} {$biblio->getAdherent()->getNom()}  est bien inscrit à la bibliothèque des objets"
             );
             return $this->redirectToRoute('admin_details_adherent', [
                 'slug' => $adherent->getSlug(),
