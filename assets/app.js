@@ -14,6 +14,7 @@ import "./styles/test.sass";
 import "./styles/admin.sass";
 import "./styles/detail.sass";
 import "./styles/calendrier.sass";
+import "./styles/panier.sass";
 import "./styles/splide.min.css";
 
 // start the Stimulus application

@@ -79,7 +79,7 @@ class CalendarSubscriber implements EventSubscriberInterface
     // }
 
 
-    // essai2
+    // essai2 lien entre la bdd par le repo/entity calendrier
     // Modify the query to fit to your entity and needs
     // Change booking.beginAt by your start date property
     $bookings = $this->bookingRepository
@@ -107,8 +107,6 @@ class CalendarSubscriber implements EventSubscriberInterface
       $bookingEvent->setOptions([
         'backgroundColor' => 'red',
         'borderColor' => 'red',
-        // 'display' => 'background',
-        // 'color' => 'red',
       ]);
       $bookingEvent->addOption(
         'url',
