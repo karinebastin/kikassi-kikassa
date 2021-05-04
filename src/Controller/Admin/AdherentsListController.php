@@ -92,10 +92,6 @@ class AdherentsListController extends AbstractController
             $biblio = $request->request->get('biblio');
 
             if ($biblio == 'oui') {
-                $this->addFlash(
-                    'success',
-                    "Le nouvel adhérent {$adherent->getNomprenom()} a bien été créé"
-                );
                 return $this->redirectToRoute('adherents_new_biblio', [
                     'id' => $adherent->getId(),
                 ]);
@@ -131,8 +127,12 @@ class AdherentsListController extends AbstractController
         UserPasswordEncoderInterface $encoder
     ): Response {
         $adherent = $adherentRepository->findOneById($id);
-        $biblio = new AdhesionBibliotheque();
 
+        $biblio = new AdhesionBibliotheque();
+        $adherent->getAdmin()
+            ? $biblio->setRoles(['ROLE_ADMIN'])
+            : $biblio->setRoles(['ROLE_USER']);
+        dump($biblio);
         $form = $this->createForm(BiblioFormType::class, $biblio);
 
         $form->handleRequest($request);

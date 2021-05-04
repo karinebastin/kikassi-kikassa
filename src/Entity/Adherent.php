@@ -181,7 +181,7 @@ class Adherent
     private $compte_actif;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      * 
      */
     #[Groups(['person'])]

@@ -7,6 +7,17 @@ security:
   # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
   providers:
     users_in_memory: { memory: null }
+    superadmin:
+      entity: { class: App\Entity\SuperAdmin, property: email }
+        # class: 'App\entity\SuperAdmin'
+        # property: 'email'
+    user:
+      entity: { class: App\Entity\AdhesionBibliotheque, property: email }
+        # class: 'App\entity\AdhesionBibliotheque'
+        # property: 'email'
+    all_users:
+      chain:
+        providers: ['superadmin', 'user']
   firewalls:
     dev:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -14,7 +25,17 @@ security:
     main:
       anonymous: true
       lazy: true
-      provider: users_in_memory
+      provider: all_users
+      guard:
+        authenticators:
+          - App\Security\AppAdminAuthenticator
+      logout:
+        path: app_logout
+        # where to redirect after logout
+        target: app_login
+  role_hierarchy:
+    ROLE_ADMIN:       ROLE_USER
+    ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
       # activate different ways to authenticate
       # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -25,5 +46,5 @@ security:
   # Easy way to control access for large sections of your site
   # Note: Only the *first* access control that matches will be used
   access_control:
-    # - { path: ^/admin, roles: ROLE_ADMIN }
-    # - { path: ^/profile, roles: ROLE_USER }
+     - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_SUPER_ADMIN] }
+     - { path: ^/biblio, roles: ROLE_USER }
