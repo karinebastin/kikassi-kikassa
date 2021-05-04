@@ -1,0 +1,75 @@
+{% extends './admin/base-admin.html.twig' %}
+{% import './admin/_macros.html.twig' as macros %}
+
+
+{% set envoi = "<div>" ~ form_widget(form.save) ~ "</div>" %}
+{% set continue = "" %}
+{% set arrowClass = 'd-none' %}
+{% set footerPadding = 'l-padding' %}
+
+{% block title %}Adhérents
+{% endblock %}
+
+
+{% block body %}
+	<body class={{color}}>
+		<div class="main-title font-raleway container">
+			<h1 class="text-center font-raleway mb-5">Inscription de
+				{{adherent.nomPrenom}}
+				à la Bibliothèque des Objets</h1>
+			<div class="container">
+				{% set formErrors = form.vars.errors.form.getErrors(true) %}
+				{% if formErrors|length %}
+					<ul class="text-center list-group mb-1">
+						<li class="list-group-item list-group-item-danger my-1">Formulaire non valide :</li>
+						{% for error in formErrors %}
+							<li class="list-group-item list-group-item-danger my-1">{{ error.message }}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+			{{ form_start(form, {'attr': {'autocomplete' : 'off', 'novalidate' : true, 'class' : submitted ? submitted : "" }})}}
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.categorie_fourmi ,  {'attr': {'class': 'form-control select-height'}}) }}
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.depot_permanent, {'attr': {'class': 'form-control select-height'}}) }}
+						</div>
+					</div>
+				</div>
+				<div class="row">
+
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.fin_rc, {'attr': {'class': 'form-control p-4'}}) }}
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.justif_identite, {'attr': {'class': 'form-control select-height'}}) }}
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							{{ form_widget(form.justif_domicile, {'attr': {'class': 'form-control select-height'}}) }}
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+			{{macros.footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding)}}
+
+			{{ form_end(form)}}
+		</div>
+
+	</body>
+{% endblock %}
+{% block footer %}{% endblock %}

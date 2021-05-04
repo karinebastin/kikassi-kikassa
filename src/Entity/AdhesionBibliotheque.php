@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AdhesionBibliothequeRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AdhesionBibliothequeRepository::class)
@@ -27,21 +28,29 @@ class AdhesionBibliotheque implements UserInterface
     /**
      * @ORM\Column(type="integer")
      */
+    #[Assert\NotBlank(message:"Veuillez entrer un montant pour le dépôt permanent versé")]
     private $depot_permanent;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      */
+
+    #[Assert\Type("\DateTimeInterface", message:"Veuillez entrer une date de fin de validité de Responsabilité Civile valide")]
     private $fin_rc;
 
     /**
      * @ORM\Column(type="boolean")
      */
+
+    #[Assert\NotNull(message:"Veuillez indiquer si un justificatif d\identité a été fourni")]
+
     private $justif_identite;
 
     /**
      * @ORM\Column(type="boolean")
      */
+
+    #[Assert\NotNull(message:"Veuillez indiquer si un justificatif de domicile a été fourni")]
     private $justif_domicile;
 
     /**
@@ -63,9 +72,11 @@ class AdhesionBibliotheque implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
+
+    #[Assert\NotNull(message:"Veuillez choisir une catégorie de fourmi")]
     private $categorie_fourmi;
 
-      /**
+    /**
      *
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -149,8 +160,9 @@ class AdhesionBibliotheque implements UserInterface
         return $this->date_inscription;
     }
 
-    public function setDateInscription(\DateTimeInterface $date_inscription): self
-    {
+    public function setDateInscription(
+        \DateTimeInterface $date_inscription
+    ): self {
         $this->date_inscription = $date_inscription;
 
         return $this;

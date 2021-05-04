@@ -1,0 +1,11 @@
+{% import './admin/_macros.html.twig' as macros %}
+
+
+{% set label = 'Rechercher un adhérent / super-admin <br> avec un nom ou un prénom' %}
+{% set item = 'adherent' %}
+{% set select = 'adhérent' %}
+{% set form = formSearch %}
+{% set theads = ['Nom', 'Prénom', 'Email', 'Séléction'] %}
+
+
+{{macros.search_module(form, label, item, param, select, theads) }}

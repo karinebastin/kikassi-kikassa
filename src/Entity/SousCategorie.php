@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\SousCategorieRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=SousCategorieRepository::class)
@@ -19,22 +20,27 @@ class SousCategorie
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+    #[Groups(['categorie'])]
+
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nom_ss_categorie;
+    #[Groups(['categorie'])]
 
+    private $nom_ss_categorie;
 
     /**
      * @ORM\OneToMany(targetEntity=Objet::class, mappedBy="sous_categorie")
      */
+
     private $objets;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+
     private $slug;
 
     /**
@@ -43,7 +49,7 @@ class SousCategorie
      */
     private $categorie;
 
-      /**
+    /**
      *
      *@ORM\PrePersist
      *
@@ -53,11 +59,13 @@ class SousCategorie
     {
         if (empty($this->slug)) {
             $slugify = new Slugify();
-            $this->slug = $slugify->slugify($this->getNomSsCategorie().time().hash('sha1', $this->getNomSsCategorie()));
+            $this->slug = $slugify->slugify(
+                $this->getNomSsCategorie() .
+                    time() .
+                    hash('sha1', $this->getNomSsCategorie())
+            );
         }
     }
-
-    
 
     public function __construct()
     {
@@ -80,7 +88,6 @@ class SousCategorie
 
         return $this;
     }
-
 
     /**
      * @return Collection|Objet[]

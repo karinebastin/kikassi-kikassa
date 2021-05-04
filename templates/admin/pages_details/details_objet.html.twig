@@ -10,6 +10,7 @@
 			<div class=" bg-bons vw-100">
 				<h3 class="text-center font-raleway my-4">Informations de l'objet n°
 					{{objet.id}}</h3>
+				{{ macros.flash_message() }}
 				<div class="row">
 					<div class="col"></div>
 					{% for photo in objet.photos %}
@@ -39,7 +40,7 @@
 							€
 						</p>
 						<p>
-							<strong>Coeficient d'usure :</strong>
+							<strong>Coefficient d'usure :</strong>
 							{{objet.coefusure}}
 							/5
 						</p>

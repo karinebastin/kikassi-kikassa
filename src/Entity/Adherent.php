@@ -10,116 +10,218 @@ use App\Entity\AdhesionBibliotheque;
 use App\Repository\AdherentRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=AdherentRepository::class)
  * @ORM\HasLifecycleCallbacks
  */
+
+#[UniqueEntity('email', message: "L'adresse email existe déjà dans la base de données")]
+
 class Adherent
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *  
      */
+    
+#[Groups(['person'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
+    #[Groups(['person'])]
+
+    #[Assert\NotBlank(message:"Veuillez entrer un nom")]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'Le nom doit faire plus de {{ limit }} caractères',
+        maxMessage: 'Le nom doit faire {{ limit }} caractères maximum',
+    )]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
+#[Groups(['person'])]
+    
+     #[Assert\NotBlank(message:"Veuillez entrer un prénom")]
+     #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'Le prénom doit faire plus de {{ limit }} caractères',
+        maxMessage: 'Le prénom doit faire {{ limit }} caractères maximum',
+    )]
     private $prenom;
+
 
     private $nomprenom;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
      */
+
+    #[Assert\NotBlank(message:"Veuillez entrer une adresse")]
+    #[Assert\Length(
+        min: 5,
+        minMessage: 'L\'adresse doit faire plus de {{ limit }} caractères',
+    )]
+#[Groups(['person'])]
+
     private $adresse;
 
     /**
      * @ORM\Column(type="string", length=6)
      */
+
+    #[Assert\NotBlank(message:"Veuillez entrer un code postal")]
+#[Groups(['person'])]
+    
     private $cp;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
+    #[Assert\NotBlank(message:"Veuillez entrer une ville")]
+    #[Assert\Length(
+        min: 3,
+        minMessage: 'La ville doit faire plus de {{ limit }} caractères',
+    )]
+#[Groups(['person'])]
+
     private $ville;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    #[Assert\Email(
+        message: 'Veuillez entrer un email valide',
+    )]
+#[Groups(['person'])]
+
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
+    #[Assert\NotBlank(message:"Veuillez entrer un numéro de téléphone")]
+    #[Assert\Positive(message:"Veuillez entrer un numéro de téléphone valide ")]
+    #[Assert\Length( min: 10,
+    max:10,
+    exactMessage:"Veuillez entrer un numéro de téléphone valide (10 chiffres sans espace)")]
+#[Groups(['person'])]
+    
+    
     private $telephone;
 
     /**
      * @ORM\Column(type="date")
+     * 
      */
+    #[Groups(['person'])]
+
+    #[Assert\Type("\DateTimeInterface", message:"Veuillez entrer une date de naissance valide")]
+    #[Assert\NotBlank(message:"Veuillez entrer une date de naissance")]
+  
     private $date_naissance;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
      */
+    #[Groups(['person'])]
+
+    #[Assert\NotBlank(message:"Veuillez entrer un lieu de naissance")]
+    #[Assert\Length(
+        min: 3,
+        minMessage: 'Le lieu de naissance doit faire plus de {{ limit }} caractères',
+    )]
     private $lieu_naissance;
 
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
      */
+#[Groups(['person'])]
+
+    #[Assert\PositiveOrZero(message:"Veuillez entrer un montant de cotisation valide")]
     private $montant_cotisation;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+#[Groups(['person'])]
+
     private $moyen_paiement;
 
     /**
      * @ORM\Column(type="date")
      */
+#[Groups(['person'])]
+
     private $date_adhesion;
 
     /**
      * @ORM\Column(type="boolean")
      */
+#[Groups(['person'])]
+
     private $compte_actif;
 
     /**
      * @ORM\Column(type="boolean")
+     * 
      */
+    #[Groups(['person'])]
+
+   #[Assert\NotNull(message:"Veuillez choisir un statut admin")]
     private $admin;
 
     /**
      * @ORM\OneToOne(targetEntity=AdhesionBibliotheque::class, mappedBy="adherent", cascade={"persist", "remove"})
      */
+
+    #[Groups(['person'])]
+    
     private $adhesionBibliotheque;
 
     /**
-     * @ORM\OneToMany(targetEntity=Objet::class, mappedBy="adherent")
+     * @ORM\OneToMany(targetEntity=Objet::class, mappedBy="adherent", cascade={"persist"})
      */
+
     private $objets;
 
     /**
      * @ORM\OneToMany(targetEntity=Emprunt::class, mappedBy="adherent", orphanRemoval=true)
      */
+
     private $emprunts;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+#[Groups(['person'])]
+    
     private $slug;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['person'])]
+
+    #[Assert\NotNull(message:"Veuillez indiquer un état pour la cotisation")]
     private $etat_cotisation;
 
     /**
@@ -263,7 +365,7 @@ class Adherent
         return $this->date_naissance;
     }
 
-    public function setDateNaissance(\DateTimeInterface $date_naissance): self
+    public function setDateNaissance(?\DateTimeInterface $date_naissance): self
     {
         $this->date_naissance = $date_naissance;
 
