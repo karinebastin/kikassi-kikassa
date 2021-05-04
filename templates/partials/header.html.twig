@@ -1,0 +1,63 @@
+<nav class="navbar nav navbar-expand-lg navbar-dark position-fixed w-100">
+	<div class="container-fluid">
+		<div class="row w-100">
+			<div class="col-12 col-lg-5">
+				<a class="navbar-brand" href="{{path('home')}}">
+					<H3 class="m-0 p-0">kikassi kikassa</H3>
+					<p class="m-0 p-0">Bibliothèque d'objet d'Arles</p>
+				</a>
+			</div>
+			<div class="col-12 col-lg-4 offset-lg-3 mt-2 text-right">
+				<button class="navbar-toggler ml-4" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse text-left" id="navbarNavDropdown">
+					<ul class="navbar-nav w-100">
+						<li class="nav-item dropdown ml-2">
+							<a class="nav-link dropdown-toggle icon-white mx-2" href="https://kikassikikassa.fr/" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fas fa-home icon-white fa-2x"></i>
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+								<a class="dropdown-item" href="https://kikassikikassa.fr/actus/">Actualité</a>
+								<a class="dropdown-item" href="#">Qui sommes-nous?</a>
+								<a class="dropdown-item" href="https://kikassikikassa.fr/la-bibliotheque-dobjets-2/">Comment ça marche</a>
+								<a class="dropdown-item" href="https://kikassikikassa.fr/contact/">Contact</a>
+							</div>
+						</li>
+					</a>
+				</li>
+				{% if app.user %}
+					{# {% if is_granted('ROLE_USER') %} #}
+					<li class="nav-item">
+						<a class="navbar-brand icon-white mx-2" href="#">
+							<i class="fas fa-shopping-basket fa-2x mx-2"></i>
+						</a>
+					</li>
+					<li class="nav-item dropdown ">
+
+						<a class="nav-link dropdown-toggle pl-0 mx-2" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+							<p class="d-inline mx-2">nom
+								{#{{app.user.prenom}}#}
+							</p>
+							<img id="fourmis" src="../img/foumis monochrome sans fond.png" alt="avatar fourmis">
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="#">Information compte</a>
+							<a class="dropdown-item" href="#">Historique des paniers</a>
+							<a class="dropdown-item" href="#">Déconnexion</a>
+						</div>
+					</li>
+					{# {% elseif is_granted('ROLE_ADMIN') %}
+										<a href="#">Administration</a>
+									{% endif %} #}
+				{% else %}
+					<li class="nav-item">
+						<a class="nav-link text-center" href="{{ path('app_login') }}">Connexion à la bibliothèque d'objet</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+</div></div></nav>
