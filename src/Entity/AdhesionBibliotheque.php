@@ -77,6 +77,11 @@ class AdhesionBibliotheque implements UserInterface
     private $categorie_fourmi;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+
+    /**
      *
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -222,6 +227,18 @@ class AdhesionBibliotheque implements UserInterface
     public function setCategorieFourmi(string $categorie_fourmi): self
     {
         $this->categorie_fourmi = $categorie_fourmi;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }
