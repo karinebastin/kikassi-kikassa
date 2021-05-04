@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block body %}
+	{% include "/partials/header.html.twig" %}
+	<div class="container-fluid w-100">
+		<div class="row">
+			<div
+				class="margin-top-panier col-12">{# <h3 class="mx-4">niveau de garantie</h3> #}
+			</div>
+			<div class="col-12">
+				<h3 class="mx-4">Réservations</h3>
+			</div>
+			<div class="col-12">
+				<table class="mx-2 table table-responsive">
+					<thead class="w-100">
+						<tr class="text-center">
+							<th scope="col">Article</th>
+							<th scope="col">Catégorie</th>
+							<th scope="col">Réservé du</th>
+							<th scope="col">jusqu'au</th>
+							<th scope="col">Coût</th>
+							<th scope="col">Garantie demandé
+							</th>
+							<th scope="col">supprimer</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td class="d-flex justify-content-center">
+								<i class="fa fa-trash" aria-hidden="true"></i>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-12 border">
+				<form>
+					<div class="form-group">
+						<label for="remarque">Remarques ou demandes</label>
+						<input type="remarque" class="form-control" id="remarque" placeholder="Remarques">
+					</div>
+					<div class="d-flex justify-content-end">
+						<button type="submit" class="btn bg-green d-flex justify-content-end my-2">Valider le panier</button>
+					</div>
+				</form>
+			</div>
+			<div class="col-12 d-flex justify-content-around my-2">
+				<i class="fas fa-reply fa-2x"></i>
+				<i class="fas fa-plus-circle fa-2x"></i>
+				<i class="fa fa-trash fa-2x" aria-hidden="true"></i>
+			</div>
+		</div>
+	</div>
+	{% include "/partials/footer.html.twig" %}
+{% endblock %}

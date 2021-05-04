@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block body %}
+	{% include "/partials/header.html.twig" %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="margin-top-panier col-6 mb-4">
+				<div class="input-group rounded">
+					<input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon"/>
+					<span class="input-group-text border-0" id="search-addon">
+						<i class="fas fa-search"></i>
+					</span>
+				</div>
+			</div>
+			<div class="col-12">
+				<h3 class="mx-4">Historique des réservations</h3>
+			</div>
+			<div class="col-12">
+				<table class="mx-2 table table-responsive">
+					<thead>
+						<tr class="text-center">
+							<th scope="col">Article</th>
+							<th scope="col">Etat</th>
+							<th scope="col">Date de retour</th>
+							<th scope="col">Retour enregistré</th>
+							<th scope="col">Frais de retard</th>
+							<th scope="col">Ré-emprunté
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td>
+								<i class="fas fa-redo"></i>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	{% include "/partials/footer.html.twig" %}
+{% endblock %}

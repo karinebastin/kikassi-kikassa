@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+{% block body %}
+	{% include "/partials/header.html.twig" %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-6 margin-top">
+				<h1 class="text-right mt-5">{{objet.denomination | title}}</h1>
+			</div>
+			<div class="col-6 d-flex align-items-end">
+				<p class="text-left">id:
+					{{objet.id}}</p>
+			</div>
+			<div class="col-12">
+				<p class="text-center">
+					Catégories :
+					{{objet.sousCategorie.categorie.nomCategorie}},
+					{{objet.sousCategorie.nomSsCategorie}}</p>
+			</div>
+		</div>
+		<div class="bg-creme row">
+			<div class="col-12 col-lg-8">
+
+				<div id="primary-slider" class="splide">
+					<div id="triangle"></div>
+					<div id="text-triangle">
+						<p>{{objet.Statut}}</p>
+					</div>
+					<div class="splide__track">
+						<ul class="splide__list">
+							{% for photo in objet.photos %}
+								<li class="splide__slide">
+									<img alt="photo de {{objet.denomination}}" src=" {{photo.lien}} ">
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+				<div id="secondary-slider" class="splide">
+					<div class="splide__track">
+						<ul class="splide__list">
+							{% for photo in objet.photos %}
+								<li class="splide__slide">
+									<img alt="photo de {{objet.denomination}}" src=" {{photo.lien}} ">
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-4 bg-green calendrier">
+				<div class="row">
+					<div class="col-12">
+						<p class="ml-3 mt-3">Disponibilité:</p>
+					</div>
+					<div id="calendar" class="col-11 offset-1 m-2 d-flex justify-content-center pb-2 ml-3 mb-3"></div>
+					{% if app.user %}
+						<div class="align-self-end col-12 d-flex justify-content-center">
+							<a href="{{path('calendrier_new')}}">
+								<button type="button" class="btn btn-light mb-2">Réserver</button>
+							</a>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+			<div class="col-3 col-lg-1">
+				<p class="ml-3">catalogue
+					{# <span class="{{objet.catalogue.nomCatalogue | url_encode | lower}}">{{objet.catalogue.nomCatalogue | url_encode | lower}}</span> #}
+				</p>
+			</div>
+			<div class="col-2 mt-2 d-flex justify-content-lg-start justify-content-end">
+				<div class="rond-catalogue"></div>
+			</div>
+			<div class="col-7 col-lg-9"></div>
+			<div class="shadow-sm p-3 mb-5 bg-white rounded col-12 col-lg-5 h-25">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-12 col-6 ">
+							<p>Prix d'emprunt :
+								<span>{% set prix = objet.pourcentCalcul / 100 * objet.valeurAchat * objet.coefUsure / 5 %}
+									{{prix}}</span>
+								€ par jour</p>
+						</div>
+						<div class="col-lg-12 col-6">
+							<p>Valeur de l'emprunt :
+								<span>{% set valeur = objet.valeurAchat * objet.coefUsure / 5 %}
+									{{valeur}}</span>€</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="shadow-sm p-3 mb-5 bg-white rounded col-12 offset-lg-1 col-lg-6">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<h2>Où et quand récupérer l'objet</h2>
+						</div>
+						<div class="col-lg-12 col-6">
+							<p>{{objet.lieu.nom}}</p>
+							<p>{{objet.lieu.adresse}}</p>
+							<p>{{objet.lieu.cp}}</p>
+							<p>{{objet.lieu.ville}}</p>
+							<p>{{objet.lieu.telephone}}</p>
+						</div>
+						<div class="col-lg-12 col-6">
+							<p>Horaire d'ouverture</p>
+							{% for horaire in objet.lieu.horaireLieu %}
+								{{horaire.jour}}
+								{% if horaire.ouvAm is not null %}
+									de
+									{{horaire.ouvAm}}
+									à
+									{{horaire.fermeAm}}
+									{% if horaire.ouvPm is not null %}et
+									{% endif %}
+								{% endif %}
+								{% if horaire.ouvPm is not null %}
+									de
+									{{horaire.ouvPm}}
+									à
+									{{horaire.fermePm}}
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 shadow-sm p-3 mb-5 bg-white rounded">
+				<p class="ml-3">Informations:</p>
+				<p class="ml-3">{{objet.description}}</p>
+			</div>
+			<div class="col-12 shadow-sm p-3 mb-5 bg-white rounded">
+				<p class="ml-3">Etat:</p>
+				<p class="ml-3">{{objet.observation}}</p>
+			</div>
+		</div>
+	</div>
+	{% include "/partials/footer.html.twig" %}
+{% endblock %}

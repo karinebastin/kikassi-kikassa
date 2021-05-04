@@ -27,15 +27,17 @@ class PhotoFixtures extends Fixture implements DependentFixtureInterface
             $objet = $this->getReference('objet_' . $i);
             $photo = new Photo();
 
+
             $photo->setLien($liens[$i])->setObjet($objet);
 
             $manager->persist($photo);
         }
 
+
         $manager->flush();
     }
     public function getDependencies()
     {
-        return [ObjetFixtures::class];
+            return [ObjetFixtures::class];
     }
 }
