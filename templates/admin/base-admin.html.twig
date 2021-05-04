@@ -26,7 +26,11 @@
 	</body>
 	{% block footer %}
 		<footer>
-			{{macros.footer_color(section, return_path)}}
+			{% if arrow is defined %}
+				{{macros.footer_color(section, return_path, arrow, envoi )}}
+			{% else %}
+				{{macros.footer_color(section, return_path )}}
+			{% endif %}
 		</footer>
 	{% endblock %}
 </html>

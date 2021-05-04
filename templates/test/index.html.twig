@@ -4,14 +4,45 @@
 {% endblock %}
 
 {% block body %}
-
-
-	<div class="test-wrapper">
-		<div class="row">
-			<div class="col-3">col 1</div>
-			<div class="col-3">col 2</div>
-			<div class="col-3">col 3</div>
-			<div class="col-3">col 4</div>
+	<body data-controller="admin">
+		<div class="test-wrapper">
+			<div class="row">
+				<div class="col-3">col 1</div>
+				<div class="col-3">col 2</div>
+				<div class="col-3">col 3</div>
+				<div class="col-3">col 4</div>
+			</div>
 		</div>
-	</div>
+
+
+		{% set tbs = ["Nom", "Prénom", "Téléphone", "Fourmi"] %}
+
+
+		<table class='table'>
+			<thead>
+
+
+				{% for tb in tbs %}
+
+					<th>{{tb}}</th>
+
+				{% endfor %}
+			</thead>
+			<tbody>
+				{% for tableHead in tableHeads %}
+					{% for key in tableHead|keys %}
+						{{dump(key)}}
+						{# <tr>
+																		<td>{{tableHead.Nom}}</td>
+																		<td>{{tableHead.Prénom}}</td>
+																		<td>{{tableHead.Téléphone}}</td>
+																		<td>{{tableHead.Fourmi is not null ? tableHead.Fourmi.categorieFourmi : " /"
+																		}}</td>
+												
+																	</tr> #}
+					{% endfor %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</body>
 {% endblock %}

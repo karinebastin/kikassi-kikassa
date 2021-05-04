@@ -5,9 +5,11 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\EmpruntRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EmpruntRepository::class)
+ *  @ORM\HasLifecycleCallbacks
  */
 class Emprunt
 {
@@ -26,11 +28,18 @@ class Emprunt
     /**
      * @ORM\Column(type="date")
      */
+    #[Assert\Type("\DateTimeInterface", message:"Veuillez entrer une date de début valide pour l'emprunt")]
+    #[Assert\NotBlank(message:"Veuillez entrer une date de début d'emprunt")]
+    #[Assert\GreaterThan('yesterday', message:"Veuillez entrer une date de début d'emprunt correcte")]
     private $date_debut;
 
     /**
      * @ORM\Column(type="date")
      */
+
+    #[Assert\Type("\DateTimeInterface", message:"Veuillez entrer une date de fin valide pour l'emprunt au format 12/12/2021")]
+    #[Assert\NotBlank(message:"Veuillez entrer une date de fin d'emprunt")]
+    #[Assert\GreaterThan('yesterday', message:"Veuillez entrer une date de fin d'emprunt correcte")]
     private $date_fin;
 
     /**
@@ -41,6 +50,7 @@ class Emprunt
     /**
      * @ORM\Column(type="date", nullable=true)
      */
+    #[Assert\Type("\DateTimeInterface", message:"Veuillez entrer une date de retour de l'objet valide au format 12/12/2021")]
     private $date_retour_objet;
 
     /**
@@ -67,11 +77,14 @@ class Emprunt
      * @ORM\ManyToOne(targetEntity=Objet::class, inversedBy="emprunts")
      * @ORM\JoinColumn(nullable=false)
      */
+    // #[Assert\NotNull(message:"Veuillez choisir un objet à emprunter")]
+
     private $objet;
 
     /**
      * @ORM\ManyToOne(targetEntity=Adherent::class, inversedBy="emprunts")
      */
+
     private $adherent;
 
     /**
@@ -87,6 +100,9 @@ class Emprunt
     /**
      * @ORM\Column(type="boolean")
      */
+
+    #[Assert\NotNull(message:"Veuillez choisir si l'emprunt est réglé ce jour ou non")]
+
     private $emprunt_regle;
 
     /**
@@ -99,7 +115,11 @@ class Emprunt
     {
         if (empty($this->slug)) {
             $slugify = new Slugify();
-            $this->slug = $slugify->slugify($this->getObjet()->getDenomination().time().hash('sha1', $this->getObjet()->getDenomination()));
+            $this->slug = $slugify->slugify(
+                $this->getObjet()->getDenomination() .
+                    time() .
+                    hash('sha1', $this->getObjet()->getDenomination())
+            );
         }
     }
 
@@ -113,8 +133,9 @@ class Emprunt
         return $this->date_reservation;
     }
 
-    public function setDateReservation(?\DateTimeInterface $date_reservation): self
-    {
+    public function setDateReservation(
+        ?\DateTimeInterface $date_reservation
+    ): self {
         $this->date_reservation = $date_reservation;
 
         return $this;
@@ -161,8 +182,9 @@ class Emprunt
         return $this->date_retour_objet;
     }
 
-    public function setDateRetourObjet(?\DateTimeInterface $date_retour_objet): self
-    {
+    public function setDateRetourObjet(
+        ?\DateTimeInterface $date_retour_objet
+    ): self {
         $this->date_retour_objet = $date_retour_objet;
 
         return $this;

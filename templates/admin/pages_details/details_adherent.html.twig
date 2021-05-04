@@ -4,13 +4,14 @@
 {% set actif = adherent.dateadhesion|date_modify("+1 year")|date('Y-m-d') > "now"|date('Y-m-d') ? "Oui" : "Non" %}
 {% set adBiblio = adherent.adhesionbibliotheque %}
 
-
 {% if adBiblio %}
+	{% set fourmi = adBiblio.categoriefourmi %}
 	{% set depotP = adBiblio.depotpermanent ~ " €" %}
 	{% set biblio = "Oui" %}
-	{% set statutBiblio = adBiblio.satutInscription %}
+	{% set statutBiblio = "(" ~ adBiblio.satutInscription ~ ")" %}
 	{% if adBiblio.finrc %}
-		{% set finRc = "Oui (valide jusqu'au " ~ adBiblio.finrc|date("d-m-Y") ~ ")"  %}
+		{% set finRc = "Oui" ~ " (valide jusqu'au " ~ adBiblio.finrc|date("d-m-Y") ~ ")" %}
+		{% set rcClass = adBiblio.finrc|date("Y-m-d") < "now"|date('Y-m-d') ? " text-danger font-weight-bold" : "" %}
 	{% else %}
 		{% set finRc = "pas de RC donnée"  %}
 	{% endif %}
@@ -25,11 +26,13 @@
 		{% set justifId = "Non" %}
 	{% endif %}
 {% else %}
+	{% set fourmi = " /" %}
 	{% set biblio = "Non" %}
 	{% set finRc = " /"  %}
+	{% set rcClass = "" %}
 	{% set justifDomicile = " /"  %}
 	{% set justifId = " /"  %}
-	{% set statutBiblio = " /" %}
+	{% set statutBiblio = "" %}
 	{% set depotP =  " /"  %}
 {% endif %}
 {% block title %}
@@ -44,6 +47,7 @@
 					<br>
 					{{adherent.prenom}}
 					{{adherent.nom}}</h3>
+				{{ macros.flash_message() }}
 				<div class="row font-raleway-small px-5">
 					<div class="col-6">
 						<p>
@@ -80,25 +84,25 @@
 						<p>
 							<strong>Montant de l'adhésion :</strong>
 							{{adherent.montantcotisation}}
-							€
-																																																	({{adherent.etatcotisation}})
+							€ ({{adherent.etatcotisation}})
 
 						</p>
 
 
 					</div>
 					<div class="col-6">
+
 						<p>
 							<strong>Est Administrateur :</strong>
 							{{adherent.admin ? "Oui" : "Non"}}
 						</p>
 						<p>
 							<strong>Catégorie Fourmi :</strong>
-							{{adherent.categoriefourmi}}</p>
+							{{fourmi}}</p>
 						<p>
 							<strong>Est inscrit à la Bibliothèque des objets :</strong>
 							{{biblio}}
-							({{statutBiblio}})
+							{{statutBiblio}}
 						</p>
 						{% if adBiblio %}
 							<p>
@@ -107,7 +111,8 @@
 							</p>
 							<p>
 								<strong>Responsabilité civile :</strong>
-								{{finRc }}
+								<span class="{{rcClass}}">
+									{{finRc }}</span>
 							</p>
 							<p>
 								<strong>Justificatif de domicile :</strong>
