@@ -20,28 +20,26 @@ class HomeController extends AbstractController
     #[Route('/{slug}/detail', name: 'objetDetail')]
     public function detailsObjet(Objet $objet, CalendrierRepository $calendrier): Response
     {
-        // $events = $calendrier->findAll();
-        // // dd($events);
-        // $rdvs = [];
-        // foreach ($events as $event) {
-        //     $rdvs[] = [
-        //         'id' => $event->getId(),
-        //         'start' => $event->getstart()->format('Y-m-d'),
-        //         'end' => $event->getEnd()->format('Y-m-d'),
-        //         'title' => $event->getTitle(),
-        //         'description' => $event->getDescription(),
-        //         'backgroundColor' => $event->getBackgroundColor(),
-        //         'borderColor' => $event->getBorderColor(),
-        //         'textColor' => $event->getTextColor(),
-        //         'AllWeek' => $event->getAllWeek(),
-        //     ];
-        // }
-        // $data = json_encode($rdvs);
-
         return $this->render('home/detailsObjet.html.twig', [
             'controller_name' => 'HomeController',
             'objet' => $objet,
             // 'data' => $data,
+        ]);
+    }
+
+    #[Route('/panier', name: 'panier')]
+    public function panierIndex(): Response
+    {
+        return $this->render('home/panier.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+
+    #[Route('/historique_panier', name: 'historiquePanier')]
+    public function historiquePanierIndex(): Response
+    {
+        return $this->render('home/historiquePanier.html.twig', [
+            'controller_name' => 'HomeController',
         ]);
     }
 }
