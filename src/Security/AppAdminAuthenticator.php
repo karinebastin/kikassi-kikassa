@@ -123,7 +123,7 @@ class AppAdminAuthenticator extends AbstractFormLoginAuthenticator implements
         }
 
         return new RedirectResponse(
-            $this->urlGenerator->generate('/admin/menu')
+            $this->urlGenerator->generate('admin_main_menu')
         );
         throw new \Exception(
             'TODO: provide a valid redirect inside ' . __FILE__

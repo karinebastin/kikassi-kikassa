@@ -37,10 +37,12 @@
 			<p class="m-1">Jobs en attente : 4 réservations à confirmer</p>
 		</div>
 		<div class="align-self-center m-auto m-sm-0 p-2 p-sm-0">
-			<button type='button' class='btn bar-btn'>
-				<div class="btn-logout font-raleway">
-					Déconnexion</div>
-			</button>
+			<a href="{{path('app_logout')}}">
+				<button type='button' class='btn bar-btn'>
+					<div class="btn-logout font-raleway">
+						Déconnexion</div>
+				</button>
+			</a>
 		</div>
 	</nav>
 {% endmacro %}
