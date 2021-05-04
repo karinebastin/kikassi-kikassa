@@ -6,6 +6,7 @@ use App\Repository\LieuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=LieuRepository::class)
@@ -22,26 +23,59 @@ class Lieu
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank(message:"Veuillez entrer un nom pour le lieu")]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'Le nom du lieu doit faire plus de {{ limit }} caractères',
+        maxMessage: 'Le nom du lieu doit faire {{ limit }} caractères maximum',
+    )]
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+
+    #[Assert\NotBlank(message:"Veuillez entrer una adresse pour le lieu")]
+    #[Assert\Length(
+        min: 3,
+        minMessage: 'L\'adresse du lieu doit faire plus de {{ limit }} caractères',
+        
+    )]
     private $adresse;
 
     /**
      * @ORM\Column(type="string", length=6)
      */
+    #[Assert\NotBlank(message:"Veuillez entrer un code postal le lieu")]
+    #[Assert\Length(
+        min: 4,
+        max: 6,
+        message: 'Veuillez enter un code postal valide',
+    )]
     private $cp;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank(message:"Veuillez entrer une ville pour le lieu")]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'La ville du lieu doit faire plus de {{ limit }} caractères',
+        maxMessage: 'La ville du lieu doit faire {{ limit }} caractères maximum',
+    )]
     private $ville;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+
+    #[Assert\NotBlank(message:"Veuillez entrer un numéro de téléphone pour le lieu")]
+    #[Assert\Positive(message:"Veuillez entrer un numéro de téléphone valide ")]
+    #[Assert\Length( min: 10,
+    max:10,
+    exactMessage:"Veuillez entrer un numéro de téléphone valide (10 chiffres sans espace)")]
     private $telephone;
 
     /**
@@ -70,7 +104,6 @@ class Lieu
         $this->horaire_lieu = new ArrayCollection();
     }
 
-   
     public function getId(): ?int
     {
         return $this->id;
@@ -219,5 +252,4 @@ class Lieu
 
         return $this;
     }
-
 }

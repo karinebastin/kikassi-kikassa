@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ObjetRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ObjetRepository::class)
@@ -19,41 +21,91 @@ class Objet
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+
+    #[Groups(['objet'])]
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+
+    #[Assert\NotBlank(message:"Veuillez entrer un nom pour l'objet")]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'Le nom doit faire plus de {{ limit }} caractères',
+        maxMessage: 'Le nom doit faire {{ limit }} caractères maximum',
+    )]
+
+    #[Groups(['objet'])]
+
     private $denomination;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Assert\NotBlank(message:"Veuillez entrer une marque pour l'objet")]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: 'La marque doit faire plus de {{ limit }} caractères',
+        maxMessage: 'La marque doit faire {{ limit }} caractères maximum',
+    )]
+
+
+    #[Groups(['objet'])]
+
     private $marque;
 
     /**
      * @ORM\Column(type="text")
      */
+
+    #[Assert\NotBlank(message:"Veuillez entrer une description pour l'objet")]
+    #[Assert\Length(
+        min: 2,
+        minMessage: 'La description doit faire plus de {{ limit }} caractères'
+    )]
+
+    #[Groups(['objet'])]
+
     private $description;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
      */
+    #[Assert\NotBlank(message:"Veuillez entrer une valeur du neuf de l'objet")]
+    #[Assert\Positive(message:"Veuillez entrer une valeur du neuf valide ")]
+   
+    #[Groups(['objet'])]
+   
     private $valeur_achat;
 
     /**
      * @ORM\Column(type="integer")
      */
+
+    #[Assert\NotNull(message:"Veuillez entrer un coefficient d'usure pour l'objet")]
+
+    #[Groups(['objet'])]
+
     private $coef_usure;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
      */
+    #[Assert\NotNull(message:"Veuillez entrer un pourcentage de calcul pour l'objet")]
+
+    #[Groups(['objet'])]
+
     private $pourcent_calcul;
 
     /**
      * @ORM\Column(type="boolean")
      */
+    #[Assert\NotNull(message:"Veuillez choisir de mettre ou non l'objet dans la vitrine")]
+    #[Groups(['objet'])]
+
     private $vitrine;
 
     /**
@@ -64,29 +116,38 @@ class Objet
     /**
      * @ORM\Column(type="date")
      */
-    private $date_creation;
+    #[Groups(['objet'])]
 
+    private $date_creation;
 
     /**
      * @ORM\OneToMany(targetEntity=Emprunt::class, mappedBy="objet", orphanRemoval=true)
      */
     private $emprunts;
 
-
     /**
      * @ORM\ManyToOne(targetEntity=SousCategorie::class, inversedBy="objets")
+     *  @ORM\JoinColumn(nullable=false)
      */
+
+    #[Assert\NotNull(message:"Veuillez choisir une sous-catégorie")]
+   
     private $sous_categorie;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+
+    #[Groups(['objet'])]
+
     private $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="objets")
      * @ORM\JoinColumn(nullable=false)
      */
+    #[Assert\NotNull(message:"Veuillez choisir un lieu de stockage")]
+
     private $lieu;
 
     /**
@@ -97,22 +158,32 @@ class Objet
     /**
      * @ORM\Column(type="string", length=255)
      */
+
+    #[Groups(['objet'])]
+
     private $statut;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
+
+    #[Groups(['objet'])]
+
     private $observation;
 
     /**
      * @ORM\ManyToOne(targetEntity=Catalogue::class, inversedBy="objets", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
+
+    #[Assert\NotNull(message:"Veuillez choisir un catalogue")]
     private $catalogue;
 
     /**
      * @ORM\Column(type="date", nullable=true)
      */
+
+    #[Assert\Type("\DateTimeInterface", message:"Veuillez entrer une date de sortie de stock valide")]
     private $date_sortie_stock;
 
     /**
@@ -125,7 +196,11 @@ class Objet
     {
         if (empty($this->slug)) {
             $slugify = new Slugify();
-            $this->slug = $slugify->slugify($this->getMarque().time().hash('sha1', $this->getDenomination()));
+            $this->slug = $slugify->slugify(
+                $this->getMarque() .
+                    time() .
+                    hash('sha1', $this->getDenomination())
+            );
         }
     }
 
@@ -147,7 +222,6 @@ class Objet
     {
         $this->emprunts = new ArrayCollection();
         $this->photos = new ArrayCollection();
-      
     }
 
     public function getId(): ?int
@@ -263,7 +337,6 @@ class Objet
         return $this;
     }
 
-
     /**
      * @return Collection|Emprunt[]
      */
@@ -293,9 +366,6 @@ class Objet
 
         return $this;
     }
-
-  
-
 
     public function getSousCategorie(): ?SousCategorie
     {
@@ -404,11 +474,11 @@ class Objet
         return $this->date_sortie_stock;
     }
 
-    public function setDateSortieStock(?\DateTimeInterface $date_sortie_stock): self
-    {
+    public function setDateSortieStock(
+        ?\DateTimeInterface $date_sortie_stock
+    ): self {
         $this->date_sortie_stock = $date_sortie_stock;
 
         return $this;
     }
-
 }

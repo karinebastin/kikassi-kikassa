@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CategorieRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CategorieRepository::class)
@@ -19,17 +21,21 @@ class Categorie
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
+
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nom_categorie;
 
+    #[Assert\NotBlank(message:"Veuillez entrer un nom pour la catagorie")]
+
+    private $nom_categorie;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+
     private $slug;
 
     /**
@@ -42,7 +48,7 @@ class Categorie
         $this->sousCategories = new ArrayCollection();
     }
 
-     /**
+    /**
      *
      *@ORM\PrePersist
      *
@@ -52,11 +58,14 @@ class Categorie
     {
         if (empty($this->slug)) {
             $slugify = new Slugify();
-            $this->slug = $slugify->slugify($this->getNomCategorie().time().hash('sha1', $this->getNomCategorie()));
+            $this->slug = $slugify->slugify(
+                $this->getNomCategorie() .
+                    time() .
+                    hash('sha1', $this->getNomCategorie())
+            );
         }
     }
 
-    
     public function getId(): ?int
     {
         return $this->id;
@@ -74,7 +83,7 @@ class Categorie
         return $this;
     }
 
-       public function getSlug(): ?string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }

@@ -19,6 +19,16 @@ class SuperAdminRepository extends ServiceEntityRepository
         parent::__construct($registry, SuperAdmin::class);
     }
 
+    public function findByNomPrenom($value)
+    {
+        return $this->createQueryBuilder('o')
+            ->where('o.nom LIKE :val')
+            ->orWhere('o.prenom LIKE :val')
+            ->setParameter('val', $value . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return SuperAdmin[] Returns an array of SuperAdmin objects
     //  */
