@@ -17,12 +17,11 @@ class AdminSecurityController extends AbstractController
         AuthenticationUtils $authenticationUtils,
         Request $request
     ): Response {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
+        if ($this->getUser()) {
+            return $this->redirectToRoute('admin_main_menu');
+        }
 
         // get the login error if there is one
-        $session = $request->getSession();
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();

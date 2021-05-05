@@ -113,12 +113,14 @@ class AppAdminAuthenticator extends AbstractFormLoginAuthenticator implements
         TokenInterface $token,
         string $providerKey
     ) {
+        dump($this->getTargetPath($request->getSession(), $providerKey));
         if (
             $targetPath = $this->getTargetPath(
                 $request->getSession(),
                 $providerKey
             )
         ) {
+            dump($targetPath);
             return new RedirectResponse($targetPath);
         }
 
