@@ -53,4 +53,12 @@ class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+
+    #[Route('/catalogue', name: 'catalogue')]
+    public function catalogue(): Response
+    {
+        return $this->render('home/catalogue.html.twig', [
+            'controller_name' => 'CatalogueController',
+        ]);
+    }
 }
