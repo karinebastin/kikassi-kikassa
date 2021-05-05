@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       },
     ],
+
     events: [
       {
         groupId: "association ouverte", // recurrent events in this group move together
@@ -47,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         color: "#5c995e",
       },
     ],
+
     timeZone: "UTC",
   });
   calendar.render();

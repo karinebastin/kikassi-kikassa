@@ -3,7 +3,9 @@
 namespace App\EventSubscriber;
 
 
+
 use App\Repository\EmpruntRepository;
+
 // use App\Repository\HoraireLieuRepository;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
@@ -23,6 +25,7 @@ class CalendarSubscriber implements EventSubscriberInterface
     UrlGeneratorInterface $router
   ) {
     // $this->ouvertureRepository = $ouvertureRepository;
+
     $this->bookingRepository = $bookingRepository;
     $this->router = $router;
   }
@@ -136,5 +139,6 @@ class CalendarSubscriber implements EventSubscriberInterface
     //     // finally, add the event to the CalendarEvent to fill the calendar
     //     $calendar->addEvent($ouvertureEvent);
     //   }
+
   }
 }
