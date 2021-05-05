@@ -3,14 +3,12 @@
 namespace App\Form;
 
 use App\Entity\AdhesionBibliotheque;
-use PhpParser\Parser\Multiple;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class BiblioFormType extends AbstractType
 {
@@ -63,13 +61,6 @@ class BiblioFormType extends AbstractType
                     'Non' => false,
                 ],
             ])
-            // ->add('roles', ChoiceType::class, [
-            //     'placeholder' => 'Accorder des droits d\'admin',
-            //     'choices' => [
-            //         'Oui' => 'ROLE_ADMIN',
-            //         'Non' => 'ROLE_USER',
-            //     ],
-            // ])
             ->add('save', SubmitType::class, [
                 'label' =>
                     '<div class="btn-text px-2">Valider l\'inscription <br> à la Bibliothèque</div>',
