@@ -53,3 +53,4 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   calendar.render();
 });
+console.log(calendar);
