@@ -27,26 +27,26 @@ document.addEventListener("DOMContentLoaded", () => {
     firstDay: "1",
     editable: true,
     // dayMaxEvents: true,
-    eventSources: [
-      {
-        url: "/fc-load-events",
-        method: "POST",
-        extraParams: {
-          filters: JSON.stringify({}),
-        },
-        failure: () => {
-          alert("There was an error while fetching FullCalendar!");
-        },
-      },
-    ],
-    // events: [
+    // eventSources: [
     //   {
-    //     groupId: "association ouverte", // recurrent events in this group move together
-    //     daysOfWeek: ["3", "6"],
-    //     display: "background",
-    //     color: "#5c995e",
+    //     url: "/fc-load-events",
+    //     method: "POST",
+    //     extraParams: {
+    //       filters: JSON.stringify({}),
+    //     },
+    //     failure: () => {
+    //       alert("There was an error while fetching FullCalendar!");
+    //     },
     //   },
     // ],
+    events: [
+      {
+        groupId: "association ouverte", // recurrent events in this group move together
+        daysOfWeek: ["3", "6"],
+        display: "background",
+        color: "#5c995e",
+      },
+    ],
     timeZone: "UTC",
   });
   calendar.render();

@@ -4,7 +4,7 @@ namespace App\EventSubscriber;
 
 
 use App\Repository\EmpruntRepository;
-use App\Repository\HoraireLieuRepository;
+// use App\Repository\HoraireLieuRepository;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
 use CalendarBundle\Event\CalendarEvent;
@@ -13,16 +13,16 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CalendarSubscriber implements EventSubscriberInterface
 {
-  private $ouvertureRepository;
+  // private $ouvertureRepository;
   private $bookingRepository;
   private $router;
 
   public function __construct(
-    HoraireLieuRepository $ouvertureRepository,
+    // HoraireLieuRepository $ouvertureRepository,
     EmpruntRepository $bookingRepository,
     UrlGeneratorInterface $router
   ) {
-    $this->ouvertureRepository = $ouvertureRepository;
+    // $this->ouvertureRepository = $ouvertureRepository;
     $this->bookingRepository = $bookingRepository;
     $this->router = $router;
   }
@@ -54,8 +54,8 @@ class CalendarSubscriber implements EventSubscriberInterface
       // this create the events with your data (here booking data) to fill calendar
       $bookingEvent = new Event(
         "Réservé",
-        $booking->getDateDebut(),
-        $booking->getDateFin() // If the end date is null or not defined, a all day event is created.
+        $booking->getStart(),
+        $booking->getEnd() // If the end date is null or not defined, a all day event is created.
       );
 
       /*
