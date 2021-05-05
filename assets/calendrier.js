@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
       day: "jour",
       list: "liste",
     },
+    displayEventTime: false,
     initialDate: Date.now(),
     locale: "fr",
     firstDay: "1",
