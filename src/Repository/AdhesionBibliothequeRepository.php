@@ -19,10 +19,25 @@ class AdhesionBibliothequeRepository extends ServiceEntityRepository
         parent::__construct($registry, AdhesionBibliotheque::class);
     }
 
-    // /**
-    //  * @return AdhesionBibliotheque[] Returns an array of AdhesionBibliotheque objects
-    //  */
-    /*
+     /**
+     * @return AdhesionBibliotheque[] Returns an array of AdhesionBibliotheque objects
+      */
+
+      public function removeDuplicates(){
+        return $this->createQueryBuilder('a')
+        ->groupBy('a.categorie_fourmi')
+        ->getQuery()
+            ->getResult();
+      }
+
+      public function filterOut($condition){
+        return $this->createQueryBuilder('a')
+            ->where('a.categorie_fourmi = :condition')
+            ->setParameter('condition', $condition)
+            ->getQuery();
+      }
+    
+      /*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('a')
@@ -30,8 +45,7 @@ class AdhesionBibliothequeRepository extends ServiceEntityRepository
             ->setParameter('val', $value)
             ->orderBy('a.id', 'ASC')
             ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        
         ;
     }
     */

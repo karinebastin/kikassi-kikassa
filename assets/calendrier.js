@@ -39,14 +39,16 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       },
     ],
-    // events: [
-    //   {
-    //     groupId: "association ouverte", // recurrent events in this group move together
-    //     daysOfWeek: ["3", "6"],
-    //     display: "background",
-    //     color: "#5c995e",
-    //   },
-    // ],
+
+    events: [
+      {
+        groupId: "association ouverte", // recurrent events in this group move together
+        daysOfWeek: ["3", "6"],
+        display: "background",
+        color: "#5c995e",
+      },
+    ],
+
     timeZone: "UTC",
   });
   calendar.render();

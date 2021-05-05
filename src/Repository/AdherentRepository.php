@@ -19,32 +19,34 @@ class AdherentRepository extends ServiceEntityRepository
         parent::__construct($registry, Adherent::class);
     }
 
-    // /**
-    //  * @return Adherent[] Returns an array of Adherent objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    /**
+     * @return Adherent[] Returns an array of Adherent objects
+     */
 
-    /*
-    public function findOneBySomeField($value): ?Adherent
+    public function orderByBiblioField($field, $order)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
+            ->join('a.adhesionBibliotheque', 'biblio')
+            ->orderBy('biblio.' . $field, $order)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
+
+    public function orderByField($field, $order)
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.' . $field, $order)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByNomPrenom($value)
+    {
+        return $this->createQueryBuilder('o')
+            ->where('o.nom LIKE :val')
+            ->orWhere('o.prenom LIKE :val')
+            ->setParameter('val', $value . '%')
+            ->getQuery()
+            ->getResult();
+    }
 }

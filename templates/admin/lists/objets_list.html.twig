@@ -8,18 +8,28 @@
 	<body class={{color}}>
 		<div class="mx-4 main-title font-raleway">
 			<h1 class="text-center font-raleway mb-5">Liste des Objets</h1>
-			<div class="show" data-controller="hello">
+			<div class="show" data-controller="admin">
 				<table class="table admin-table-objets tb-design table-bordered" id="admin-t">
 					<thead>
 						<tr class="text-center">
-							<th scope="col">Id</th>
+							<th scope="col">Id
+								<a class='arrowButton' href="{{ path('admin_objets_list_sort', {'obj': "id", 'order': route }) }}">
+									<i class="fas fa-angle-down"></i>
+								</a>
+							</th>
 							<th scope="col">
 								Dénomination
+								<br>
+								<a class='arrowButton' href="{{ path('admin_objets_list_sort', {'obj': "denomination", 'order': route }) }}">
+									<i class="fas fa-angle-down"></i>
+								</a>
 							</th>
 							<th scope="col">Marque</th>
 							{# <th scope="col">Description</th> #}
-							<th scope="col">Valeur de remplacement</th>
-							{# <th scope="col">Coeficient d'usure</th> #}
+							<th scope="col">Valeur de remplacement
+
+							</th>
+							{# <th scope="col">Coefficient d'usure</th> #}
 							{# <th scope="col">Pourcentage de calcul</th> #}
 							{# <th scope="col">Mis en vitrine</th> #}
 								<th scope="col"> Date de création</th>
@@ -44,7 +54,9 @@
 							{% set classObjetReserve = objet.statut == "Réservé" ? "text-danger" : "" %}
 							<tr class="text-nowrap">
 								<td>
+
 									<a href="{{path('admin_details_objet', {'slug': objet.slug})}}">{{objet.id}}</a>
+
 								</td>
 								<td class="text-center">
 									<a href="{{path('admin_details_objet', {'slug': objet.slug})}}">{{objet.denomination|capitalize}}</a>
