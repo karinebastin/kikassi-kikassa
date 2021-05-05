@@ -21,12 +21,12 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 
-class AppAdminAuthenticator extends AbstractFormLoginAuthenticator implements
+class AppUserAuthenticator extends AbstractFormLoginAuthenticator implements
     PasswordAuthenticatedInterface
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'admin_login';
+    public const LOGIN_ROUTE = 'app_login';
 
     private $entityManager;
     private $urlGenerator;
@@ -74,13 +74,7 @@ class AppAdminAuthenticator extends AbstractFormLoginAuthenticator implements
 
         $user = $this->entityManager
             ->getRepository(AdhesionBibliotheque::class)
-            ->findOneBy(['email' => $credentials['email']])
-            ? $this->entityManager
-                ->getRepository(AdhesionBibliotheque::class)
-                ->findOneBy(['email' => $credentials['email']])
-            : $this->entityManager
-                ->getRepository(SuperAdmin::class)
-                ->findOneBy(['email' => $credentials['email']]);
+            ->findOneBy(['email' => $credentials['email']]);
 
         if (!$user) {
             // fail authentication with a custom error
@@ -123,7 +117,7 @@ class AppAdminAuthenticator extends AbstractFormLoginAuthenticator implements
         }
 
         return new RedirectResponse(
-            $this->urlGenerator->generate('admin_main_menu')
+            $this->urlGenerator->generate('/mon_compte')
         );
         throw new \Exception(
             'TODO: provide a valid redirect inside ' . __FILE__
