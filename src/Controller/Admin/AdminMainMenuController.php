@@ -11,10 +11,15 @@ class AdminMainMenuController extends AbstractController
     #[Route('/admin/menu', name: 'admin_main_menu')]
     public function index(): Response
     {
+        // Récupérer User dans un controller :
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+        dump($user->getRoles());
         return $this->render('admin/admin_menus/main_menu.html.twig', [
             'controller_name' => 'AdminMainMenuController',
             'section' => 'section-main',
             'return_path' => 'admin_main_menu',
+            'user' => $user,
         ]);
     }
 
