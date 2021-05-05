@@ -27,18 +27,18 @@ document.addEventListener("DOMContentLoaded", () => {
     firstDay: "1",
     editable: true,
     // dayMaxEvents: true,
-    // eventSources: [
-    //   {
-    //     url: "/fc-load-events",
-    //     method: "POST",
-    //     extraParams: {
-    //       filters: JSON.stringify({}),
-    //     },
-    //     failure: () => {
-    //       alert("There was an error while fetching FullCalendar!");
-    //     },
-    //   },
-    // ],
+    eventSources: [
+      {
+        url: "/fc-load-events",
+        method: "POST",
+        extraParams: {
+          filters: JSON.stringify({}),
+        },
+        failure: () => {
+          alert("There was an error while fetching FullCalendar!");
+        },
+      },
+    ],
     events: [
       {
         groupId: "association ouverte", // recurrent events in this group move together
