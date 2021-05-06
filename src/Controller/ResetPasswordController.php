@@ -147,7 +147,17 @@ class ResetPasswordController extends AbstractController
             ->getRepository(AdhesionBibliotheque::class)
             ->findOneBy([
                 'email' => $emailFormData,
-            ]);
+            ])
+            ? $this->getDoctrine()
+                ->getRepository(AdhesionBibliotheque::class)
+                ->findOneBy([
+                    'email' => $emailFormData,
+                ])
+            : $this->getDoctrine()
+                ->getRepository(SuperAdmin::class)
+                ->findOneBy([
+                    'email' => $emailFormData,
+                ]);
 
         // Do not reveal whether a user account was found or not.
         if (!$user) {

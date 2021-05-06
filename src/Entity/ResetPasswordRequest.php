@@ -23,16 +23,27 @@ class ResetPasswordRequest implements ResetPasswordRequestInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=AdhesionBibliotheque::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
-    public function __construct(object $user, \DateTimeInterface $expiresAt, string $selector, string $hashedToken)
-    {
-        $this->user = $user;
+    /**
+     * @ORM\ManyToOne(targetEntity=SuperAdmin::class)
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $adminUser;
+
+    private $users;
+
+    public function __construct(
+        $users,
+        \DateTimeInterface $expiresAt,
+        string $selector,
+        string $hashedToken
+    ) {
+        $this->users = $users;
         $this->initialize($expiresAt, $selector, $hashedToken);
     }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -41,5 +52,14 @@ class ResetPasswordRequest implements ResetPasswordRequestInterface
     public function getUser(): object
     {
         return $this->user;
+    }
+    public function getAdminUser(): object
+    {
+        return $this->adminUser;
+    }
+
+    public function getUsers(): array
+    {
+        return [$this->adminUser, $this->user];
     }
 }
