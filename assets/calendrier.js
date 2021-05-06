@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initialDate: Date.now(),
     locale: "fr",
     firstDay: "1",
-    editable: true,
+    // editable: true,
     // dayMaxEvents: true,
     eventSources: [
       {
@@ -51,11 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     ],
 
-
     timeZone: "UTC",
   });
   calendar.render();
 });
 
-console.log(calendar);
-
+// console.log(calendar);
