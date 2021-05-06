@@ -16,6 +16,7 @@ import "./styles/detail.sass";
 import "./styles/calendrier.sass";
 import "./styles/panier.sass";
 import "./styles/splide.min.css";
+import "./styles/catalogue.sass"
 
 // start the Stimulus application
 
@@ -24,3 +25,4 @@ import "./bootstrap";
 import "@splidejs/splide";
 import "./slider";
 import "./calendrier.js";
+import "./catalogue.js"
