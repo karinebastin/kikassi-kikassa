@@ -14,7 +14,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(): Response
     {
-        return $this->render('home/index.html.twig', [
+        return $this->render('home/catalogue.html.twig', [
             'controller_name' => 'HomeController',
         ]);
     }
@@ -47,19 +47,11 @@ class HomeController extends AbstractController
         ]);
     }
 
-    // #[Route('/login', name: 'app_login')]
-    // public function loginUtilisateur(): Response
+    // #[Route('/catalogue', name: 'catalogue')]
+    // public function catalogue(): Response
     // {
-    //     return $this->render('home/login.html.twig', [
-    //         'controller_name' => 'HomeController',
+    //     return $this->render('home/catalogue.html.twig', [
+    //         'controller_name' => 'CatalogueController',
     //     ]);
     // }
-
-    #[Route('/catalogue', name: 'catalogue')]
-    public function catalogue(): Response
-    {
-        return $this->render('home/catalogue.html.twig', [
-            'controller_name' => 'CatalogueController',
-        ]);
-    }
 }

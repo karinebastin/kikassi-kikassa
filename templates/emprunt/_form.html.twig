@@ -1,6 +1,7 @@
 {{ form_start(form) }}
-{# objet #}
-{# app.user #}
-
-	<button class="btn btn-dark"> {{ button_label|default('Faire la réservation de l\'emprunt') }}</button>
+{{ form_widget(form) }}
+<button class="btn btn-dark">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+
+{# app.user #}
+{# objet #}
