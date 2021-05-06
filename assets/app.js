@@ -24,5 +24,6 @@ import "./styles/catalogue.sass";
 import "bootstrap";
 import "./bootstrap";
 import "@splidejs/splide";
-import "slider";
-import "calendrier";
+import "./slider";
+import "./calendrier";
+import "./catalogue"
