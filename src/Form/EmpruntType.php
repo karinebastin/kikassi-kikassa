@@ -14,10 +14,11 @@ class EmpruntType extends AbstractType
     {
         $builder
             ->add('date_debut', DateTimeType::class, [
-                'date_widget' => 'single_text'
+                'date_widget' => 'single_text',
             ])
             ->add('date_fin', DateTimeType::class, [
-                'date_widget' => 'single_text'
+                'date_widget' => 'single_text',
+
             ]);
     }
 

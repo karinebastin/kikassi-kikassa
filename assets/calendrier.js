@@ -22,10 +22,12 @@ document.addEventListener("DOMContentLoaded", () => {
       day: "jour",
       list: "liste",
     },
+
+    displayEventTime: false,
     initialDate: Date.now(),
     locale: "fr",
     firstDay: "1",
-    editable: true,
+    // editable: true,
     // dayMaxEvents: true,
     eventSources: [
       {
@@ -53,3 +55,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   calendar.render();
 });
+
+// console.log(calendar);

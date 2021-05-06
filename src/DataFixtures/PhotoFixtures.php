@@ -31,11 +31,12 @@ class PhotoFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($photo);
         }
 
+
         $manager->flush();
     }
     public function getDependencies()
     {
-        return [ObjetFixtures::class];
+            return [ObjetFixtures::class];
     }
 }
 
