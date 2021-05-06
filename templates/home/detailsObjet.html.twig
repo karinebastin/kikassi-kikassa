@@ -54,13 +54,14 @@
 						<p class="ml-3 mt-3">Disponibilité:</p>
 					</div>
 					<div id="calendar" class="col-11 offset-1 m-2 d-flex justify-content-center pb-2 ml-3 mb-3"></div>
-					{# {% if app.user %}#}
-					<div class="align-self-end col-12 d-flex justify-content-center">
-						<a href="{{path('emprunt_new')}}">
-							<button type="button" class="btn btn-light mb-2">Réserver</button>
-						</a>
-					</div>
-					{# {% endif %} #}
+					{% if app.user and objet.statut == "Disponible" %}
+
+						<div class="align-self-end col-12 d-flex justify-content-center">
+							<a href="{{path('emprunt_new')}}">
+								<button type="button" class="btn btn-light mb-2">Réserver</button>
+							</a>
+						</div>
+					{% endif %}
 				</div>
 			</div>
 			<div class="col-3 col-lg-1">
