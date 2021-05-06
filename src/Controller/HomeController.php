@@ -23,7 +23,6 @@ class HomeController extends AbstractController
     #[Route('/{slug}/detail', name: 'objetDetail', methods: ['GET', 'POST'])]
     public function detailsObjet(Objet $objet, EmpruntRepository $emprunt): Response
     {
-        // var_dump($emprunt);
         return $this->render('home/detailsObjet.html.twig', [
             'controller_name' => 'HomeController',
             'objet' => $objet,
