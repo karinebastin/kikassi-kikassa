@@ -376,9 +376,6 @@ class Adherent
         return $this;
     }
 
-   
-
-  
 
     public function getMontantCotisation(): ?int
     {
