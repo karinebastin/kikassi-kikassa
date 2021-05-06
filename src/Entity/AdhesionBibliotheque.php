@@ -4,13 +4,16 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AdhesionBibliothequeRepository;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=AdhesionBibliothequeRepository::class)
  * @ORM\HasLifecycleCallbacks
  */
+
+#[UniqueEntity('email', message: "L'adresse email existe déjà dans la base de données")]
 class AdhesionBibliotheque implements UserInterface
 {
     /**
@@ -21,8 +24,14 @@ class AdhesionBibliotheque implements UserInterface
     private $id;
 
     /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
+
     private $mot_de_passe;
 
     /**
@@ -75,6 +84,11 @@ class AdhesionBibliotheque implements UserInterface
 
     #[Assert\NotNull(message:"Veuillez choisir une catégorie de fourmi")]
     private $categorie_fourmi;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
 
     /**
      *
@@ -209,9 +223,18 @@ class AdhesionBibliotheque implements UserInterface
     {
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
     }
 
     public function getCategorieFourmi(): ?string
@@ -222,6 +245,18 @@ class AdhesionBibliotheque implements UserInterface
     public function setCategorieFourmi(string $categorie_fourmi): self
     {
         $this->categorie_fourmi = $categorie_fourmi;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

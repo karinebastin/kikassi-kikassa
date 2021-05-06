@@ -8,14 +8,12 @@ use App\Entity\Adherent;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
-
 class AdherentFixtures extends Fixture
 {
     public function random_dates($start, $end)
     {
-        
         $dates = mt_rand(strtotime($start), strtotime($end));
-        $defDates = date("Y/m/d", $dates);
+        $defDates = date('Y/m/d', $dates);
         return new DateTime($defDates);
     }
 
@@ -25,34 +23,32 @@ class AdherentFixtures extends Fixture
         $genders = ['male', 'female'];
         $etats_cotisation = ['Payée', 'Due', 'Exonéré'];
 
-        for($i=0; $i<10; $i++){
+        for ($i = 0; $i < 10; $i++) {
             $adherent = new Adherent();
-            $dateNais = $this->random_dates("01-01-1950", "01-01-2010");
+            $dateNais = $this->random_dates('01-01-1950', '01-01-2010');
             $gender = $faker->randomElement($genders);
             $etat_cotisation = $faker->randomElement($etats_cotisation);
-            $adherent->setNom($faker->lastname())
-                    ->setPrenom($faker->firstname($gender))
-                    ->setEmail($faker->email())
-                    ->setAdresse($faker->streetAddress)
-                    ->setCP("13200")
-                    ->setVille("Arles")
-                    ->setEmail($faker->email)
-                    ->setTelephone($faker->phoneNumber)
-                    ->setDateNaissance($dateNais)
-                    ->setLieuNaissance($faker->city())
-                    ->setMontantCotisation(10)
-                    ->setMoyenPaiement('Liquide')
-                    ->setEtatCotisation($etat_cotisation)
-                    ->setCompteActif($faker->boolean(95))
-                    ->setAdmin($faker->boolean(70))
-                    ->initSlug();
+            $adherent
+                ->setNom($faker->lastname())
+                ->setPrenom($faker->firstname($gender))
+                ->setEmail($faker->email())
+                ->setAdresse($faker->streetAddress)
+                ->setCP('13200')
+                ->setVille('Arles')
+                ->setEmail($faker->email)
+                ->setTelephone($faker->phoneNumber)
+                ->setDateNaissance($dateNais)
+                ->setLieuNaissance($faker->city())
+                ->setMontantCotisation(10)
+                ->setMoyenPaiement('Liquide')
+                ->setEtatCotisation($etat_cotisation)
+                ->setCompteActif($faker->boolean(95))
+                ->initSlug();
 
-                    $this->addReference('adherent_' . $i, $adherent);
-                    $manager->persist($adherent);
+            $this->addReference('adherent_' . $i, $adherent);
+            $manager->persist($adherent);
         }
-
 
         $manager->flush();
     }
-
 }
