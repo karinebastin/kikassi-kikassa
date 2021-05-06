@@ -28,30 +28,30 @@
 					</a>
 				</li>
 				{% if app.user %}
-					{# {% if is_granted('ROLE_USER') %} #}
-					<li class="nav-item">
-						<a class="navbar-brand icon-white mx-2" href="#">
-							<i class="fas fa-shopping-basket fa-2x mx-2"></i>
-						</a>
-					</li>
-					<li class="nav-item dropdown ">
+					{% if is_granted('ROLE_USER') %}
+						<li class="nav-item">
+							<a class="navbar-brand icon-white mx-2" href="#">
+								<i class="fas fa-shopping-basket fa-2x mx-2"></i>
+							</a>
+						</li>
+						<li class="nav-item dropdown ">
 
-						<a class="nav-link dropdown-toggle pl-0 mx-2" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<a class="nav-link dropdown-toggle pl-0 mx-2" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-							<p class="d-inline mx-2">nom
-								{#{{app.user.prenom}}#}
-							</p>
-							<img id="fourmis" src="../img/foumis monochrome sans fond.png" alt="avatar fourmis">
-						</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="#">Information compte</a>
-							<a class="dropdown-item" href="#">Historique des paniers</a>
-							<a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
-						</div>
-					</li>
-					{# {% elseif is_granted('ROLE_ADMIN') %}
-															<a href="#">Administration</a>
-														{% endif %} #}
+								<p class="d-inline mx-2">
+									{{app.user.adherent.prenom}}
+								</p>
+								<img id="fourmis" src="../img/foumis monochrome sans fond.png" alt="avatar fourmis">
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+								<a class="dropdown-item" href="{{ path('/mon_compte') }}">Information compte</a>
+								<a class="dropdown-item" href="{{ path('historiquePanier') }}">Historique des paniers</a>
+								<a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
+							</div>
+						</li>
+					{% elseif is_granted('ROLE_ADMIN') %}
+						<a href="#">Administration</a>
+					{% endif %}
 				{% else %}
 					<li class="nav-item">
 						<a class="nav-link text-center" href="{{ path('app_login') }}">Connexion à la bibliothèque d'objet</a>
