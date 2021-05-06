@@ -40,7 +40,7 @@ class AdhesionFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => '',
                 'attr' => ['placeholder' => 'Adresse email'],
-                'required' => false
+                'required' => false,
             ])
             ->add('telephone', TextType::class, [
                 'label' => '',
@@ -49,11 +49,12 @@ class AdhesionFormType extends AbstractType
             ->add('date_naissance', DateType::class, [
                 'label' => '',
                 'widget' => 'single_text',
-                'attr' => ['placeholder' => 'Date de naissance, format : 10/05/1950'],
+                'attr' => [
+                    'placeholder' => 'Date de naissance, format : 10/05/1950',
+                ],
                 'input' => 'datetime',
                 'html5' => false,
                 'format' => 'dd/MM/yyyy',
-                
             ])
             ->add('lieu_naissance', TextType::class, [
                 'label' => '',
@@ -62,37 +63,38 @@ class AdhesionFormType extends AbstractType
             ->add('montant_cotisation', TextType::class, [
                 'label' => '',
                 'attr' => ['placeholder' => 'Montant de la cotisation en €'],
-                'required' => false
+                'required' => false,
             ])
             ->add('moyen_paiement', ChoiceType::class, [
                 'placeholder' => 'moyen de paiement utilisé',
                 'choices' => [
-                'Liquide' => "liquide",
-                'Carte Bancaire' => 'cb',
-                'Chèque' => "chèque",
-                'Autre...' => "autre"
+                    'Liquide' => 'liquide',
+                    'Carte Bancaire' => 'cb',
+                    'Chèque' => 'chèque',
+                    'Autre...' => 'autre',
                 ],
-                'required' => false])
+                'required' => false,
+            ])
             ->add('etat_cotisation', ChoiceType::class, [
-                'placeholder' =>  'Etat du paiement de la cotisation',
+                'placeholder' => 'Etat du paiement de la cotisation',
                 'choices' => [
-                'Payée' => "payée",
-                'Due' => 'due',
-                'Exonéré de cotisation' => "exonéré"
-                ]])
-            ->add('admin', ChoiceType::class, [
-                'placeholder' =>  'Accorder des droits d\'admin', 
-                'choices' => [
-                'Oui' => true,
-                'Non' => false,
-                ]
+                    'Payée' => 'payée',
+                    'Due' => 'due',
+                    'Exonéré de cotisation' => 'exonéré',
+                ],
             ])
 
-
-
-            ->add('saveAndContinue', SubmitType::class,[ 'label'=> '<i class="fas fa-arrow-right fa-3x"></i>', 'label_html' => true,'attr' => ['class' => 'border-0 bg-transparent p-0'] ])
-            ->add('save', SubmitType::class,[ 'label'=> '<div class="btn-text p-1 px-2">Valider <br> l\'inscription</div>', 'label_html' => true, 'attr' => ['class' => 'envoi-btn font-raleway'] ])
-        ;
+            ->add('saveAndContinue', SubmitType::class, [
+                'label' => '<i class="fas fa-arrow-right fa-3x"></i>',
+                'label_html' => true,
+                'attr' => ['class' => 'border-0 bg-transparent p-0'],
+            ])
+            ->add('save', SubmitType::class, [
+                'label' =>
+                    '<div class="btn-text p-1 px-2">Valider <br> l\'inscription</div>',
+                'label_html' => true,
+                'attr' => ['class' => 'envoi-btn font-raleway'],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

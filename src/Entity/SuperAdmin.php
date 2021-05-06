@@ -29,6 +29,11 @@ class SuperAdmin implements UserInterface
     private $id;
 
     /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     #[Assert\NotBlank(message:"Veuillez entrer un nom")]
@@ -217,8 +222,11 @@ class SuperAdmin implements UserInterface
     {
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        $roles = $this->roles;
+        $roles[] = 'ROLE_SUPER_ADMIN';
+
+        return array_unique($roles);
     }
 }

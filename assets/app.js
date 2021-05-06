@@ -19,6 +19,7 @@ import "./styles/splide.min.css";
 import "./styles/catalogue.sass"
 
 // start the Stimulus application
+
 import "bootstrap";
 import "./bootstrap";
 import "@splidejs/splide";

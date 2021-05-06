@@ -92,10 +92,6 @@ class AdherentsListController extends AbstractController
             $biblio = $request->request->get('biblio');
 
             if ($biblio == 'oui') {
-                $this->addFlash(
-                    'success',
-                    "Le nouvel adhérent {$adherent->getNomprenom()} a bien été créé"
-                );
                 return $this->redirectToRoute('adherents_new_biblio', [
                     'id' => $adherent->getId(),
                 ]);
@@ -131,8 +127,12 @@ class AdherentsListController extends AbstractController
         UserPasswordEncoderInterface $encoder
     ): Response {
         $adherent = $adherentRepository->findOneById($id);
-        $biblio = new AdhesionBibliotheque();
 
+        $biblio = new AdhesionBibliotheque();
+        $admin = $request->request->get('admin');
+        $admin == 'oui'
+            ? $biblio->setRoles(['ROLE_ADMIN'])
+            : $biblio->setRoles(['ROLE_USER']);
         $form = $this->createForm(BiblioFormType::class, $biblio);
 
         $form->handleRequest($request);
@@ -141,6 +141,7 @@ class AdherentsListController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $biblio->setAdherent($adherent);
+            $biblio->setEmail($adherent->getEmail());
             $biblio->setSatutInscription('valide');
             $hash = $encoder->encodePassword(
                 $biblio,
@@ -154,7 +155,7 @@ class AdherentsListController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "L'adhérent {$biblio->getAdherent()->getPrenom()} {$biblio->getAdherent()->getNom()}  est bien inscrit à la bibliothèque et son adhésion est bien prise en compte"
+                "L'adhésion et l'inscription à la bibliothèque des objets de {$biblio->getAdherent()->getPrenom()} {$biblio->getAdherent()->getNom()} sont bien prises en compte"
             );
             return $this->redirectToRoute('admin_details_adherent', [
                 'slug' => $adherent->getSlug(),

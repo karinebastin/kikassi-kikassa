@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
-
 use App\Entity\AdhesionBibliotheque;
+use PhpParser\Parser\Multiple;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,45 +17,65 @@ class BiblioFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-             ->add('categorie_fourmi', ChoiceType::class, [
+            ->add('categorie_fourmi', ChoiceType::class, [
                 'placeholder' => 'Choisir une Catégorie Fourmi',
                 'choices' => [
-                'Verte' => 'verte',
-                'Bleue' => 'bleue',
-                'Dorée' => 'dorée'
-                ]])
+                    'Verte' => 'verte',
+                    'Bleue' => 'bleue',
+                    'Dorée' => 'dorée',
+                ],
+            ])
             ->add('depot_permanent', ChoiceType::class, [
                 'placeholder' => 'Montant du dépôt de garantie versé',
                 'choices' => [
-                '30' => 30,
-                '60' => 60,
-                '90' => 90,
-                '120' => 120
-                ]])
+                    '0' => 0,
+                    '30' => 30,
+                    '60' => 60,
+                    '90' => 90,
+                    '120' => 120,
+                    '150' => 150,
+                    '180' => 180,
+                    '210' => 210,
+                ],
+            ])
             ->add('fin_rc', DateType::class, [
-                    'widget' => 'single_text',
-                    'attr' => ['placeholder' => 'Date de fin de la responsabilité civile (si donnée), format : 10/05/1950'],
-                    'input' => 'datetime',
-                    'html5' => false,
-                    'format' => 'dd/MM/yyyy',
-                    'required' => false
-                ])
+                'widget' => 'single_text',
+                'attr' => [
+                    'placeholder' =>
+                        'Date de fin de la responsabilité civile (si donnée), format : 10/05/1950',
+                ],
+                'input' => 'datetime',
+                'html5' => false,
+                'format' => 'dd/MM/yyyy',
+                'required' => false,
+            ])
             ->add('justif_identite', ChoiceType::class, [
                 'placeholder' => 'Justificatif d\'identité remis ?',
-                    'choices' => [
+                'choices' => [
                     'Oui' => true,
-                    'Non' => false
-                    ]
-                    ])
+                    'Non' => false,
+                ],
+            ])
             ->add('justif_domicile', ChoiceType::class, [
                 'placeholder' => 'Justificatif de domicile remis ?',
-                    'choices' => [
+                'choices' => [
                     'Oui' => true,
-                    'Non' => false
-                    ]
-                    ])
-                    ->add('save', SubmitType::class,['label' => '<div class="btn-text px-2">Valider l\'inscription <br> à la Bibliothèque</div>', 'label_html' => true, 'attr' => ['class' => 'envoi-btn font-raleway'] ])
-            ;
+                    'Non' => false,
+                ],
+            ])
+            // ->add('roles', ChoiceType::class, [
+            //     'placeholder' => 'Accorder des droits d\'admin',
+            //     'choices' => [
+            //         'Oui' => 'ROLE_ADMIN',
+            //         'Non' => 'ROLE_USER',
+            //     ],
+            // ])
+            ->add('save', SubmitType::class, [
+                'label' =>
+                    '<div class="btn-text px-2">Valider l\'inscription <br> à la Bibliothèque</div>',
+                'label_html' => true,
+                'attr' => ['class' => 'envoi-btn font-raleway'],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
