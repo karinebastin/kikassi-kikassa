@@ -1,0 +1,64 @@
+{% extends './admin/base-admin.html.twig' %}
+
+
+{% block title %}Mot de passe perdu
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block body %}
+	{% for flashError in app.flashes('reset_password_error') %}
+		<div class="alert alert-danger" role="alert">{{ flashError }}</div>
+	{% endfor %}
+
+	<body class="vh-100">
+		<div class="request-form font-raleway">
+			<h1 class="text-center font-raleway mb-5">
+				Demande de réinitialisation
+				<br>
+				de mot de passe</h1>
+			<div class="container">
+				{{ form_start(requestForm) }}
+				<div class="row">
+					<div class="col-3"></div>
+					<div class="col">
+						<div class="row">
+							<div class="form-group width-100 mb-0">
+								{{ form_row(requestForm.email) }}
+							</div>
+						</div>
+						<div class="row">
+							<small class="mt-2">
+								Entrez votre adresse email pour recevoir un lien de réinitialisation
+							</small>
+						</div>
+						<div class="row justify-content-center mt-5">
+							<div class="form-group">
+								<button class="btn bar-btn font-raleway" type="submit">Envoyer la demande</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-3"></div>
+				</div>
+				{{ form_end(requestForm) }}
+			</div>
+		</div>
+	</body>
+
+	{# 
+										<h1>Demande de réinitialisation de mot de passe</h1>
+									
+										{{ form_start(requestForm) }}
+										{{ form_row(requestForm.email) }}
+										<div>
+											<small>
+												Entrez votre adresse email et vous recevrez un lien de réinitialisation par email.
+											</small>
+										</div>
+									
+										<button class="btn btn-primary">Envoyer la demande</button>
+										{{ form_end(requestForm) }} #}
+{% endblock %}
+
+{% block footer %}{% endblock %}

@@ -37,6 +37,10 @@ $modifyColor:#a3bd21
 @include theme-color('lieux', $lieux-color, lighten($lieux-color, 10%))
 @include theme-color('main', $main-menu-color, lighten($main-menu-color, 10%))
 
+
+.width-100
+    width: 100%
+         
 .login-form
     padding-top: 150px
     margin-bottom: 200px
@@ -44,6 +48,12 @@ $modifyColor:#a3bd21
     height: 100%
     button
         font-size: 1.4rem
+
+.request-form
+    padding-top: 150px
+    small
+        color: darken($objets-color, 30%)
+        font-size: 90%
 
 .main-title
     padding-top: 150px

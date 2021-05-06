@@ -15,6 +15,11 @@ class ResetPasswordRequestFormType extends AbstractType
         array $options
     ): void {
         $builder->add('email', EmailType::class, [
+            'label' => false,
+            'attr' => [
+                'placeholder' => 'Votre adresse email',
+                'class' => 'form-control p-4  mb-1',
+            ],
             'constraints' => [
                 new NotBlank([
                     'message' => 'Entrez votre adresse email',

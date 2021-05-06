@@ -1,7 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends './admin/base-admin.html.twig' %}
 
-{% block title %}Log in!
+
+{% block title %}Connexion
 {% endblock %}
+
+{% block header %}{% endblock %}
+
 
 {% block body %}
 
@@ -38,7 +42,7 @@
 					<div class="row">
 						<div class="col-3"></div>
 						<div class="col mb-3">
-							<a href={{path('app_forgot_password_request')}} class="text-primary">Mot de passe oublié</a>
+							<a href={{path('admin_forgot_password_request')}} class="text-primary">Mot de passe oublié</a>
 						</div>
 						<div class="col-3"></div>
 					</div>
@@ -55,24 +59,4 @@
 		</div>
 	</body>
 {% endblock %}
-
-
-{# <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-				<label for="inputEmail">Email</label>
-				<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-				<label for="inputPassword">Password</label>
-				<input type="password" name="password" id="inputPassword" class="form-control" required>
-
-				<input
-				type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"> #}
-
-{#
-																		        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-																		        See https://symfony.com/doc/current/security/remember_me.html
-																		
-																		        <div class="checkbox mb-3">
-																		            <label>
-																		                <input type="checkbox" name="_remember_me"> Remember me
-																		            </label>
-																		        </div>
-																		    #}
+{% block footer %}{% endblock %}

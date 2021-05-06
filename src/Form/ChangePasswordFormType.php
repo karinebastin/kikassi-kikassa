@@ -19,6 +19,12 @@ class ChangePasswordFormType extends AbstractType
         $builder->add('plainPassword', RepeatedType::class, [
             'type' => PasswordType::class,
             'first_options' => [
+                'label' => false,
+
+                'attr' => [
+                    'placeholder' => 'Entrez un nouveau mot de passe',
+                    'class' => 'form-control p-4  mb-2',
+                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Entrez un nouveau mot de passe',
@@ -27,18 +33,19 @@ class ChangePasswordFormType extends AbstractType
                         'min' => 8,
                         'minMessage' =>
                             'Votre mot de passe doit faire au moins {{ limit }} caractères',
-                        // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
                 ],
-                'label' => 'Entrez un nouveau mot de passe',
             ],
             'second_options' => [
-                'label' => 'Répétez le mot de passe',
+                'label' => false,
+
+                'attr' => [
+                    'placeholder' => 'Répétez le mot de passe',
+                    'class' => 'form-control p-4 mb-2',
+                ],
             ],
             'invalid_message' => 'Les mots de passe sont différents',
-            // Instead of being set onto the object directly,
-            // this is read and encoded in the controller
             'mapped' => false,
         ]);
     }

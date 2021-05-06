@@ -1,0 +1,43 @@
+{% extends './admin/base-admin.html.twig' %}
+
+
+{% block title %}Mot de passe perdu
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+
+{% block body %}
+	<body class="vh-100">
+		<div class="login-form font-raleway">
+			<h1 class="text-center font-raleway mb-5">
+				Réinitialisation
+				<br>
+				de votre mot de passe</h1>
+			<div class="container">
+				{{ form_start(resetForm) }}
+				<div class="row">
+					<div class="col-3"></div>
+
+					<div class="col">
+						<div class="row">
+							<div class="form-group width-100">
+								{{ form_row(resetForm.plainPassword) }}
+							</div>
+						</div>
+						<div class="row justify-content-center mt-4">
+							<div class="form-group">
+								<button class="btn bar-btn font-raleway" type="submit">Envoyer</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-3"></div>
+				</div>
+				{{ form_end(resetForm) }}
+			</div>
+		</div>
+	</body>
+
+{% endblock %}
+{% block footer %}{% endblock %}
