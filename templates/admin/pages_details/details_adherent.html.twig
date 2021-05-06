@@ -94,7 +94,11 @@
 
 						<p>
 							<strong>Est Administrateur :</strong>
-							{{adherent.admin ? "Oui" : "Non"}}
+							{% if "ROLE_ADMIN" in adherent.adhesionbibliotheque.roles %}
+								Oui
+							{% else %}
+								Non
+							{% endif %}
 						</p>
 						<p>
 							<strong>Catégorie Fourmi :</strong>

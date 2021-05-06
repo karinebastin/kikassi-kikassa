@@ -18,6 +18,7 @@ import "./styles/panier.sass";
 import "./styles/splide.min.css";
 
 // start the Stimulus application
+
 import "bootstrap";
 import "./bootstrap";
 import "@splidejs/splide";

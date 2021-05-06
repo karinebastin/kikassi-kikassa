@@ -3,9 +3,7 @@
 namespace App\EventSubscriber;
 
 
-
 use App\Repository\EmpruntRepository;
-
 // use App\Repository\HoraireLieuRepository;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
@@ -25,7 +23,6 @@ class CalendarSubscriber implements EventSubscriberInterface
     UrlGeneratorInterface $router
   ) {
     // $this->ouvertureRepository = $ouvertureRepository;
-
     $this->bookingRepository = $bookingRepository;
     $this->router = $router;
   }
@@ -43,6 +40,7 @@ class CalendarSubscriber implements EventSubscriberInterface
     $end = $calendar->getEnd();
     $filters = $calendar->getFilters();
 
+
     // lien entre la bdd par le repo/entity emprunt
     // Modify the query to fit to your entity and needs
     // Change booking.beginAt by your start date property
@@ -59,6 +57,7 @@ class CalendarSubscriber implements EventSubscriberInterface
         'Réservé',
         $booking->getDateDebut(),
         $booking->getDateFin() // If the end date is null or not defined, a all day event is created.
+
       );
 
       /*
@@ -139,6 +138,7 @@ class CalendarSubscriber implements EventSubscriberInterface
     //     // finally, add the event to the CalendarEvent to fill the calendar
     //     $calendar->addEvent($ouvertureEvent);
     //   }
+
 
   }
 }

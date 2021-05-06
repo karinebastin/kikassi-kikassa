@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
       day: "jour",
       list: "liste",
     },
+
     displayEventTime: false,
     initialDate: Date.now(),
     locale: "fr",
@@ -50,8 +51,11 @@ document.addEventListener("DOMContentLoaded", () => {
       },
     ],
 
+
     timeZone: "UTC",
   });
   calendar.render();
 });
+
 console.log(calendar);
+

@@ -15,7 +15,7 @@ class AdminEmpruntMenuController extends AbstractController
             'controller_name' => 'AdminEmpruntMenuController',
             'color' => 'emprunts-color',
             'section' => 'section-emprunts',
-            'return_path' => 'admin-main-menu',
+            'return_path' => 'admin_main_menu',
             'items' => [
                 [
                     'text' => "VALIDER LES RÉSERVATIONS D'OBJETS",
