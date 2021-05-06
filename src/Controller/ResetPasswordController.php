@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller;
 
 use App\Entity\SuperAdmin;
 use App\Entity\AdhesionBibliotheque;
@@ -20,7 +20,7 @@ use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 
 #[Route('/reset-password')]
-class ResetAdminPasswordController extends AbstractController
+class ResetPasswordController extends AbstractController
 {
     use ResetPasswordControllerTrait;
 
