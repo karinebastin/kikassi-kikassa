@@ -13,15 +13,14 @@ import "./styles/app.sass";
 import "./styles/test.sass";
 import "./styles/admin.sass";
 import "./styles/detail.sass";
-import "./styles/calendrier.sass";
+// import "./styles/calendrier.sass";
 import "./styles/panier.sass";
 import "./styles/splide.min.css";
-import "./styles/catalogue.sass"
+
 
 // start the Stimulus application
 import "bootstrap";
 import "./bootstrap";
 import "@splidejs/splide";
 import "./slider";
-import "./calendrier.js";
-import "./catalogue.js"
+// import "./calendrier.js";
