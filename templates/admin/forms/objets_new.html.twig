@@ -30,7 +30,7 @@
 			<div class="row">
 				<div class="col">
 					<div class="form-group proprio-select">
-						<select type="radio" name="proprio" class="proprio form-control select-height" required>
+						<select name="proprio" class="proprio form-control select-height" required>
 							<option value="">L'objet appartient à</option>
 							<option value="association">L'Association</option>
 							<option value="adherent">Un adhérent</option>
@@ -38,7 +38,8 @@
 					</div>
 				</div>
 			</div>
-			{% include '/admin/forms/adherent_search.html.twig' %}
+			<div class="search-module d-none">
+				{% include '/admin/forms/adherent_search.html.twig' %}</div>
 			{{ form_start(form, {'attr': {'autocomplete' : 'off', 'novalidate' : true, 'class' : submitted ? submitted : "" ,  'enctype':'multipart/form-data' }})}}
 			<input id='hidden-adh' hidden type="text" name='adherent'/>
 			<div class="row">

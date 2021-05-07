@@ -249,6 +249,16 @@ export default class extends Controller {
 
     })
    
+    $('.proprio-select select').on('change', function () {
+      if ($('.proprio-select select option:selected').val() === "adherent") {
+        replaceClass("search-module", 'd-none', 'd-block')
+       
+      } else if ($('.proprio-select select option:selected').val() === "association"){
+        replaceClass("search-module", 'd-block', 'd-none')
+     }
+     
+    })
+    
 
   }
 }
