@@ -95,11 +95,16 @@
 
 						<p>
 							<strong>Est Administrateur :</strong>
+							{% if adherent.adhesionBibliotheque is not null %}
 							{% if "ROLE_ADMIN" in adherent.adhesionbibliotheque.roles %}
 								Oui
 							{% else %}
 								Non
 							{% endif %}
+							{% else %}
+								Non
+							{% endif %}
+
 						</p>
 						<p>
 							<strong>Catégorie Fourmi :</strong>
@@ -131,18 +136,14 @@
 				</div>
 				<div class="row">
 					<div class="col text-center mb-5">
-						<a href="{{ path('test') }}">
+						<a href="{{ path('admin_adherents_edit', {'slug': adherent.slug}) }}">
 							<button type='button' class='btn modify-btn bar-btn '>
 								<div class="font-raleway btn-text">Modifier les informations</div>
 							</button>
 						</a>
 					</div>
 				</div>
-
-
 			</div>
-
 		</div>
-
 	</body>
 {% endblock %}

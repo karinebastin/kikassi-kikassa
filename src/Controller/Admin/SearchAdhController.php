@@ -15,13 +15,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SearchAdhController extends AbstractController
 {
-    #[Route('/admin/search', name: 'admin_search')]
-    public function index(): Response
-    {
-        return $this->render('admin/search/index.html.twig', [
-            'controller_name' => 'SearchController',
-        ]);
-    }
+    // #[Route('/admin/search', name: 'admin_search')]
+    // public function index(): Response
+    // {
+    //     return $this->render('admin/search/index.html.twig', [
+    //         'controller_name' => 'SearchController',
+    //     ]);
+    // }
     #[Route('/admin/{param}/new/adh', name: 'search_adherent')]
 
     public function retrieveAdh(
@@ -35,7 +35,6 @@ class SearchAdhController extends AbstractController
         $adhs = $adherentRepository->findByNomPrenom($data);
         $admin = $superAdminRepository->findByNomPrenom($data);
         $tab = ['adherent' => $adhs, 'admin' => $admin];
-        dump($tab);
 
         return $this->json($tab, 200, [], ['groups' => 'person']);
     }

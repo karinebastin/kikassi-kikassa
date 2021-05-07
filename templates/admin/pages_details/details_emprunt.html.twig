@@ -8,10 +8,10 @@
 	<body class={{color}}>
 		<div class="container d-flex align-items-center">
 			<div class=" bg-bons vw-100">
-				<h3 class="text-center font-raleway my-4">Informations de l'objet n°
-					{{objet.id}}</h3>
+				<h3 class="text-center font-raleway my-4">Constat de départ d'objet n°
+					{{emprunt.id}}</h3>
 				{{ macros.flash_message() }}
-				<div class="row">
+				{# <div class="row">
 					<div class="col"></div>
 					{% for photo in objet.photos %}
 						<div class="col p-0 d-flex justify-content-center">
@@ -19,7 +19,7 @@
 					{% endfor %}
 					<div class="col"></div>
 
-				</div>
+				</div> #}
 				<div class="row font-raleway-small px-sm-1 px-md-5">
 					<div class="col-6">
 						<p>

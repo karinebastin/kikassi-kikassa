@@ -81,7 +81,6 @@ class ObjetsListController extends AbstractController
         SousCategorieRepository $ssCatRepository
     ): Response {
         $objet = new Objet();
-
         $formSearch = $this->createForm(SearchFormType::class);
         $formCat = $this->createForm(CategorieFormType::class);
         $form = $this->createForm(ObjetFormType::class, $objet);

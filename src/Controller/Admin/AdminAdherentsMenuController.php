@@ -30,7 +30,7 @@ class AdminAdherentsMenuController extends AbstractController
                 [
                     'text' => 'MODIFIER / RÉINSCRIRE UN ADHÉRENT',
                     'icon' => 'pen',
-                    'link' => 'test',
+                    'link' => 'admin_adherents_modif',
                 ],
                 [
                     'text' => 'PASSER UN ADHÉRENT EN ADMIN',

@@ -139,8 +139,10 @@ export default class extends Controller {
 
     $('#search-adherent').on('click', function (e) {
       e.preventDefault()
+      console.log("clicked")
       $('#search-results-adherent').empty();
       const searched = $('.search-adherent').find('#search_form_nom').val();
+      console.log(searched)
       const url = 'new/adh'
       const res = (json) => {
         if (json.adherent.length > 0 && json.admin.length > 0) {
@@ -170,10 +172,15 @@ export default class extends Controller {
       $('#selected-adherent').empty()
         const selected = $('input:radio[name="adherent-select"]:checked').val()
       $('#hidden-adh').val($.trim(selected))
+     
 
       const res = (json) =>{
         function appendSel(item, titre) {
-           item.map(val => $('#selected-adherent').append(`<div class="row font-raleway form-control select-height width-auto ml-1" ><p class="p-2"> ${titre} : ${$.trim(val.prenom)} ${$.trim(val.nom)} </p></div>`))
+          item.map(val => {
+            $('#selected-adherent').append(`<div class="row font-raleway form-control select-height width-auto ml-1" ><p class="p-2"> ${titre} : ${$.trim(val.prenom)} ${$.trim(val.nom)} </p></div>`)
+            $('#hidden-btn').append(`<button type="submit" class='btn btn-danger p-3'>Modifier ${$.trim(val.prenom)} ${$.trim(val.nom)}</button>`)
+          }
+            )
         }
         json.adherent ? appendSel(json.adherent, "Adhérent") : appendSel(json.admin, "Super-admin")
        };
@@ -231,6 +238,17 @@ export default class extends Controller {
     selectOption(selCat, res, url)
 
     })
+
+    $('.biblio-select-edit select').on('change', function () {
+       if ($('.biblio-select-edit select option:selected').val() == "oui") {
+      replaceClass("biblio-part", 'd-none', 'd-block')
+    } else if ($('.biblio-select-edit select option:selected').val() == "non") {
+      replaceClass("biblio-part", 'd-block', 'd-none')
+
+    }
+
+    })
+   
 
   }
 }

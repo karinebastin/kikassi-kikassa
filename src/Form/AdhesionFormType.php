@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Adherent;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,36 +19,36 @@ class AdhesionFormType extends AbstractType
     {
         $builder
             ->add('nom', TextType::class, [
-                'label' => '',
+                'label' => 'Nom',
                 'attr' => ['placeholder' => 'Nom de l\'adhérent'],
             ])
             ->add('prenom', TextType::class, [
-                'label' => '',
+                'label' => 'Prénom',
                 'attr' => ['placeholder' => 'Prénom de l\'adhérent'],
             ])
             ->add('adresse', TextType::class, [
-                'label' => '',
+                'label' => 'Adresse',
                 'attr' => ['placeholder' => 'Adresse : n° et nom de rue'],
             ])
             ->add('cp', TextType::class, [
-                'label' => '',
+                'label' => 'Code Postal',
                 'attr' => ['placeholder' => 'Code Postal'],
             ])
             ->add('ville', TextType::class, [
-                'label' => '',
+                'label' => 'Ville',
                 'attr' => ['placeholder' => 'Ville'],
             ])
             ->add('email', EmailType::class, [
-                'label' => '',
+                'label' => 'Adresse email',
                 'attr' => ['placeholder' => 'Adresse email'],
                 'required' => false,
             ])
             ->add('telephone', TextType::class, [
-                'label' => '',
+                'label' => 'N° de Téléphone',
                 'attr' => ['placeholder' => 'N° de Téléphone'],
             ])
             ->add('date_naissance', DateType::class, [
-                'label' => '',
+                'label' => 'Date de naissance',
                 'widget' => 'single_text',
                 'attr' => [
                     'placeholder' => 'Date de naissance, format : 10/05/1950',
@@ -57,15 +58,16 @@ class AdhesionFormType extends AbstractType
                 'format' => 'dd/MM/yyyy',
             ])
             ->add('lieu_naissance', TextType::class, [
-                'label' => '',
+                'label' => 'Lieu de naissance',
                 'attr' => ['placeholder' => 'Lieu de naissance'],
             ])
             ->add('montant_cotisation', TextType::class, [
-                'label' => '',
+                'label' => 'Montant de la cotisation',
                 'attr' => ['placeholder' => 'Montant de la cotisation en €'],
                 'required' => false,
             ])
             ->add('moyen_paiement', ChoiceType::class, [
+                'label' => 'Moyen de paiement utilisé',
                 'placeholder' => 'moyen de paiement utilisé',
                 'choices' => [
                     'Liquide' => 'liquide',
@@ -76,6 +78,7 @@ class AdhesionFormType extends AbstractType
                 'required' => false,
             ])
             ->add('etat_cotisation', ChoiceType::class, [
+                'label' => 'Etat du paiement de la cotisation',
                 'placeholder' => 'Etat du paiement de la cotisation',
                 'choices' => [
                     'Payée' => 'payée',
@@ -83,7 +86,14 @@ class AdhesionFormType extends AbstractType
                     'Exonéré de cotisation' => 'exonéré',
                 ],
             ])
-
+            // ->add('compte_actif', ChoiceType::class, [
+            //     'label' => 'Compte actif',
+            //     'placeholder' => 'Compte actif',
+            //     'choices' => [
+            //         'Oui' => true,
+            //         'Non' => false,
+            //     ],
+            // ])
             ->add('saveAndContinue', SubmitType::class, [
                 'label' => '<i class="fas fa-arrow-right fa-3x"></i>',
                 'label_html' => true,

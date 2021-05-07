@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateInterval;
 use App\Entity\Objet;
 use App\Entity\Emprunt;
 use Cocur\Slugify\Slugify;
@@ -10,8 +11,8 @@ use App\Entity\AdhesionBibliotheque;
 use App\Repository\AdherentRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -180,7 +181,6 @@ class Adherent
 
     private $compte_actif;
 
-
     /**
      * @ORM\OneToOne(targetEntity=AdhesionBibliotheque::class, mappedBy="adherent", cascade={"persist", "remove"})
      */
@@ -243,6 +243,26 @@ class Adherent
             $this->date_adhesion = new \DateTime();
         }
     }
+
+    // /**
+    //  *
+    //  * @ORM\PrePersist
+    //  * @ORM\PreUpdate
+    //  *
+    //  * @return void
+    //  */
+    // public function activer()
+    // {
+    //     $now = new \DateTime();
+    //     $nextYear = $this->getDateAdhesion()->add(new DateInterval('P1Y'));
+    //  if($nextYear < $now) {
+    //     $this->compte_actif = false;
+    //  }
+    //     // 
+    //     // if($this->date_adhesion < $now) {
+    //     //    
+    //     // }
+    // }
     
 
     public function __construct()
