@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use DateInterval;
 use App\Entity\Adherent;
+use App\Form\AllFormType;
 use App\Form\BiblioFormType;
 use App\Form\SearchFormType;
 use App\Form\AdhesionFormType;
@@ -15,10 +16,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Form\ClickableInterface;
 
 class DetailsAdherentController extends AbstractController
 {
-    #[Route('/admin/details/adherent/{slug}', name: 'admin_details_adherent')]
+    #[Route('/admin/details/adherent/{slug}', name: 'admin_adherents_details')]
     public function index(
         $slug,
         AdherentRepository $adherentRepository,
@@ -60,7 +62,7 @@ class DetailsAdherentController extends AbstractController
             'section' => 'section-adherents',
             'color' => 'adherents-color',
             'formSearch' => $formSearch->createView(),
-            // 'slug' => $slug
+            
         ]);
     }
 
@@ -68,70 +70,68 @@ class DetailsAdherentController extends AbstractController
 
     public function editAdherent(
         Adherent $adherent,
-        ?AdhesionBibliotheque $biblio,
         Request $request,
-        EntityManagerInterface $manager,
-        UserPasswordEncoderInterface $encoder
-    ): Response {
-        // Si l'adhésion de l'adhérent date de + d'un an :
+        EntityManagerInterface $manager
+        ): Response {
+
+            // Si l'adhésion de l'adhérent date de + d'un an :
+        $perime = false;
         $now = new \DateTime();
-        $nextYear = $adherent->getDateAdhesion()->add(new DateInterval('P1Y'));
+        $date = $adherent->getDateAdhesion();
+        $nextYear = $date->add(new DateInterval('P1Y'));
         if ($adherent->getDateAdhesion()) {
             if ($nextYear < $now) {
+                $perime = true;
                 $adherent->setCompteActif(false);
                 // pour l'affichage :
                 $adherent->setMontantCotisation(0);
                 $adherent->setEtatCotisation('');
                 $adherent->setMoyenPaiement('');
+                $nextYear = $date->sub(new DateInterval('P1Y'));
             }
-        }
-
-        if (
-            !$adherent->getAdhesionBibliotheque() &&
-            $request->request->get('biblio') == 'oui'
-        ) {
-            $biblio = new AdhesionBibliotheque();
-            $biblio->setAdherent($adherent);
-            $biblio->setEmail($adherent->getEmail());
-            $biblio->setSatutInscription('valide');
-            $hash = $encoder->encodePassword(
-                $biblio,
-                $adherent->getNom() .
-                    date_format($adherent->getDateNaissance(), 'Y')
-            );
         }
 
         $form = $this->createForm(AdhesionFormType::class, $adherent);
-        $formBiblio = $this->createForm(BiblioFormType::class, $biblio);
 
         $form->handleRequest($request);
-        $formBiblio->handleRequest($request);
 
         $submitted = $form->isSubmitted() ? 'was-validated' : '';
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($adherent->getAdhesionBibliotheque() || $biblio) {
-                $admin = $request->request->get('admin');
-                $admin == 'oui'
-                    ? $biblio->setRoles(['ROLE_ADMIN'])
-                    : $biblio->setRoles(['ROLE_USER']);
-            }
-
-            // si c'est un adhérent dont l'adhésion est périmée :
+        if ($form->isSubmitted() && $form->isValid() ) {
             if ($nextYear < $now) {
                 $adherent->setCompteActif(true);
                 $adherent->setDateAdhesion($now);
             }
-            if ($biblio) {
-                $biblio->setMotDePasse($hash);
-                $manager->persist($biblio);
-            }
+     
             $manager->persist($adherent);
             $manager->flush();
 
-            return $this->redirectToRoute('admin_adherents_edit', [
+            if($adherent->getAdhesionBibliotheque()) {
+                  /** @var ClickableInterface $button  */
+             $button = $form->get("saveAndContinue");
+            return $button->isClicked() ? $this->redirectToRoute('admin_adherents_edit_bilio', [
+                'id' => $adherent->getId()]) :  $this->redirectToRoute('admin_adherents_details', [
                 'slug' => $adherent->getSlug(),
             ]);
+            } else {
+                 /** @var ClickableInterface $button  */
+             $button = $form->get("saveAndContinue");
+            if($button->isClicked()) {
+                
+            return $this->redirectToRoute('adherents_new_biblio', [
+                 'id' => $adherent->getId()]);
+            } else {
+                $this->addFlash(
+                    'success',
+                    "L'adhérent : {$adherent->getNomprenom()} a bien été mis à jour"
+                );
+                return  $this->redirectToRoute('admin_adherents_details', [
+                 'slug' => $adherent->getSlug(),
+             ]);
+            }
+             
+            }
+     
         }
         return $this->render('admin/forms/adherents_edit.html.twig', [
             'controller_name' => 'AdherentsListController',
@@ -141,8 +141,79 @@ class DetailsAdherentController extends AbstractController
             'return_path' => 'menu-adherent',
             'color' => 'adherents-color',
             'form' => $form->createView(),
-            'formBiblio' => $formBiblio->createView(),
             'submitted' => $submitted,
+            'perime' => $perime
         ]);
     }
+
+
+    #[Route('/admin/adherents/edit/biblio/{id}', name:'admin_adherents_edit_bilio')]
+
+    public function editBiblioAdherent(
+        $id,
+        AdherentRepository $adherentRepository,
+        Request $request,
+        EntityManagerInterface $manager,
+        UserPasswordEncoderInterface $encoder
+    ): Response {
+
+        $adherent = $adherentRepository->findOneById($id);
+        $biblio = $adherent->getAdhesionBibliotheque();
+
+        $admin = $request->request->get('admin');
+        $admin == 'oui'
+            ? $biblio->setRoles(['ROLE_ADMIN'])
+            : $biblio->setRoles(['ROLE_USER']);
+
+        $form = $this->createForm(BiblioFormType::class, $biblio);
+
+        $form->handleRequest($request);
+
+        $submitted = $form->isSubmitted() ? 'was-validated' : '';
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $biblio->setAdherent($adherent);
+            $biblio->setEmail($adherent->getEmail());
+            $biblio->setSatutInscription('valide');
+            $hash = $encoder->encodePassword(
+                $biblio,
+                $adherent->getNom() .
+                    date_format($adherent->getDateNaissance(), 'Y')
+            );
+
+            $biblio->setMotDePasse($hash);
+            $manager->persist($biblio);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "Les changements dans l'Inscription à la Bibliothèque des Objets de {$biblio->getAdherent()->getPrenom()} {$biblio->getAdherent()->getNom()} sont bien prises en compte"
+            );
+            return $this->redirectToRoute('admin_adherents_details', [
+                'slug' => $adherent->getSlug(),
+            ]);
+        }
+
+        return $this->render('admin/forms/adherents_biblio.html.twig', [
+            'controller_name' => 'AdherentsListController',
+            'biblio' => $biblio,
+            'arrow' => true,
+            'adherent' => $adherent,
+            'section' => 'section-adherents',
+            'return_path' => 'menu-adherent',
+            'color' => 'adherents-color',
+            'submitted' => $submitted,
+            'form' => $form->createView(),
+        ]);
+
+    }
+
+    
+
+
+
+
+
+    
+       
 }

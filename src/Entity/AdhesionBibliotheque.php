@@ -37,7 +37,8 @@ class AdhesionBibliotheque implements UserInterface
     /**
      * @ORM\Column(type="integer")
      */
-    #[Assert\NotBlank(message:"Veuillez entrer un montant pour le dépôt permanent versé")]
+    // #[Assert\NotBlank(message:"Veuillez entrer un montant pour le dépôt permanent versé")]
+    #[Assert\NotNull(message:"Veuillez entrer un montant pour le dépôt permanent versé")]
     private $depot_permanent;
 
     /**
@@ -114,7 +115,7 @@ class AdhesionBibliotheque implements UserInterface
         return $this->mot_de_passe;
     }
 
-    public function setMotDePasse(string $mot_de_passe): self
+    public function setMotDePasse(?string $mot_de_passe): self
     {
         $this->mot_de_passe = $mot_de_passe;
 
@@ -126,7 +127,7 @@ class AdhesionBibliotheque implements UserInterface
         return $this->depot_permanent;
     }
 
-    public function setDepotPermanent(int $depot_permanent): self
+    public function setDepotPermanent(?int $depot_permanent): self
     {
         $this->depot_permanent = $depot_permanent;
 
@@ -150,7 +151,7 @@ class AdhesionBibliotheque implements UserInterface
         return $this->justif_identite;
     }
 
-    public function setJustifIdentite(bool $justif_identite): self
+    public function setJustifIdentite(?bool $justif_identite): self
     {
         $this->justif_identite = $justif_identite;
 
@@ -162,7 +163,7 @@ class AdhesionBibliotheque implements UserInterface
         return $this->justif_domicile;
     }
 
-    public function setJustifDomicile(bool $justif_domicile): self
+    public function setJustifDomicile(?bool $justif_domicile): self
     {
         $this->justif_domicile = $justif_domicile;
 
@@ -242,7 +243,7 @@ class AdhesionBibliotheque implements UserInterface
         return $this->categorie_fourmi;
     }
 
-    public function setCategorieFourmi(string $categorie_fourmi): self
+    public function setCategorieFourmi(?string $categorie_fourmi): self
     {
         $this->categorie_fourmi = $categorie_fourmi;
 
@@ -254,7 +255,7 @@ class AdhesionBibliotheque implements UserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 

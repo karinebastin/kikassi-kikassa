@@ -80,7 +80,8 @@
 					<tbody>
 
 						{% for adherent in adherents %}
-							{% set actif = adherent.dateadhesion|date_modify("+1 year")|date('Y-m-d') > "now"|date('Y-m-d') ? "Oui" : "Non" %}{% set actifClass = actif == "Non" ? "text-danger" : '' %}{% set adBiblio = adherent.adhesionbibliotheque %}
+							{% set actif = adherent.dateadhesion|date_modify("+1 year")|date('Y-m-d') > "now"|date('Y-m-d') ? "Oui" : "Non" %}{% set actifClass = actif == "Non" ? "text-danger" : '' %}
+							{% set adBiblio = adherent.adhesionbibliotheque %}
 							{% if adBiblio %}
 								{% set depotP = adBiblio.depotpermanent ~ " €" %}
 								{% set fourmi = adBiblio.categoriefourmi %}
@@ -118,11 +119,11 @@
 							<tr class="text-nowrap {{actifClass}}">
 
 								<td>
-									<a class="{{actifClass}}" href="{{path('admin_details_adherent', {'slug': adherent.slug})}}">{{adherent.id}}</a>
+									<a class="{{actifClass}}" href="{{path('admin_adherents_details', {'slug': adherent.slug})}}">{{adherent.id}}</a>
 								</td>
 
 								<td class="{{actifClass}}">
-									<a class="{{actifClass}}" href="{{path('admin_details_adherent', {'slug': adherent.slug})}}">{{adherent.nom}}</a>
+									<a class="{{actifClass}}" href="{{path('admin_adherents_details', {'slug': adherent.slug})}}">{{adherent.nom}}</a>
 								</td>
 
 								<td>

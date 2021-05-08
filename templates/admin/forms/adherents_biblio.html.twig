@@ -2,7 +2,6 @@
 {% import './admin/_macros.html.twig' as macros %}
 
 
-{% set envoi = "<div>" ~ form_widget(form.save) ~ "</div>" %}
 {% set continue = "" %}
 {% set arrowClass = 'd-none' %}
 {% set footerPadding = 'l-padding' %}
@@ -10,44 +9,94 @@
 {% block title %}Adhérents
 {% endblock %}
 
+{% set adminSel = '' %}
+
+{% if adherent.adhesionBibliotheque is not null %}
+	{% set envoi = "<div class='btn-text px-2'>" ~ form_widget(form.save, {'label' : 'Modifier l\'inscription <br> à la Bibliothèque'}) ~ "</div>" %}
+	{% set biblio = adherent.adhesionbibliotheque %}
+	{% set valueFourmi  = biblio.categoriefourmi %}
+	{% set valueId  = biblio.justifidentite ? 1 : 0 %}
+	{% set valueDom  = biblio.justifdomicile ? 1 : 0 %}
+	{% set rcPerime = biblio.finrc|date('Y-m-d') < 'now'|date('Y-m-d') %}
+	{% set biblioClass = 'd-none'%}
+	{% if "ROLE_ADMIN" in biblio.roles %}
+		{% set adminSel = 'oui' %}
+	{% else %}
+		{% set adminSel = 'non' %}
+	{% endif %}
+{% else %}
+	{% set biblio = null %}
+	
+	{% set envoi = "<div>" ~ form_widget(form.save) ~ "</div>" %}
+
+{% endif %}
+
 
 {% block body %}
 	<body class={{color}}>
 		<div class="main-title font-raleway container">
-			<h1 class="text-center font-raleway mb-5">Inscription de
-				{{adherent.nomPrenom}}
-				à la Bibliothèque des Objets</h1>
-			<div class="container">
-				{% set formErrors = form.vars.errors.form.getErrors(true) %}
-				{% if formErrors|length %}
-					<ul class="text-center list-group mb-1">
-						<li class="list-group-item list-group-item-danger my-1">Formulaire non valide :</li>
-						{% for error in formErrors %}
-							<li class="list-group-item list-group-item-danger my-1">{{ error.message }}</li>
-						{% endfor %}
-					</ul>
-				{% endif %}
+			{% if biblio is null %}
+				<h1 class="text-center font-raleway mb-5">Inscription de :
+					{{adherent.nomPrenom}}
+					à la Bibliothèque des Objets</h1>
+			{% else %}
+				<h1 class="text-center font-raleway mb-5">Modification de l'inscription de :
+					{{adherent.nomPrenom}}
+					à la Bibliothèque</h1>
+			{% endif %}
+		{% if biblio %}
+			<div class='{{rcPerime ? 'd-block' : 'd-none'}} rounded alert-warning mx-3'>
+				<p class='text-center p-2'>La Responsabilité Civile de cet adhérent est périmée depuis le
+					{{biblio.finrc|date('d-m-Y')}},
+					<br>
+					Veuillez entrer une nouvelle date de fin de responsabilité civile lors de la remise du document.</p>
 			</div>
-			{{ form_start(form, {'attr': {'autocomplete' : 'off', 'novalidate' : true, 'class' : submitted ? submitted : "" }})}}
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.categorie_fourmi ,  {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
-					</div>
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.depot_permanent, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
+		{% endif %}
+		<div class="container">
+			{% set formErrors = form.vars.errors.form.getErrors(true) %}
+			{% if formErrors|length %}
+				<ul class="text-center list-group mb-1">
+					<li class="list-group-item list-group-item-danger my-1">Formulaire non valide :</li>
+					{% for error in formErrors %}
+						<li class="list-group-item list-group-item-danger my-1">{{ error.message }}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+		</div>
+		{{ form_start(form, {'attr': {'autocomplete' : 'off', 'novalidate' : true, 'class' : submitted ? submitted : "" }})}}
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						{{biblio is not null ? form_label(form.categorie_fourmi) : "" }}
+						{{ form_widget(form.categorie_fourmi ,  {'attr': {'class': 'form-control select-height'}}) }}
 					</div>
 				</div>
-				<div class="row">
+				<div class="col">
+					<div class="form-group">
+						{{biblio is not null ?  form_label(form.depot_permanent) : ""  }}
+						{{ form_widget(form.depot_permanent, {'attr': {'class': 'form-control select-height'}}) }}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						{{biblio is not null ? form_label(form.fin_rc) : "" }}
+						{{ form_widget(form.fin_rc, {'attr': {'class': 'form-control p-4'}}) }}
+					</div>
+				</div>
+				{% if biblio is not null %}
 					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.fin_rc, {'attr': {'class': 'form-control p-4'}}) }}
+						<div class="form-group admin-select">
+							<label for="admin">Possède des droits admin</label>
+							<select type="radio" name="admin" class="admin form-control select-height" required>
+								<option value='oui' {{adminSel == 'oui' ? "selected" : ""}}>Oui</option>
+								<option value='non' {{adminSel == 'non' ? "selected" : ""}}>Non</option>
+							</select>
 						</div>
 					</div>
+				{% else %}
 					<div class="col">
 						<div class="form-group admin-select">
 							<select type="radio" name="admin" class="admin form-control select-height" required>
@@ -57,23 +106,22 @@
 							</select>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.justif_identite, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
+				{% endif %}
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="form-group">
+						{{biblio is not null ?  form_label(form.justif_identite) : "" }}
+						{{ form_widget(form.justif_identite, {'attr': {'class': 'form-control select-height'}}) }}
 					</div>
-					<div class="col">
-						<div class="form-group">
-							{{ form_widget(form.justif_domicile, {'attr': {'class': 'form-control select-height'}}) }}
-						</div>
+				</div>
+				<div class="col">
+					<div class="form-group">
+						{{biblio is not null ?  form_label(form.justif_domicile) : ""  }}
+						{{ form_widget(form.justif_domicile, {'attr': {'class': 'form-control select-height'}}) }}
 					</div>
 				</div>
 			</div>
-			{{macros.footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding)}}
-			{{ form_end(form)}}
 		</div>
-	</body>
-{% endblock %}
-{% block footer %}{% endblock %}
+		{{macros.footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding)}}{{ form_end(form)}}</body>
+</body></div></body>{% endblock %}{% block footer %}{% endblock %}

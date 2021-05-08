@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Adherent;
+use App\Form\BiblioFormType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -12,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class AdhesionFormType extends AbstractType
 {
@@ -86,14 +88,6 @@ class AdhesionFormType extends AbstractType
                     'Exonéré de cotisation' => 'exonéré',
                 ],
             ])
-            // ->add('compte_actif', ChoiceType::class, [
-            //     'label' => 'Compte actif',
-            //     'placeholder' => 'Compte actif',
-            //     'choices' => [
-            //         'Oui' => true,
-            //         'Non' => false,
-            //     ],
-            // ])
             ->add('saveAndContinue', SubmitType::class, [
                 'label' => '<i class="fas fa-arrow-right fa-3x"></i>',
                 'label_html' => true,
@@ -111,6 +105,7 @@ class AdhesionFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Adherent::class,
+            'csrf_protection' => false,
         ]);
     }
 }

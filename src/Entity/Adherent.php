@@ -11,6 +11,7 @@ use App\Entity\AdhesionBibliotheque;
 use App\Repository\AdherentRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -157,7 +158,7 @@ class Adherent
      */
 #[Groups(['person'])]
 
-    #[Assert\PositiveOrZero(message:"Veuillez entrer un montant de cotisation valide")]
+    #[Assert\PositiveOrZero(message:"Veuillez entrer un montant de cotisation valide ou 0")]
     private $montant_cotisation;
 
     /**
@@ -183,6 +184,7 @@ class Adherent
 
     /**
      * @ORM\OneToOne(targetEntity=AdhesionBibliotheque::class, mappedBy="adherent", cascade={"persist", "remove"})
+     *  @Assert\Valid
      */
 
     #[Groups(['person'])]
@@ -214,6 +216,7 @@ class Adherent
     #[Groups(['person'])]
 
     #[Assert\NotNull(message:"Veuillez indiquer un état pour la cotisation")]
+    
     private $etat_cotisation;
 
     /**
@@ -244,25 +247,6 @@ class Adherent
         }
     }
 
-    // /**
-    //  *
-    //  * @ORM\PrePersist
-    //  * @ORM\PreUpdate
-    //  *
-    //  * @return void
-    //  */
-    // public function activer()
-    // {
-    //     $now = new \DateTime();
-    //     $nextYear = $this->getDateAdhesion()->add(new DateInterval('P1Y'));
-    //  if($nextYear < $now) {
-    //     $this->compte_actif = false;
-    //  }
-    //     // 
-    //     // if($this->date_adhesion < $now) {
-    //     //    
-    //     // }
-    // }
     
 
     public function __construct()
@@ -281,7 +265,7 @@ class Adherent
         return $this->nom;
     }
 
-    public function setNom(string $nom): self
+    public function setNom(?string $nom): self
     {
         $this->nom = $nom;
 
@@ -293,7 +277,7 @@ class Adherent
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): self
+    public function setPrenom(?string $prenom): self
     {
         $this->prenom = $prenom;
 
@@ -305,7 +289,7 @@ class Adherent
         return $this->nom.' '.$this->prenom;
     }
 
-    public function setNomprenom(string $nomprenom): self
+    public function setNomprenom(?string $nomprenom): self
     {
         $this->nomprenom = $nomprenom;
 
@@ -317,7 +301,7 @@ class Adherent
         return $this->adresse;
     }
 
-    public function setAdresse(string $adresse): self
+    public function setAdresse(?string $adresse): self
     {
         $this->adresse = $adresse;
 
@@ -329,7 +313,7 @@ class Adherent
         return $this->cp;
     }
 
-    public function setCp(string $cp): self
+    public function setCp(?string $cp): self
     {
         $this->cp = $cp;
 
@@ -341,7 +325,7 @@ class Adherent
         return $this->ville;
     }
 
-    public function setVille(string $ville): self
+    public function setVille(?string $ville): self
     {
         $this->ville = $ville;
 
@@ -365,7 +349,7 @@ class Adherent
         return $this->telephone;
     }
 
-    public function setTelephone(string $telephone): self
+    public function setTelephone(?string $telephone): self
     {
         $this->telephone = $telephone;
 
@@ -389,7 +373,7 @@ class Adherent
         return $this->lieu_naissance;
     }
 
-    public function setLieuNaissance(string $lieu_naissance): self
+    public function setLieuNaissance(?string $lieu_naissance): self
     {
         $this->lieu_naissance = $lieu_naissance;
 
@@ -402,7 +386,7 @@ class Adherent
         return $this->montant_cotisation;
     }
 
-    public function setMontantCotisation(int $montant_cotisation): self
+    public function setMontantCotisation(?int $montant_cotisation): self
     {
         $this->montant_cotisation = $montant_cotisation;
 
@@ -414,7 +398,7 @@ class Adherent
         return $this->moyen_paiement;
     }
 
-    public function setMoyenPaiement(string $moyen_paiement): self
+    public function setMoyenPaiement(?string $moyen_paiement): self
     {
         $this->moyen_paiement = $moyen_paiement;
 
@@ -540,7 +524,7 @@ class Adherent
         return $this->etat_cotisation;
     }
 
-    public function setEtatCotisation(string $etat_cotisation): self
+    public function setEtatCotisation(?string $etat_cotisation): self
     {
         $this->etat_cotisation = $etat_cotisation;
 

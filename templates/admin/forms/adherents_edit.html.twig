@@ -16,17 +16,6 @@
 {% set valueCotis = adherent.etatcotisation %}
 {% if adherent.adhesionBibliotheque is not null %}
 	{% set biblio = adherent.adhesionbibliotheque %}
-	{% set valueFourmi  = biblio.categoriefourmi %}
-	{% set valueId  = biblio.justifidentite ? 1 : 0 %}
-	{% set valueDom  = biblio.justifdomicile ? 1 : 0 %}
-	{% set biblioClass = 'd-none'%}
-
-	{% if "ROLE_ADMIN" in biblio.roles %}
-		{% set adminSel = 'oui' %}
-	{% else %}
-		{% set adminSel = 'non' %}
-	{% endif %}
-
 {% endif %}
 
 {% block body %}
@@ -49,9 +38,16 @@
 						{% endfor %}
 					</ul>
 				{% endif %}
+				<div class='{{perime ? 'd-block' : 'd-none'}} alert-warning mx-3'>
+					<p class='text-center p-2'>Cette adhésion est périmée depuis le
+						{{adherent.dateadhesion|date_modify("+1 year")|date('d-m-Y')}},
+						<br>
+						Veuillez rentrer un montant de cotisation et un moyen de paiement (si applicable)
+						<br>
+						et un état de cotisation puis valider pour renouveller l'inscription.</p>
+				</div>
 			</div>
 			<div class="container">
-
 				<div class="row">
 					<div class="col">
 						<div class="form-group">
@@ -113,7 +109,6 @@
 						<div class="form-group">
 							{{ form_label(form.email) }}
 							{{ form_widget(form.email, {'attr': {'class': 'form-control p-4'}}) }}
-							<p class="email-obligatoire d-none text-danger">Adresse email obligatoire pour l'inscription à la bibliothèque</p>
 						</div>
 					</div>
 				</div>
@@ -164,128 +159,19 @@
 						</div>
 					{% endif %}
 				</div>
-				{% if adherent.adhesionBibliotheque is not null %}
-					<div class="row">
-						<div class="col">
-							<div class="form-group">
-								{{ form_label(formBiblio.categorie_fourmi) }}
-								{{ form_widget(formBiblio.categorie_fourmi,  {'attr': {'class': 'form-control select-height'}, value : valueFourmi|lower}) }}
-							</div>
-						</div>
-						<div class="col">
-							<div class="form-group">
-								{{ form_label(formBiblio.depot_permanent) }}
-								{{ form_widget(formBiblio.depot_permanent, {'attr': {'class': 'form-control select-height'}}) }}
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<div class="form-group">
-								{{ form_label(formBiblio.fin_rc) }}
-								{{ form_widget(formBiblio.fin_rc, {'attr': {'class': 'form-control p-4'}}) }}
-							</div>
-						</div>
-						<div class="col">
-							<div class="form-group admin-select">
-								<label for="admin">Possède des droits admin</label>
-								<select type="radio" name="admin" class="admin form-control select-height" required>
-									<option value='oui' {{adminSel == 'oui' ? "selected" : ""}}>Oui</option>
-									<option value='non' {{adminSel == 'non' ? "selected" : ""}}>Non</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<div class="form-group">
-								{{ form_label(formBiblio.justif_identite) }}
-								{{ form_widget(formBiblio.justif_identite, {'attr': {'class': 'form-control select-height'}, value : valueId|lower}) }}
-							</div>
-						</div>
-						<div class="col">
-							<div class="form-group">
-								{{ form_label(formBiblio.justif_domicile) }}
-								{{ form_widget(formBiblio.justif_domicile, {'attr': {'class': 'form-control select-height'}, value : valueDom|lower}) }}
-							</div>
-						</div>
-					</div>
-				{% else %}
-					<div class=" biblio-part d-none">
-						<div class="row biblio-part d-none">
-							<div class="col">
-								<div class="form-group">
-									{{ form_label(formBiblio.categorie_fourmi) }}
-									{{ form_widget(formBiblio.categorie_fourmi,  {'attr': {'class': 'form-control select-height'}}) }}
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-group">
-									{{ form_label(formBiblio.depot_permanent) }}
-									{{ form_widget(formBiblio.depot_permanent, {'attr': {'class': 'form-control select-height'}}) }}
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								<div class="form-group">
-									{{ form_label(formBiblio.fin_rc) }}
-									{{ form_widget(formBiblio.fin_rc, {'attr': {'class': 'form-control p-4'}}) }}
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-group admin-select">
-									<label for="admin">Possède des droits admin</label>
-									<select type="radio" name="admin" class="admin form-control select-height" required>
-										<option value=''>Accorder des droits admin</option>
-										<option value='oui'>Oui</option>
-										<option value='non'>Non</option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								<div class="form-group">
-									{{ form_label(formBiblio.justif_identite) }}
-									{{ form_widget(formBiblio.justif_identite, {'attr': {'class': 'form-control select-height'}}) }}
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-group">
-									{{ form_label(formBiblio.justif_domicile) }}
-									{{ form_widget(formBiblio.justif_domicile, {'attr': {'class': 'form-control select-height'}}) }}
-								</div>
-							</div>
-						</div>
-					</div>
-				{% endif %}
-				{# <div class="col">
-																																						<div class="form-group">
-																																						{{ form_label(form.compte_actif) }}
-																																							{{ form_widget(form.compte_actif, {'attr': {'class': 'form-control select-height'}}) }}
-																																						</div>
-																																					</div> #}
-				{# <div class="col">
-																																						<div class="form-group actif-select">
-																																							<select type="radio" name="actif" class="actif form-control select-height" required>
-																																								<option value="">Compte actif</option>
-																																								<option value="oui">Oui</option>
-																																								<option value="non">Non</option>
-																																							</select>
-																																						</div>
-																																					</div> #}
+				{% if biblio is not null %}
+					<div class="mt-4 row text-center">
+						<div class="col">{{form_widget(form.saveAndContinue, {'label': 'Modifier <br> l\'Inscription à la Bibliothèque', 'attr' : {'class' : 'btn btn-danger p-2'} })}}</div>
+				</div>
 			</div>
+			{% else %}
+					<div class="mt-4 row text-center">
+						<div class="col">{{form_widget(form.saveAndContinue, {'label': 'Procéder à l\'Inscription à la Bibliothèque des Objets', 'attr' : {'class' : 'btn btn-danger p-2'} })}}</div>
+					</div>
+				</div>
+			{% endif %}
 		</div>
 	</body>
 </div>
 {{macros.footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding )}}
-{{ form_end(form)}}</body>{% endblock %}{% block footer %}{% endblock %}{# <div class="col">
-														<div class="form-group biblio-select">
-															<select type="radio" name="biblio" class="biblio form-control select-height" required>
-																<option value="">Inscription à la bibliothèque</option>
-																<option value="oui">Oui</option>
-																<option value="non">Non</option>
-															</select>
-														</div>
-													</div> #}
+{{ form_end(form)}}</body>{% endblock %}{% block footer %}{% endblock %}
