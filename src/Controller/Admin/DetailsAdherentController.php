@@ -36,7 +36,7 @@ class DetailsAdherentController extends AbstractController
             'color' => 'adherents-color',
         ]);
     }
-    #[Route('/admin/adherents/modif', name: 'admin_adherents_modif')]
+    #[Route('/admin/adherents/modif/', name: 'admin_adherents_modif')]
     public function selectModif(
         AdherentRepository $adherentRepository,
         Request $request,
@@ -48,14 +48,13 @@ class DetailsAdherentController extends AbstractController
         $adherent = $adherentRepository->findOneById(
             $request->request->get('adherent')
         );
+    
         if($adherent) {
         return $this->redirectToRoute('admin_adherents_edit', [
         'slug' => $adherent->getSlug(),
         ]);
 
 }
-       
-
         return $this->render('admin/forms/adherents_modif.html.twig', [
             'controller_name' => 'DetailsAdherentController',
             'return_path' => 'menu-adherent',
@@ -98,6 +97,7 @@ class DetailsAdherentController extends AbstractController
         $submitted = $form->isSubmitted() ? 'was-validated' : '';
 
         if ($form->isSubmitted() && $form->isValid() ) {
+            // Si concerné, je procède à la ré-adhésion :
             if ($nextYear < $now) {
                 $adherent->setCompteActif(true);
                 $adherent->setDateAdhesion($now);
@@ -106,21 +106,32 @@ class DetailsAdherentController extends AbstractController
             $manager->persist($adherent);
             $manager->flush();
 
+                /** @var ClickableInterface $button  */
+                $button = $form->get("saveAndContinue");
             if($adherent->getAdhesionBibliotheque()) {
-                  /** @var ClickableInterface $button  */
-             $button = $form->get("saveAndContinue");
-            return $button->isClicked() ? $this->redirectToRoute('admin_adherents_edit_bilio', [
-                'id' => $adherent->getId()]) :  $this->redirectToRoute('admin_adherents_details', [
-                'slug' => $adherent->getSlug(),
-            ]);
+            // Si l'adhérent est déjà inscrit à la bibliothèque :
+            // Si click sur le bouton 'modifier l'adhésion à la Bibliothèque' :
+           if($button->isClicked()) {
+           return $this->redirectToRoute('admin_adherents_edit_bilio', [
+                'id' => $adherent->getId()]);
             } else {
-                 /** @var ClickableInterface $button  */
-             $button = $form->get("saveAndContinue");
+                // Si click sur le bouton 'valider les changements' retour à la page profil de l'adherent : 
+                return  $this->redirectToRoute('admin_adherents_details', [
+                'slug' => $adherent->getSlug()
+                 ]);
+                $this->addFlash(
+                    'success',
+                    "L'adhérent : {$adherent->getNomprenom()} a bien été mis à jour"
+                );
+            }
+            // Si l'adhérent n'est pas encore inscrit à la bibliothèque :
+           }  else {
+            // Si click sur le bouton 'procéder à l'inscription à la Bibliothèque' :
             if($button->isClicked()) {
-                
             return $this->redirectToRoute('adherents_new_biblio', [
                  'id' => $adherent->getId()]);
             } else {
+                // Si click sur le bouton 'valider les changements' :
                 $this->addFlash(
                     'success',
                     "L'adhérent : {$adherent->getNomprenom()} a bien été mis à jour"
@@ -129,9 +140,7 @@ class DetailsAdherentController extends AbstractController
                  'slug' => $adherent->getSlug(),
              ]);
             }
-             
             }
-     
         }
         return $this->render('admin/forms/adherents_edit.html.twig', [
             'controller_name' => 'AdherentsListController',
@@ -208,12 +217,4 @@ class DetailsAdherentController extends AbstractController
 
     }
 
-    
-
-
-
-
-
-    
-       
 }
