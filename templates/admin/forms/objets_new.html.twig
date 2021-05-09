@@ -19,6 +19,7 @@
 			<div class="container">
 				{% set formErrors = form.vars.errors.form.getErrors(true) %}
 				{% if formErrors|length %}
+					{{dump(form.vars.errors)}}
 					<ul class="text-center list-group mb-1">
 						<li class="list-group-item list-group-item-danger my-1">Formulaire non valide :</li>
 						{% for error in formErrors %}
@@ -78,11 +79,14 @@
 					<div class="form-group categorie-select">
 						{{ form_widget(formCat.categorie, {'attr': {'class': 'form-control select-height'}}) }}
 					</div>
+					{# {{ form_widget(form.sous_categorie, {'attr': {'class': 'form-control select-height'}}) }} #}
+
 				</div>
 				<div class="col ss-cat">
 					<div class="form-group">
 						<select class="form-control select-height" id="ss-cat-select" name="ss-cat-sel"></select>
 					</div>
+					<input id='hidden-cat' hidden type="text" name='ss_cat'/>
 				</div>
 			</div>
 			<div class="row">

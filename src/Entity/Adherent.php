@@ -184,7 +184,6 @@ class Adherent
 
     /**
      * @ORM\OneToOne(targetEntity=AdhesionBibliotheque::class, mappedBy="adherent", cascade={"persist", "remove"})
-     *  @Assert\Valid
      */
 
     #[Groups(['person'])]

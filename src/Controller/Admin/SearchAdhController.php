@@ -3,9 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Adherent;
+use App\Entity\AdhesionBibliotheque;
 use App\Entity\SousCategorie;
 use App\Entity\SuperAdmin;
 use App\Repository\AdherentRepository;
+use App\Repository\AdhesionBibliothequeRepository;
 use App\Repository\SousCategorieRepository;
 use App\Repository\SuperAdminRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,6 +44,7 @@ class SearchAdhController extends AbstractController
     #[Route('/admin/{param}/new/sel', name: 'select_adherent')]
 
     public function selectAdh(
+        $param,
         Request $request,
         AdherentRepository $adherentRepository,
         SuperAdminRepository $superAdminRepository
@@ -49,9 +52,15 @@ class SearchAdhController extends AbstractController
         $Sadh = new Adherent();
         $Sadmin = new SuperAdmin();
         $data = $request->request->get('data');
-        $Sadh = $adherentRepository->findById($data);
-        $Sadmin = $superAdminRepository->findById($data);
-        $Sperson = $Sadh ? ['adherent' => $Sadh] : ['admin' => $Sadmin];
+        $Sadh = $adherentRepository->findOneById($data);
+        $Sadmin = $superAdminRepository->findOneById($data);
+        dump($Sadh);
+        $Sperson = $Sadh
+            ? [
+                'adherent' => $Sadh,
+                'param' => $param,
+            ]
+            : ['admin' => $Sadmin, 'param' => $param];
 
         return $this->json($Sperson, 200, [], ['groups' => 'person']);
     }

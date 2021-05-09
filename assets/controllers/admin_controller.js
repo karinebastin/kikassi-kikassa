@@ -125,11 +125,13 @@ export default class extends Controller {
 
     function selectOption(selected, res, url) {
       $.ajax({
+       
         data: { 'data': selected },
         dataType: 'json',
         type: 'POST',
         url: url
       }).done(function (json) {
+        console.log(json)
         res(json)
       }).fail(function (jqXHR, textStatus, errorThrown) {
      
@@ -139,10 +141,8 @@ export default class extends Controller {
 
     $('#search-adherent').on('click', function (e) {
       e.preventDefault()
-      console.log("clicked")
       $('#search-results-adherent').empty();
       const searched = $('.search-adherent').find('#search_form_nom').val();
-      console.log(searched)
       const url = 'new/adh'
       const res = (json) => {
         if (json.adherent.length > 0 && json.admin.length > 0) {
@@ -172,19 +172,25 @@ export default class extends Controller {
       $('#selected-adherent').empty()
         const selected = $('input:radio[name="adherent-select"]:checked').val()
       $('#hidden-adh').val($.trim(selected))
-     
-
-      const res = (json) =>{
-        function appendSel(item, titre) {
-          item.map(val => {
-            $('#selected-adherent').append(`<div class="row font-raleway form-control select-height width-auto ml-1" ><p class="p-2"> ${titre} : ${$.trim(val.prenom)} ${$.trim(val.nom)} </p></div>`)
-            $('#hidden-btn').append(`<button type="submit" class='btn btn-danger p-3'>Modifier ${$.trim(val.prenom)} ${$.trim(val.nom)}</button>`)
-          }
-            )
+      $('#hidden-btn').empty()
+    
+      const res = (json) => {
+        if (json.param === 'objets' || json.param === 'adherents'|| json.param === 'emprunts') {
+           function appendSel(item, titre) {
+            $('#selected-adherent').append(`<div class="row font-raleway form-control select-height width-auto ml-1" ><p class="p-2"> ${titre} : ${$.trim(item.prenom)} ${$.trim(item.nom)} </p></div>`)
+           
+            $('#hidden-btn').append(`<button type="submit" class='btn btn-danger p-3'>Modifier ${$.trim(item.prenom)} ${$.trim(item.nom)}</button>`)
+          
         }
-        json.adherent ? appendSel(json.adherent, "Adhérent") : appendSel(json.admin, "Super-admin")
-       };
-      
+          json.adherent ? appendSel(json.adherent, "Adhérent") : appendSel(json.admin, "Super-admin")
+          
+        } else if (json.param === "adherent-changement-fourmi") {
+          console.log(json)
+          $('#hidden-form').append("<form method='post'><label for='fourmi'>Choisir...</label><select name='fourmi'><option value='verte'>Verte</option><option value='bleue'>Bleue</option>     <option value='dorée'>Dorée</option></select></form> <button type='submit' value='submit'>Changer</button>")
+       }
+
+        }
+       
       const url = 'new/sel';
       selectOption(selected, res, url);
     })
@@ -195,6 +201,7 @@ export default class extends Controller {
       const searched = $('.search-objet').find('#search_form_nom').val();
       const url = 'new/obj'
       const res = (json) => {
+   
           if (json.length > 0) {
         $.each(json, function (index, value) {
           $('#search-results-objet').append(`<tr><td class='text-center'>${value.denomination}</td><td class='text-center'>${value.marque}</td><td class='text-center'>${value.statut}</td>
@@ -218,11 +225,12 @@ export default class extends Controller {
         const selected = $('input:radio[name="objet-select"]:checked').val()
       $('#hidden-obj').val($.trim(selected))
 
-      const res = (json) =>  json.map(val => $('#selected-objet').append(`<div class="row font-raleway form-control select-height width-auto ml-1" ><p class="p-2">Objet : ${$.trim(val.denomination)} ${$.trim(val.marque)} </p></div>`));
+      const res = (json) =>
+    
+        $('#selected-objet').append(`<div class="row font-raleway form-control select-height width-auto ml-1" ><p class="p-2">Objet : ${$.trim(json.denomination)} ${$.trim(json.marque)} </p></div>`);
       
       const url = 'new/selobj';
       selectOption(selected, res, url);
-      console.log( $('#hidden-obj').val(), $('#hidden-adh').val())
     })
 
 
@@ -235,8 +243,12 @@ export default class extends Controller {
         })
       
      const url = 'new/cat'
-    selectOption(selCat, res, url)
-
+      selectOption(selCat, res, url)
+    })
+    $('#ss-cat-select').on('change', function () {
+      const selectedCat = $('#ss-cat-select option:selected').val()
+      $('#hidden-cat').val(selectedCat)
+      console.log("val =>", $('#hidden-cat').val())
     })
 
     $('.biblio-select-edit select').on('change', function () {

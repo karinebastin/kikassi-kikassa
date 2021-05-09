@@ -59,8 +59,8 @@
 
 {# Macro pour l'affichage des ensembles de boutons des sous-menus #}
 
-{% macro button_icon(text, icon, link) %}
-	<a href="{{ path(link) }}">
+{% macro button_icon(text, icon, link, param) %}
+	<a href="{{ path(link, {'param' : param}) }}">
 		<button type='button' class="big-button d-flex flex-column align-items-center justify-content-center mb-2 mr-md-2">
 			<img class="icons" src="{{asset('icons/' ~ icon ~ '.png')}}" alt=" {{icon}} ">
 			<div class=" font-raleway ssmenu-btn-text">{{text}}</div>

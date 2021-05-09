@@ -36,34 +36,37 @@ class DetailsAdherentController extends AbstractController
             'color' => 'adherents-color',
         ]);
     }
-    #[Route('/admin/adherents/modif/', name: 'admin_adherents_modif')]
-    public function selectModif(
-        AdherentRepository $adherentRepository,
-        Request $request,
-    ): Response {
-        $formSearch = $this->createForm(SearchFormType::class);
+    // #[Route('/admin/adherents/modif', name: 'admin_adherents_modif')]
+    // public function selectModif(
+    //     // $par,
+    //     AdherentRepository $adherentRepository,
+    //     Request $request,
+    // ): Response {
+    //     // dump($par);
+    //     $formSearch = $this->createForm(SearchFormType::class);
 
-        $formSearch->handleRequest($request);
+    //     $formSearch->handleRequest($request);
 
-        $adherent = $adherentRepository->findOneById(
-            $request->request->get('adherent')
-        );
+    //     $adherent = $adherentRepository->findOneById(
+    //         $request->request->get('adherent')
+    //     );
     
-        if($adherent) {
-        return $this->redirectToRoute('admin_adherents_edit', [
-        'slug' => $adherent->getSlug(),
-        ]);
+    //     if($adherent) {
+    //     return $this->redirectToRoute('admin_adherents_edit', [
+    //     'slug' => $adherent->getSlug(),
+    //     ]);
 
-}
-        return $this->render('admin/forms/adherents_modif.html.twig', [
-            'controller_name' => 'DetailsAdherentController',
-            'return_path' => 'menu-adherent',
-            'section' => 'section-adherents',
-            'color' => 'adherents-color',
-            'formSearch' => $formSearch->createView(),
+    //     }
+    //     return $this->render('admin/forms/adherents_modif.html.twig', [
+    //         'controller_name' => 'DetailsAdherentController',
+    //         'return_path' => 'menu-adherent',
+    //         'section' => 'section-adherents',
+    //         'color' => 'adherents-color',
+    //         'formSearch' => $formSearch->createView(),
+    //         // 'par' => $par
             
-        ]);
-    }
+    //     ]);
+    // }
 
     #[Route('/admin/adherents/edit/{slug}', name: 'admin_adherents_edit')]
 
@@ -217,4 +220,48 @@ class DetailsAdherentController extends AbstractController
 
     }
 
+
+    #[Route('/admin/{param}/modif', name: 'admin_adherents_modif')]
+    public function selModif(
+        $param,
+        AdherentRepository $adherentRepository,
+        Request $request,
+    ): Response {
+$form2 = "";
+        $formSearch = $this->createForm(SearchFormType::class);
+
+        $formSearch->handleRequest($request);
+
+        $adherent = $adherentRepository->findOneById(
+            $request->request->get('adherent')
+        );
+    
+        if($adherent && $param == "adherent-reinscription") {
+        return $this->redirectToRoute('admin_adherents_edit', [
+        'slug' => $adherent->getSlug(),
+        ]);
+
+        }
+        if($adherent && $param == "adherent-changement-fourmi") {
+            dump("ok");
+ $form2 =  $this->createForm(AdhesionFormType::class, $adherent);
+       $form2->createView();
+            return $this->redirectToRoute('admin_adherents_details', [
+            'slug' => $adherent->getSlug(),
+            ]);
+
+        }
+        return $this->render('admin/forms/adherents_modif.html.twig', [
+            'controller_name' => 'DetailsAdherentController',
+            'return_path' => 'menu-adherent',
+            'section' => 'section-adherents',
+            'color' => 'adherents-color',
+            'formSearch' => $formSearch->createView(),
+            'form2' => $form2,
+            'param' => $param
+            
+        ]);
+    }
+
+   
 }

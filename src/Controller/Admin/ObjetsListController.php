@@ -11,6 +11,7 @@ use App\Entity\SousCategorie;
 use App\Form\CategorieFormType;
 use App\Repository\ObjetRepository;
 use App\Repository\AdherentRepository;
+use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\SousCategorieRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -84,23 +85,23 @@ class ObjetsListController extends AbstractController
         $formSearch = $this->createForm(SearchFormType::class);
         $formCat = $this->createForm(CategorieFormType::class);
         $form = $this->createForm(ObjetFormType::class, $objet);
-        $form->handleRequest($request);
 
         $adherent = $adherentRepository->findOneById(
             $request->request->get('adherent')
         );
         $ssCat = $ssCatRepository->findOneById(
-            $request->request->get('ss-cat-sel')
+            $request->request->get('ss_cat')
         );
 
         $objet->setAdherent($adherent);
         $objet->setSousCategorie($ssCat);
 
+        $form->handleRequest($request);
+
         $submitted = $form->isSubmitted() ? 'was-validated' : '';
 
         if ($form->isSubmitted() && $form->isValid()) {
             $directory = 'photos';
-
             $file = $form['photos']->getData();
 
             foreach ($file as $photo) {
@@ -124,7 +125,6 @@ class ObjetsListController extends AbstractController
 
             $objet->setStatut('Disponible');
             $manager->persist($objet);
-
             $manager->flush();
 
             $this->addFlash(
