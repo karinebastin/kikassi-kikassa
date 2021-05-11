@@ -105,6 +105,8 @@ class Emprunt
 
     private $emprunt_regle;
 
+    private $titre;
+
     /**
      *
      *@ORM\PrePersist
@@ -294,6 +296,26 @@ class Emprunt
     public function setEmpruntRegle(bool $emprunt_regle): self
     {
         $this->emprunt_regle = $emprunt_regle;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of titre
+     */
+    public function getTitre()
+    {
+        return $this->titre;
+    }
+
+    /**
+     * Set the value of titre
+     *
+     * @return  self
+     */
+    public function setTitre($titre)
+    {
+        $this->titre = $titre;
 
         return $this;
     }

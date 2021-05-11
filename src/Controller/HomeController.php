@@ -3,8 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Objet;
-use App\Repository\EmpruntRepository;
 use App\Repository\ObjetRepository;
+use App\Repository\EmpruntRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,9 +21,15 @@ class HomeController extends AbstractController
     }
 
     #[Route('/{slug}/detail', name: 'objetDetail', methods: ['GET', 'POST'])]
-    public function detailsObjet(Objet $objet, EmpruntRepository $emprunt): Response
+    public function detailsObjet(Objet $objet, EmpruntRepository $emprunt, Request $request): Response
 
     {
+        // foreach ($request->attributes->all() as $attribute) {
+        //     if ($attribute == $objet) {
+        //         dump($objet->getId());
+        //     }
+        // }
+        // dump($request->attributes->all());
         return $this->render('home/detailsObjet.html.twig', [
             'controller_name' => 'HomeController',
             'objet' => $objet,

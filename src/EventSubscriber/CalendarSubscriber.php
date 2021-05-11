@@ -4,6 +4,8 @@ namespace App\EventSubscriber;
 
 
 use App\Repository\EmpruntRepository;
+use App\Entity\Objet;
+use Symfony\Component\HttpFoundation\Request;
 // use App\Repository\HoraireLieuRepository;
 use CalendarBundle\CalendarEvents;
 use CalendarBundle\Entity\Event;
@@ -11,16 +13,19 @@ use CalendarBundle\Event\CalendarEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+
 class CalendarSubscriber implements EventSubscriberInterface
 {
   // private $ouvertureRepository;
   private $bookingRepository;
   private $router;
+  private $request;
+  private $objet;
 
   public function __construct(
     // HoraireLieuRepository $ouvertureRepository,
     EmpruntRepository $bookingRepository,
-    UrlGeneratorInterface $router
+    UrlGeneratorInterface $router,
   ) {
     // $this->ouvertureRepository = $ouvertureRepository;
     $this->bookingRepository = $bookingRepository;
@@ -34,12 +39,23 @@ class CalendarSubscriber implements EventSubscriberInterface
     ];
   }
 
+  public function getIdObjet($request, $objet)
+  {
+    //Cette fonction sert à récupérer l'Id de l'objet de la page en cours
+
+
+    foreach ($request->attributes->all() as $attribute) {
+      if ($attribute == $objet) {
+        return $objet->getId();
+      }
+    }
+  }
+
   public function onCalendarSetData(CalendarEvent $calendar)
   {
     $start = $calendar->getStart();
     $end = $calendar->getEnd();
     $filters = $calendar->getFilters();
-
 
     // lien entre la bdd par le repo/entity emprunt
     // Modify the query to fit to your entity and needs
@@ -47,19 +63,24 @@ class CalendarSubscriber implements EventSubscriberInterface
     $bookings = $this->bookingRepository
       ->createQueryBuilder('booking')
       ->where('booking.date_debut BETWEEN :start and :end OR booking.date_fin BETWEEN :start and :end')
+      // ->andWhere('booking.objet_id = :objetid')
       ->setParameter('start', $start->format('Y-m-d'))
       ->setParameter('end', $end->format('Y-m-d'))
+      // ->setParameter(
+      //   'objetid',
+      //   10
+      // )
       ->getQuery()
       ->getResult();
     foreach ($bookings as $booking) {
       // this create the events with your data (here booking data) to fill calendar
+      // if ($booking->getObjet() == $this->getIdObjet($request = new Request(),  $objet = new Objet())) {
       $bookingEvent = new Event(
         'Réservé',
+        // $booking->getTitre(),
         $booking->getDateDebut(),
         $booking->getDateFin() // If the end date is null or not defined, a all day event is created.
-
       );
-
       /*
          * Add custom options to events
          *
@@ -77,7 +98,7 @@ class CalendarSubscriber implements EventSubscriberInterface
           'id' => $booking->getId(),
         ])
       );
-
+      // }
       // finally, add the event to the CalendarEvent to fill the calendar
       $calendar->addEvent($bookingEvent);
     }
