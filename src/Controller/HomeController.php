@@ -44,24 +44,10 @@ class HomeController extends AbstractController
         $form = $this->createForm(EmpruntType::class, $emprunt);
         $form->handleRequest($request);
         // // Je récupère l'adhérent et je vérifie si c'est un adhérent ou super-admin
-        // $adherent = $adherentRepository->findOneById(
-        //     $request->request->get('adherent')
-        // );
-        // $admin = $superAdminRepository->findOneById(
-        //     $request->request->get('adherent')
-        // );
-
-        // $adherent
-        //     ? $emprunt->setAdherent($adherent)
-        //     : $emprunt->setSuperAdmin($admin);
-
-
-        // $this->denyAccessUnlessGranted('ROLE_USER');
         // dump($this->getUser()->getId());
         if ($this->getUser()) {
             $adherentBibliotheque = $this->getUser()->getId();
             $adherent = $adherentRepository->findOneById($adherentBibliotheque);
-            // $this->denyAccessUnlessGranted('ROLE_ADMIN');
             $adminBibliotheque = $this->getUser()->getId();
             $admin = $superAdminRepository->findOneById($adminBibliotheque);
 
