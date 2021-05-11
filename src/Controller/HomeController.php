@@ -131,6 +131,7 @@ class HomeController extends AbstractController
                     // $emprunt->setDepotRajoute(
                     //     $depot_rajoute < 0 ? 0 : $depot_rajoute
                     // );
+                    // valeur provisoire à 0 pour réglé des bugs
                     $emprunt->setDepotRajoute(0);
 
                     // le statut de l'emprunt est mis "en attente de validation"

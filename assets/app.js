@@ -16,7 +16,7 @@ import "./styles/detail.sass";
 import "./styles/calendrier.sass";
 import "./styles/panier.sass";
 import "./styles/splide.min.css";
-import "./styles/catalogue.sass";
+import "./styles/catalogue.scss";
 
 // start the Stimulus application
 
