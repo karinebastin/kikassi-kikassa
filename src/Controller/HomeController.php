@@ -37,7 +37,8 @@ class HomeController extends AbstractController
         // dump($attribute);
         // }
         // dump($request->attributes->all());
-        dump($session->all());
+        // dump($session->all());
+
 
         $emprunt = new Emprunt();
         $form = $this->createForm(EmpruntType::class, $emprunt);
@@ -54,22 +55,28 @@ class HomeController extends AbstractController
         //     ? $emprunt->setAdherent($adherent)
         //     : $emprunt->setSuperAdmin($admin);
 
-        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        // $this->denyAccessUnlessGranted('ROLE_USER');
         // dump($this->getUser()->getId());
-        $adherentBibliotheque = $this->getUser()->getId();
-        $adherent = $adherentRepository->findOneById($adherentBibliotheque);
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $adminBibliotheque = $this->getUser()->getId();
-        $admin = $superAdminRepository->findOneById($adminBibliotheque);
-        $adherent
-            ? $emprunt->setAdherent($adherent)
-            : $emprunt->setSuperAdmin($admin);
+        if ($this->getUser()) {
+            $adherentBibliotheque = $this->getUser()->getId();
+            $adherent = $adherentRepository->findOneById($adherentBibliotheque);
+            // $this->denyAccessUnlessGranted('ROLE_ADMIN');
+            $adminBibliotheque = $this->getUser()->getId();
+            $admin = $superAdminRepository->findOneById($adminBibliotheque);
+
+            $adherent
+                ? $emprunt->setAdherent($adherent)
+                : $emprunt->setSuperAdmin($admin);
+        }
+
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+
             if ($objet) {
                 if ($objet->getStatut() == 'Disponible' || $objet->getStatut() == 'Réservé') {
-                    dump($objet);
+
                     // j'envoie en bdd l'objet
                     $emprunt->setObjet($objet);
                     // Je set la date de réservation uniquement si l'emprunt ne débute pas le jour même, et je la met à aujourd'hui
@@ -99,40 +106,40 @@ class HomeController extends AbstractController
                     $emprunt->setPrixEmprunt($prix);
 
                     // calcul du montant de dépôt de garantie à rajouter au dépôt permanent :
-                    // $finrc = $adherent
-                    //     ->getAdhesionBibliotheque()
-                    //     ->getFinRc();
-                    // $depot_perm = $adherent
-                    //     ->getAdhesionBibliotheque()
-                    //     ->getDepotPermanent();
+                    $finrc = $adherent
+                        ->getAdhesionBibliotheque()
+                        ->getFinRc();
+                    $depot_perm = $adherent
+                        ->getAdhesionBibliotheque()
+                        ->getDepotPermanent();
 
-                    // if ($adherent) {
-                    //     if ($finrc > $now) {
-                    //         $depot_rajoute =
-                    //             ($obj->getValeurAchat() *
-                    //                 $obj->getCoefUsure()) /
-                    //             5 /
-                    //             3 -
-                    //             $depot_perm;
-                    //         dump('rc valide');
-                    //     } else {
-                    //         $depot_rajoute =
-                    //             ($obj->getValeurAchat() *
-                    //                 $obj->getCoefUsure()) /
-                    //             5 -
-                    //             $depot_perm;
-                    //         dump('pas rc ou rc perimee');
-                    //     }
-                    // } else {
-                    //     $depot_rajoute = 0;
-                    //     dump('est admin');
-                    // }
+                    if ($adherent) {
+                        if ($finrc > $now) {
+                            $depot_rajoute =
+                                ($obj->getValeurAchat() *
+                                    $obj->getCoefUsure()) /
+                                5 /
+                                3 -
+                                $depot_perm;
+                            dump('rc valide');
+                        } else {
+                            $depot_rajoute =
+                                ($obj->getValeurAchat() *
+                                    $obj->getCoefUsure()) /
+                                5 -
+                                $depot_perm;
+                            dump('pas rc ou rc perimee');
+                        }
+                    } else {
+                        $depot_rajoute = 0;
+                        dump('est admin');
+                    }
 
-                    // $emprunt->setDepotRajoute(
-                    //     $depot_rajoute < 0 ? 0 : $depot_rajoute
-                    // );
+                    $emprunt->setDepotRajoute(
+                        $depot_rajoute < 0 ? 0 : $depot_rajoute
+                    );
                     // valeur provisoire à 0 pour réglé des bugs
-                    $emprunt->setDepotRajoute(0);
+                    // $emprunt->setDepotRajoute(0);
 
                     // le statut de l'emprunt est mis "en attente de validation"
                     $emprunt->setStatut("en attente de validation");
