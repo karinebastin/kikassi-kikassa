@@ -1,0 +1,213 @@
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  src: local("");
+  src: url("../fonts/raleway-v19-latin-regular.eot") format("embedded-opentype");
+  src: url("../fonts/raleway-v19-latin-regular.svg#Raleway") format("svg");
+  src: url("../fonts/raleway-v19-latin-regular.woff") format("woff");
+  src: url("../fonts/raleway-v19-latin-regular.ttf") format("truetype");
+  src: url("../fonts/raleway-v19-latin-regular.woff2") format("woff2");
+}
+.admin-table-objets thead tr th {
+  background-color: #dfa28e;
+}
+
+.objets-color {
+  background-color: #d48166;
+}
+
+.section-objets {
+  background-color: #dfa28e;
+}
+
+.admin-table-adherents thead tr th {
+  background-color: #b3b3ff;
+}
+
+.adherents-color {
+  background-color: #8080ff;
+}
+
+.section-adherents {
+  background-color: #b3b3ff;
+}
+
+.admin-table-emprunts thead tr th {
+  background-color: #a7bc5b;
+}
+
+.emprunts-color {
+  background-color: #8dA242;
+}
+
+.section-emprunts {
+  background-color: #a7bc5b;
+}
+
+.admin-table-lieux thead tr th {
+  background-color: #0096b3;
+}
+
+.lieux-color {
+  background-color: #006b80;
+}
+
+.section-lieux {
+  background-color: #0096b3;
+}
+
+.admin-table-main thead tr th {
+  background-color: #dfd67e;
+}
+
+.main-color {
+  background-color: #d5c955;
+}
+
+.section-main {
+  background-color: #dfd67e;
+}
+
+.main-title {
+  padding-top: 150px;
+  margin-bottom: 200px;
+}
+
+.admin-footer {
+  height: 90px;
+  justify-content: space-evenly;
+}
+
+.s-padding {
+  padding: 0 47px;
+}
+
+.m-padding {
+  padding: 0 55px;
+}
+
+.l-padding {
+  padding: 0 80px;
+}
+
+.font-raleway {
+  font-family: "Raleway";
+  font-weight: bold;
+}
+
+.font-raleway-small {
+  font-family: "Raleway";
+  font-size: 1.2em;
+}
+
+.bar-btn {
+  height: 3rem;
+}
+
+.envoi-btn {
+  border-radius: 5px;
+  background-color: #a3bd21;
+  white-space: nowrap;
+  box-shadow: 4px 4px 2px #737a74;
+}
+
+.big-button {
+  height: 180px;
+  width: 300px;
+  padding: 0 50px;
+}
+
+.big-button, .bar-btn {
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  white-space: nowrap;
+  box-shadow: 4px 4px 2px #737a74;
+}
+
+.modify-btn {
+  background-color: #a3bd21;
+}
+
+.main-menu {
+  height: 100vh;
+}
+
+.btn-logout {
+  font-size: 1.2em;
+  word-wrap: break-word;
+}
+
+.btn-text {
+  font-size: 1.2em;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.ssmenu-btn-text {
+  padding-top: 15%;
+  font-size: 1.1em;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+a:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.icons {
+  width: 40px;
+}
+
+.tb-design thead tr th {
+  vertical-align: middle;
+}
+.tb-design tbody tr td, .tb-design tbody tr th {
+  background-color: white;
+}
+
+.tb-design tbody tr:hover td, .tb-design tbody tr:hover th {
+  background-color: #c7cbcb;
+}
+
+.bg-bons {
+  background-color: #fff;
+  border: 2px solid #c7cbcb;
+  margin: 100px 0;
+}
+
+.objet-img {
+  height: 100px;
+}
+
+.select-height {
+  height: 50px;
+}
+
+.search-item {
+  justify-content: space-evenly;
+}
+
+.width-auto {
+  width: auto;
+}
+
+@media (min-width: 1024px) {
+  .margin-btn {
+    width: 70%;
+  }
+}
+@media (max-width: 767px) {
+  .margin-body, .bg-bons {
+    margin: 200px 0;
+  }
+
+  .main-title {
+    padding-top: 200px;
+  }
+}
