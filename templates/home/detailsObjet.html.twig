@@ -54,10 +54,10 @@
 						<p class="ml-3 mt-3">Disponibilité:</p>
 					</div>
 					{# {% for attribute in app.request.attributes %}
-																																																																																	{% if attribute == objet %}
-																																																																																		{{ dump(attribute.id) }}
-																																																																																	{% endif %}
-																																																																																{% endfor %} #}
+																																																																																						{% if attribute == objet %}
+																																																																																							{{ dump(attribute.id) }}
+																																																																																						{% endif %}
+																																																																																					{% endfor %} #}
 					<div id="calendar" class="col-11 offset-1 m-2 d-flex justify-content-center pb-2 ml-3 mb-3"></div>
 					{% if app.user %}
 						<div
@@ -72,7 +72,7 @@
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Résevation
+										<h5 class="modal-title" id="exampleModalLabel">Réservation
 											{{objet.denomination}}</h5>
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
