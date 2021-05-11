@@ -56,17 +56,20 @@ class HomeController extends AbstractController
         //     : $emprunt->setSuperAdmin($admin);
 
 
-
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        // $this->denyAccessUnlessGranted('ROLE_USER');
         // dump($this->getUser()->getId());
-        $adherentBibliotheque = $this->getUser()->getId();
-        $adherent = $adherentRepository->findOneById($adherentBibliotheque);
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $adminBibliotheque = $this->getUser()->getId();
-        $admin = $superAdminRepository->findOneById($adminBibliotheque);
-        $adherent
-            ? $emprunt->setAdherent($adherent)
-            : $emprunt->setSuperAdmin($admin);
+        if ($this->getUser()) {
+            $adherentBibliotheque = $this->getUser()->getId();
+            $adherent = $adherentRepository->findOneById($adherentBibliotheque);
+            // $this->denyAccessUnlessGranted('ROLE_ADMIN');
+            $adminBibliotheque = $this->getUser()->getId();
+            $admin = $superAdminRepository->findOneById($adminBibliotheque);
+
+            $adherent
+                ? $emprunt->setAdherent($adherent)
+                : $emprunt->setSuperAdmin($admin);
+        }
+
 
         if ($form->isSubmitted() && $form->isValid()) {
 
