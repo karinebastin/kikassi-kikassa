@@ -27,6 +27,8 @@ class AdhesionBibliotheque implements UserInterface
     /**
      * @ORM\Column(type="json")
      */
+
+    #[Groups(['person'])]
     private $roles = [];
 
     /**
@@ -92,7 +94,7 @@ class AdhesionBibliotheque implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
 
-    #[Assert\NotNull(message:"Veuillez choisir une catégorie de fourmi")]
+    #[Assert\NotNull(groups: ['fourmi'], message:"Veuillez choisir une catégorie de fourmi")]
 
     #[Groups(['person'])]
     private $categorie_fourmi;

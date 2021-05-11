@@ -131,7 +131,7 @@ export default class extends Controller {
         type: 'POST',
         url: url
       }).done(function (json) {
-        console.log(json)
+        // console.log(json)
         res(json)
       }).fail(function (jqXHR, textStatus, errorThrown) {
      
@@ -173,21 +173,46 @@ export default class extends Controller {
         const selected = $('input:radio[name="adherent-select"]:checked').val()
       $('#hidden-adh').val($.trim(selected))
       $('#hidden-btn').empty()
-    
       const res = (json) => {
-        if (json.param === 'objets' || json.param === 'adherents'|| json.param === 'emprunts') {
-           function appendSel(item, titre) {
+        if (json.param === 'objets' || json.param === 'adherents' || json.param === 'emprunts' || json.param === 'adherent-reinscription') {
+          function appendSel(item, titre) {
             $('#selected-adherent').append(`<div class="row font-raleway form-control select-height width-auto ml-1" ><p class="p-2"> ${titre} : ${$.trim(item.prenom)} ${$.trim(item.nom)} </p></div>`)
            
             $('#hidden-btn').append(`<button type="submit" class='btn btn-danger p-3'>Modifier ${$.trim(item.prenom)} ${$.trim(item.nom)}</button>`)
           
-        }
+          }
           json.adherent ? appendSel(json.adherent, "Adhérent") : appendSel(json.admin, "Super-admin")
           
         } else if (json.param === "adherent-changement-fourmi") {
-          console.log(json)
-          $('#hidden-form').append("<form method='post'><label for='fourmi'>Choisir...</label><select name='fourmi'><option value='verte'>Verte</option><option value='bleue'>Bleue</option>     <option value='dorée'>Dorée</option></select></form> <button type='submit' value='submit'>Changer</button>")
-       }
+          const fourmis = { "verte": 'Fourmi Verte', "bleue": 'Fourmi Bleue', "dorée": 'Fourmi Dorée' }
+          const selFourmi = json.biblio.categorie_fourmi
+          
+          $('#fourmi_form_categorie_fourmi').empty()
+          $('.modif-message').append(`Modifier le Statut Fourmi de ${json.adherent.prenom} ${json.adherent.nom}`)
+          Object.keys(fourmis).forEach(fourmi => {
+            replaceClass('fourmi-form', 'd-none', 'd-block')
+            $('#fourmi_form_categorie_fourmi').append(`<option value=${fourmi} ${fourmi === selFourmi ? 'selected' : ''} >${fourmis[fourmi]}</option>`)
+          }
+          )
+          replaceClass('next', 'invisible', 'd-none')
+        } else if (json.param === "adherent-passage-admin") {
+
+          if (json.adherent == null) {
+            $('.admin-warning').append("<div class='alert-danger text-center p-2'>Ne fonctionne pas avec les utilisateurs ayant des droits de'Super Admin'</div>")
+            
+          } else {
+           $('.admin-warning').empty()
+          json.roles.splice(json.roles.indexOf("ROLE_USER"), 1);
+          
+            replaceClass("admin-select", "d-none", "d-block")
+          $('#admin-form').append(`<option value="ROLE_ADMIN" ${json.roles.length > 0 ? 'selected': '' }>Oui</option><option value="ROLE_USER"  ${json.roles.length === 0 ? 'selected': '' }>Non</option>`)
+
+          }
+
+         
+
+        }
+        
 
         }
        
@@ -248,7 +273,6 @@ export default class extends Controller {
     $('#ss-cat-select').on('change', function () {
       const selectedCat = $('#ss-cat-select option:selected').val()
       $('#hidden-cat').val(selectedCat)
-      console.log("val =>", $('#hidden-cat').val())
     })
 
     $('.biblio-select-edit select').on('change', function () {

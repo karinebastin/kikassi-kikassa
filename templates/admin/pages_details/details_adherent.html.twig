@@ -68,7 +68,7 @@
 							<strong>Date et lieu de naissance :</strong>
 							{{adherent.datenaissance|date("d/m/Y")}}
 							à
-							{{adherent.lieunaissance}}</p>
+							{{adherent.lieunaissance|capitalize}}</p>
 						<p>
 							<strong>Adresse :</strong>
 							{{adherent.adresse}}
@@ -96,11 +96,11 @@
 						<p>
 							<strong>Est Administrateur :</strong>
 							{% if adherent.adhesionBibliotheque is not null %}
-							{% if "ROLE_ADMIN" in adherent.adhesionbibliotheque.roles %}
-								Oui
-							{% else %}
-								Non
-							{% endif %}
+								{% if "ROLE_ADMIN" in adherent.adhesionbibliotheque.roles %}
+									Oui
+								{% else %}
+									Non
+								{% endif %}
 							{% else %}
 								Non
 							{% endif %}
@@ -108,7 +108,7 @@
 						</p>
 						<p>
 							<strong>Catégorie Fourmi :</strong>
-							{{fourmi}}</p>
+							{{fourmi|capitalize}}</p>
 						<p>
 							<strong>Est inscrit à la Bibliothèque des objets :</strong>
 							{{biblio}}

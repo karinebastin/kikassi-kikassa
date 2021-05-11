@@ -2,31 +2,52 @@
 {% import './admin/_macros.html.twig' as macros %}
 
 
-{# {% set envoi = "<div>" ~ form_widget(form.save) ~ "</div>" %} #}
 {% set continue = "" %}
-{% set arrowClass = 'd-none' %}
-{% set arrow = '' %}
-{% set envoi = '' %}
-{% set footerPadding = 'm-padding' %}
-{% set param = 'adherents' %}
-
-
+{% if param == 'adherent-changement-fourmi' %}
+	{% set modifTitle = 'Modifier le statut Fourmi d\'un Adhérent' %}
+{% elseif param == 'adherent-passage-admin' %}
+	{% set modifTitle = 'Modifier le statut Admin d\'un Adhérent' %}
+{% endif %}
 {% block title %}Adhérents
 {% endblock %}
 
 {% block body %}
 	<body class={{color}}>
 		<div class="main-title font-raleway container">
-			<h1 class="text-center font-raleway mb-5">Rechercher un adhérent à modifier / réinscrire</h1>
+			{% if param == 'adherent-reinscription' %}
+				<h1 class="text-center font-raleway mb-5">Rechercher un adhérent à modifier / réinscrire</h1>
+			{% else %}
+				<h1 class="text-center font-raleway mb-5">{{ modifTitle }}</h1>
+			{% endif %}
+			{% set formErrors = form.vars.errors.form.getErrors(true) %}
+			{% if formErrors|length %}
+				<ul class="text-center list-group mb-1">
+					<li class="list-group-item list-group-item-danger my-1">Formulaire non valide :</li>
+					{% for error in formErrors %}
+						<li class="list-group-item list-group-item-danger my-1">{{ error.message }}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
 			{% include '/admin/forms/adherent_search.html.twig' %}
-			<form method="post" class='d-flex justify-content-center'>
-				<input id='hidden-adh' hidden type="text" name='adherent' class='input'/>
-				<div id="hidden-btn"></div>
-				<div id="hidden-form"></div>
-			</form>
-			{{macros.footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding)}}
+			{% if param == 'adherent-reinscription' %}
+				<form method="post" class='d-flex justify-content-center'>
+					<input id='hidden-adh' hidden type="text" name='adherent' class='input'/>
+					<div id="hidden-btn"></div>
+				</form>
+			{% endif %}
+			{% if param == 'adherent-changement-fourmi' %}
+				{% include '/admin/forms/adherents_fourmi_modif.html.twig' %}
+			{% elseif param == 'adherent-passage-admin' %}
+				{% include '/admin/forms/adherents_admin_modif.html.twig' %}
+			{% endif %}
 		</div>
-
+		{% if param == 'adherent-reinscription' %}
+			{% set arrowClass = 'invisible' %}
+			{% set arrow = true %}
+			{% set footerPadding = 's-padding' %}
+			{% set envoi = "" %}
+			{{macros.footer_color(section, return_path, arrow, envoi, continue, arrowClass, footerPadding)}}
+		{% endif %}
 	</body>
 {% endblock %}
 {% block footer %}{% endblock %}

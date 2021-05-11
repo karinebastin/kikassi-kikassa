@@ -49,19 +49,20 @@ class SearchAdhController extends AbstractController
         AdherentRepository $adherentRepository,
         SuperAdminRepository $superAdminRepository
     ): Response {
-        $Sadh = new Adherent();
-        $Sadmin = new SuperAdmin();
+        $selectedAdh = new Adherent();
+        $selectedAdmin = new SuperAdmin();
         $data = $request->request->get('data');
-        $Sadh = $adherentRepository->findOneById($data);
-        $Sadmin = $superAdminRepository->findOneById($data);
-        dump($Sadh);
-        $Sperson = $Sadh
+        $selectedAdh = $adherentRepository->findOneById($data);
+        $selectedAdmin = $superAdminRepository->findOneById($data);
+        $selectedPerson = $selectedAdh
             ? [
-                'adherent' => $Sadh,
+                'adherent' => $selectedAdh,
                 'param' => $param,
+                'biblio' => $selectedAdh->getAdhesionBibliotheque(),
+                'roles' => $selectedAdh->getAdhesionBibliotheque()->getRoles(),
             ]
-            : ['admin' => $Sadmin, 'param' => $param];
+            : ['admin' => $selectedAdmin, 'param' => $param];
 
-        return $this->json($Sperson, 200, [], ['groups' => 'person']);
+        return $this->json($selectedPerson, 200, [], ['groups' => 'person']);
     }
 }
