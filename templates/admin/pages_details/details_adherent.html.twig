@@ -13,6 +13,7 @@
 		{% set finRc = "Oui" ~ " (valide jusqu'au " ~ adBiblio.finrc|date("d-m-Y") ~ ")" %}
 		{% set rcClass = adBiblio.finrc|date("Y-m-d") < "now"|date('Y-m-d') ? " text-danger font-weight-bold" : "" %}
 	{% else %}
+		{% set rcClass = '' %}
 		{% set finRc = "pas de RC donnée"  %}
 	{% endif %}
 	{% if adBiblio.justifdomicile %}
@@ -67,7 +68,7 @@
 							<strong>Date et lieu de naissance :</strong>
 							{{adherent.datenaissance|date("d/m/Y")}}
 							à
-							{{adherent.lieunaissance}}</p>
+							{{adherent.lieunaissance|capitalize}}</p>
 						<p>
 							<strong>Adresse :</strong>
 							{{adherent.adresse}}
@@ -94,15 +95,20 @@
 
 						<p>
 							<strong>Est Administrateur :</strong>
-							{% if "ROLE_ADMIN" in adherent.adhesionbibliotheque.roles %}
-								Oui
+							{% if adherent.adhesionBibliotheque is not null %}
+								{% if "ROLE_ADMIN" in adherent.adhesionbibliotheque.roles %}
+									Oui
+								{% else %}
+									Non
+								{% endif %}
 							{% else %}
 								Non
 							{% endif %}
+
 						</p>
 						<p>
 							<strong>Catégorie Fourmi :</strong>
-							{{fourmi}}</p>
+							{{fourmi|capitalize}}</p>
 						<p>
 							<strong>Est inscrit à la Bibliothèque des objets :</strong>
 							{{biblio}}
@@ -130,18 +136,14 @@
 				</div>
 				<div class="row">
 					<div class="col text-center mb-5">
-						<a href="{{ path('test') }}">
+						<a href="{{ path('admin_adherents_edit', {'slug': adherent.slug}) }}">
 							<button type='button' class='btn modify-btn bar-btn '>
 								<div class="font-raleway btn-text">Modifier les informations</div>
 							</button>
 						</a>
 					</div>
 				</div>
-
-
 			</div>
-
 		</div>
-
 	</body>
 {% endblock %}

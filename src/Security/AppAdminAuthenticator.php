@@ -85,7 +85,7 @@ class AppAdminAuthenticator extends AbstractFormLoginAuthenticator implements
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException(
-                'Email could not be found.'
+                'Email non trouvé'
             );
         }
 
@@ -94,6 +94,16 @@ class AppAdminAuthenticator extends AbstractFormLoginAuthenticator implements
 
     public function checkCredentials($credentials, UserInterface $user)
     {
+        if (
+            !$this->passwordEncoder->isPasswordValid(
+                $user,
+                $credentials['password']
+            )
+        ) {
+            throw new CustomUserMessageAuthenticationException(
+                'Mot de passe erroné'
+            );
+        }
         return $this->passwordEncoder->isPasswordValid(
             $user,
             $credentials['password']
@@ -113,12 +123,14 @@ class AppAdminAuthenticator extends AbstractFormLoginAuthenticator implements
         TokenInterface $token,
         string $providerKey
     ) {
+        dump($this->getTargetPath($request->getSession(), $providerKey));
         if (
             $targetPath = $this->getTargetPath(
                 $request->getSession(),
                 $providerKey
             )
         ) {
+            dump($targetPath);
             return new RedirectResponse($targetPath);
         }
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AdhesionBibliothequeRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -26,6 +27,8 @@ class AdhesionBibliotheque implements UserInterface
     /**
      * @ORM\Column(type="json")
      */
+
+    #[Groups(['person'])]
     private $roles = [];
 
     /**
@@ -37,7 +40,10 @@ class AdhesionBibliotheque implements UserInterface
     /**
      * @ORM\Column(type="integer")
      */
-    #[Assert\NotBlank(message:"Veuillez entrer un montant pour le dépôt permanent versé")]
+    // #[Assert\NotBlank(message:"Veuillez entrer un montant pour le dépôt permanent versé")]
+    #[Assert\NotNull(message:"Veuillez entrer un montant pour le dépôt permanent versé")]
+
+    #[Groups(['person'])]
     private $depot_permanent;
 
     /**
@@ -45,6 +51,8 @@ class AdhesionBibliotheque implements UserInterface
      */
 
     #[Assert\Type("\DateTimeInterface", message:"Veuillez entrer une date de fin de validité de Responsabilité Civile valide")]
+
+    #[Groups(['person'])]
     private $fin_rc;
 
     /**
@@ -52,7 +60,7 @@ class AdhesionBibliotheque implements UserInterface
      */
 
     #[Assert\NotNull(message:"Veuillez indiquer si un justificatif d\identité a été fourni")]
-
+    #[Groups(['person'])]
     private $justif_identite;
 
     /**
@@ -60,34 +68,42 @@ class AdhesionBibliotheque implements UserInterface
      */
 
     #[Assert\NotNull(message:"Veuillez indiquer si un justificatif de domicile a été fourni")]
+    #[Groups(['person'])]
     private $justif_domicile;
 
     /**
      * @ORM\Column(type="date")
      */
+    #[Groups(['person'])]
     private $date_inscription;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+    #[Groups(['person'])]
     private $satut_inscription;
 
     /**
      * @ORM\OneToOne(targetEntity=Adherent::class, inversedBy="adhesionBibliotheque", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
+
     private $adherent;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
 
-    #[Assert\NotNull(message:"Veuillez choisir une catégorie de fourmi")]
+    #[Assert\NotNull(groups: ['fourmi'], message:"Veuillez choisir une catégorie de fourmi")]
+
+    #[Groups(['person'])]
     private $categorie_fourmi;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
+
+    #[Groups(['person'])]
     private $email;
 
     /**
@@ -114,7 +130,7 @@ class AdhesionBibliotheque implements UserInterface
         return $this->mot_de_passe;
     }
 
-    public function setMotDePasse(string $mot_de_passe): self
+    public function setMotDePasse(?string $mot_de_passe): self
     {
         $this->mot_de_passe = $mot_de_passe;
 
@@ -126,7 +142,7 @@ class AdhesionBibliotheque implements UserInterface
         return $this->depot_permanent;
     }
 
-    public function setDepotPermanent(int $depot_permanent): self
+    public function setDepotPermanent(?int $depot_permanent): self
     {
         $this->depot_permanent = $depot_permanent;
 
@@ -150,7 +166,7 @@ class AdhesionBibliotheque implements UserInterface
         return $this->justif_identite;
     }
 
-    public function setJustifIdentite(bool $justif_identite): self
+    public function setJustifIdentite(?bool $justif_identite): self
     {
         $this->justif_identite = $justif_identite;
 
@@ -162,7 +178,7 @@ class AdhesionBibliotheque implements UserInterface
         return $this->justif_domicile;
     }
 
-    public function setJustifDomicile(bool $justif_domicile): self
+    public function setJustifDomicile(?bool $justif_domicile): self
     {
         $this->justif_domicile = $justif_domicile;
 
@@ -242,7 +258,7 @@ class AdhesionBibliotheque implements UserInterface
         return $this->categorie_fourmi;
     }
 
-    public function setCategorieFourmi(string $categorie_fourmi): self
+    public function setCategorieFourmi(?string $categorie_fourmi): self
     {
         $this->categorie_fourmi = $categorie_fourmi;
 
@@ -254,7 +270,7 @@ class AdhesionBibliotheque implements UserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 

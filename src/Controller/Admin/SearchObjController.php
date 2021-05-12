@@ -26,7 +26,6 @@ class SearchObjController extends AbstractController
     ): Response {
         $objets = new Objet();
         $data = $request->request->get('data');
-        dump($data);
         $objets = $objetRepository->findByText($data);
         return $this->json($objets, 200, [], ['groups' => 'objet']);
     }
@@ -39,7 +38,9 @@ class SearchObjController extends AbstractController
     ): Response {
         $objet = new Objet();
         $data = $request->request->get('data');
-        $objet = $objetRepository->findById($data);
+        $objet = $objetRepository->findOneById($data);
+        dump($objet);
+        // modif bug findoneby (groups à ajouter ?)
         return $this->json($objet, 200, [], ['groups' => 'objet']);
     }
 }
