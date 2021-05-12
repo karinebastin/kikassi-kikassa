@@ -43,64 +43,73 @@ class EmpruntController extends AbstractController
         $adhesion = $this->getUser();
 
         // Je récupère l'adhérent et je vérifie si c'est un adhérent ou super-admin
+        if ($adhesion) {
+            $adherent = $adherentRepository->findOneById(
+                $adhesion->getAdherent()->getId()
+            );
 
-        $adherent = $adherentRepository->findOneById(
-            $adhesion->getAdherent()->getId()
-        );
-        $emprunt->setObjet($objet);
-        $emprunt->setAdherent($adherent);
+            $emprunt->setObjet($objet);
+            $emprunt->setAdherent($adherent);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $now = new \DateTime();
-            $emprunt->setDateReservation($now);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $now = new \DateTime();
+                $emprunt->setDateReservation($now);
 
-            //   calcul du prix de l'emprunt :
+                //   calcul du prix de l'emprunt :
 
-            $obj = $emprunt->getObjet();
+                $obj = $emprunt->getObjet();
 
-            $days = $emprunt->getDateDebut()->diff($emprunt->getDateFin())
-                ->days;
-            $prix =
-                (((($obj->getValeurAchat() * $obj->getPourcentCalcul()) / 100) *
-                    $obj->getCoefUsure()) /
-                    5) *
-                $days;
-            $emprunt->setPrixEmprunt($prix);
+                $days = $emprunt->getDateDebut()->diff($emprunt->getDateFin())
+                    ->days;
+                $prix =
+                    (((($obj->getValeurAchat() * $obj->getPourcentCalcul()) /
+                        100) *
+                        $obj->getCoefUsure()) /
+                        5) *
+                    $days;
+                $emprunt->setPrixEmprunt($prix);
 
-            // calcul du montant de dépôt de garantie à rajouter au dépôt permanent :
+                // calcul du montant de dépôt de garantie à rajouter au dépôt permanent :
 
-            $finrc = $adherent->getAdhesionBibliotheque()->getFinRc();
+                $finrc = $adherent->getAdhesionBibliotheque()->getFinRc();
 
-            $depot_perm = $adherent
-                ->getAdhesionBibliotheque()
-                ->getDepotPermanent();
+                $depot_perm = $adherent
+                    ->getAdhesionBibliotheque()
+                    ->getDepotPermanent();
 
-            if ($finrc > $now) {
-                $depot_rajoute =
-                    ($obj->getValeurAchat() * $obj->getCoefUsure()) / 5 / 3 -
-                    $depot_perm;
-                dump('rc valide');
-            } else {
-                $depot_rajoute =
-                    ($obj->getValeurAchat() * $obj->getCoefUsure()) / 5 -
-                    $depot_perm;
-                dump('pas rc ou rc perimee');
+                if ($finrc > $now) {
+                    $depot_rajoute =
+                        ($obj->getValeurAchat() * $obj->getCoefUsure()) /
+                            5 /
+                            3 -
+                        $depot_perm;
+                    dump('rc valide');
+                } else {
+                    $depot_rajoute =
+                        ($obj->getValeurAchat() * $obj->getCoefUsure()) / 5 -
+                        $depot_perm;
+                    dump('pas rc ou rc perimee');
+                }
+
+                $emprunt->setDepotRajoute(
+                    $depot_rajoute < 0 ? 0 : $depot_rajoute
+                );
+
+                $emprunt->setStatut('en attente de validation');
+                $emprunt->setEmpruntRegle(false);
+                $manager->persist($emprunt);
+                $manager->flush();
+
+                dump($emprunt);
             }
 
-            $emprunt->setDepotRajoute($depot_rajoute < 0 ? 0 : $depot_rajoute);
-
-            $emprunt->setStatut('en attente de validation');
-            $emprunt->setEmpruntRegle(false);
-            $manager->persist($emprunt);
-            $manager->flush();
-
-            dump($emprunt);
+            return $this->render('emprunt/new.html.twig', [
+                'emprunt' => $emprunt,
+                'form' => $form->createView(),
+            ]);
+        } else {
+            return $this->redirectToRoute('app_login');
         }
-
-        return $this->render('emprunt/new.html.twig', [
-            'emprunt' => $emprunt,
-            'form' => $form->createView(),
-        ]);
     }
 
     #[Route('/{id}', name: 'emprunt_show', methods: ['GET'])]
