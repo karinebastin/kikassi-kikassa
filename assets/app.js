@@ -24,5 +24,4 @@ import "bootstrap";
 import "./bootstrap";
 import "@splidejs/splide";
 import "./slider";
-import "./calendrier";
 import "./catalogue";
