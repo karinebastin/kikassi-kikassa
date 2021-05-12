@@ -628,6 +628,8 @@
         },
         "files": [
             "./config/routes/calendar.yaml"
+            ]
+              },
     "symfonycasts/reset-password-bundle": {
         "version": "1.0",
         "recipe": {
