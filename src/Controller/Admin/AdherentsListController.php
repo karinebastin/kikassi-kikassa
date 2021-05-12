@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Adherent;
-use App\Form\FilterType;
 use App\Form\BiblioFormType;
 use App\Form\AdhesionFormType;
 use App\Entity\AdhesionBibliotheque;
@@ -12,10 +11,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Repository\AdhesionBibliothequeRepository;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -100,7 +95,7 @@ class AdherentsListController extends AbstractController
                     'success',
                     "Le nouvel adhérent {$adherent->getNomprenom()} a bien été créé"
                 );
-                return $this->redirectToRoute('admin_details_adherent', [
+                return $this->redirectToRoute('admin_adherents_details', [
                     'slug' => $adherent->getSlug(),
                 ]);
             }
@@ -157,7 +152,7 @@ class AdherentsListController extends AbstractController
                 'success',
                 "L'adhésion et l'inscription à la bibliothèque des objets de {$biblio->getAdherent()->getPrenom()} {$biblio->getAdherent()->getNom()} sont bien prises en compte"
             );
-            return $this->redirectToRoute('admin_details_adherent', [
+            return $this->redirectToRoute('admin_adherents_details', [
                 'slug' => $adherent->getSlug(),
             ]);
         }

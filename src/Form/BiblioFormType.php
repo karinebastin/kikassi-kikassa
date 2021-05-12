@@ -3,14 +3,12 @@
 namespace App\Form;
 
 use App\Entity\AdhesionBibliotheque;
-use PhpParser\Parser\Multiple;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class BiblioFormType extends AbstractType
 {
@@ -18,6 +16,7 @@ class BiblioFormType extends AbstractType
     {
         $builder
             ->add('categorie_fourmi', ChoiceType::class, [
+                'label' => 'Catégorie fourmi',
                 'placeholder' => 'Choisir une Catégorie Fourmi',
                 'choices' => [
                     'Verte' => 'verte',
@@ -26,6 +25,7 @@ class BiblioFormType extends AbstractType
                 ],
             ])
             ->add('depot_permanent', ChoiceType::class, [
+                'label' => 'Montant du dépôt de garantie versé',
                 'placeholder' => 'Montant du dépôt de garantie versé',
                 'choices' => [
                     '0' => 0,
@@ -39,6 +39,7 @@ class BiblioFormType extends AbstractType
                 ],
             ])
             ->add('fin_rc', DateType::class, [
+                'label' => 'Date de fin de Resposabilité Civile',
                 'widget' => 'single_text',
                 'attr' => [
                     'placeholder' =>
@@ -50,6 +51,7 @@ class BiblioFormType extends AbstractType
                 'required' => false,
             ])
             ->add('justif_identite', ChoiceType::class, [
+                'label' => 'Justificatif d\'identité remis',
                 'placeholder' => 'Justificatif d\'identité remis ?',
                 'choices' => [
                     'Oui' => true,
@@ -57,19 +59,13 @@ class BiblioFormType extends AbstractType
                 ],
             ])
             ->add('justif_domicile', ChoiceType::class, [
+                'label' => 'Justificatif de domicile remis',
                 'placeholder' => 'Justificatif de domicile remis ?',
                 'choices' => [
                     'Oui' => true,
                     'Non' => false,
                 ],
             ])
-            // ->add('roles', ChoiceType::class, [
-            //     'placeholder' => 'Accorder des droits d\'admin',
-            //     'choices' => [
-            //         'Oui' => 'ROLE_ADMIN',
-            //         'Non' => 'ROLE_USER',
-            //     ],
-            // ])
             ->add('save', SubmitType::class, [
                 'label' =>
                     '<div class="btn-text px-2">Valider l\'inscription <br> à la Bibliothèque</div>',

@@ -3,9 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Adherent;
+use App\Entity\AdhesionBibliotheque;
 use App\Entity\SousCategorie;
 use App\Entity\SuperAdmin;
 use App\Repository\AdherentRepository;
+use App\Repository\AdhesionBibliothequeRepository;
 use App\Repository\SousCategorieRepository;
 use App\Repository\SuperAdminRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,13 +17,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SearchAdhController extends AbstractController
 {
-    #[Route('/admin/search', name: 'admin_search')]
-    public function index(): Response
-    {
-        return $this->render('admin/search/index.html.twig', [
-            'controller_name' => 'SearchController',
-        ]);
-    }
+    // #[Route('/admin/search', name: 'admin_search')]
+    // public function index(): Response
+    // {
+    //     return $this->render('admin/search/index.html.twig', [
+    //         'controller_name' => 'SearchController',
+    //     ]);
+    // }
     #[Route('/admin/{param}/new/adh', name: 'search_adherent')]
 
     public function retrieveAdh(
@@ -35,7 +37,6 @@ class SearchAdhController extends AbstractController
         $adhs = $adherentRepository->findByNomPrenom($data);
         $admin = $superAdminRepository->findByNomPrenom($data);
         $tab = ['adherent' => $adhs, 'admin' => $admin];
-        dump($tab);
 
         return $this->json($tab, 200, [], ['groups' => 'person']);
     }
@@ -43,17 +44,25 @@ class SearchAdhController extends AbstractController
     #[Route('/admin/{param}/new/sel', name: 'select_adherent')]
 
     public function selectAdh(
+        $param,
         Request $request,
         AdherentRepository $adherentRepository,
         SuperAdminRepository $superAdminRepository
     ): Response {
-        $Sadh = new Adherent();
-        $Sadmin = new SuperAdmin();
+        $selectedAdh = new Adherent();
+        $selectedAdmin = new SuperAdmin();
         $data = $request->request->get('data');
-        $Sadh = $adherentRepository->findById($data);
-        $Sadmin = $superAdminRepository->findById($data);
-        $Sperson = $Sadh ? ['adherent' => $Sadh] : ['admin' => $Sadmin];
+        $selectedAdh = $adherentRepository->findOneById($data);
+        $selectedAdmin = $superAdminRepository->findOneById($data);
+        $selectedPerson = $selectedAdh
+            ? [
+                'adherent' => $selectedAdh,
+                'param' => $param,
+                'biblio' => $selectedAdh->getAdhesionBibliotheque(),
+                'roles' => $selectedAdh->getAdhesionBibliotheque()->getRoles(),
+            ]
+            : ['admin' => $selectedAdmin, 'param' => $param];
 
-        return $this->json($Sperson, 200, [], ['groups' => 'person']);
+        return $this->json($selectedPerson, 200, [], ['groups' => 'person']);
     }
 }

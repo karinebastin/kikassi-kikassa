@@ -2,10 +2,9 @@
 
 namespace App\Controller\Admin;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class AdminSecurityController extends AbstractController
@@ -13,23 +12,18 @@ class AdminSecurityController extends AbstractController
     /**
      * @Route("/admin/login", name="admin_login")
      */
-    public function login(
-        AuthenticationUtils $authenticationUtils,
-        Request $request
-    ): Response {
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
-
-        // get the login error if there is one
-        $session = $request->getSession();
+    public function login(AuthenticationUtils $authenticationUtils): Response
+    {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('admin_main_menu');
+        }
         $error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('admin/security/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
+            'color' => 'main-color',
         ]);
     }
 

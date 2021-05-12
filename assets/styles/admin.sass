@@ -21,6 +21,7 @@ $buttons : #f8f8f8
 $lightGrey: #c7cbcb
 $modifyColor:#a3bd21
 
+    
 
 @mixin theme-color($section, $color, $lightColor)
     .admin-table-#{$section} thead tr th
@@ -38,8 +39,26 @@ $modifyColor:#a3bd21
 @include theme-color('main', $main-menu-color, lighten($main-menu-color, 10%))
 
 
-.main-title
+table[class*="admin-table-adherent-"]
+    background-color: lighten($adherents-color, 10%)
+.width-100
+    width: 100%
+         
+.login-form
     padding-top: 150px
+    background-color: $lightGrey
+    height: 100%
+    button
+        font-size: 1.4rem
+
+.request-form
+    padding-top: 150px
+    small
+        color: darken($objets-color, 30%)
+        font-size: 90%
+
+.main-title
+    padding-top: 120px
     margin-bottom: 200px
 
 .admin-footer
@@ -143,6 +162,11 @@ a
 
 .width-auto
     width: auto
+
+.collapsing
+    height: 0
+    overflow: hidden
+
 
 @media (min-width: 1024px)
     .margin-btn
