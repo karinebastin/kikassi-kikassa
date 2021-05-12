@@ -19,6 +19,17 @@
 					{{objet.sousCategorie.nomSsCategorie}}</p>
 			</div>
 		</div>
+		{# <div id="messageErreurs">
+									{% for cle, valeur in app.flashes %}
+										{% for item in valeur %}
+											<p class="text-{{cle}}">{{item}}</p>
+										{% endfor %}
+									{% endfor %}
+								</div> #}
+		{# <pre>
+													{{ dump(app.flashes) }}
+												</pre> #}
+
 		<div class="bg-creme row">
 			<div class="col-12 col-lg-8">
 				<div id="primary-slider" class="splide">
@@ -54,11 +65,44 @@
 						<p class="ml-3 mt-3">Disponibilité:</p>
 					</div>
 					{# {% for attribute in app.request.attributes %}
-																																																																																						{% if attribute == objet %}
-																																																																																							{{ dump(attribute.id) }}
-																																																																																						{% endif %}
-																																																																																					{% endfor %} #}
-					<div id="calendar" class="col-11 offset-1 m-2 d-flex justify-content-center pb-2 ml-3 mb-3"></div>
+																																																																																																																																																																																																																																																						{% if attribute == objet %}
+																																																																																																																																																																																																																																																							{{ dump(attribute.id) }}
+																																																																																																																																																																																																																																																						{% endif %}
+																																																																																																																																																																																																																																																					{% endfor %} #}
+					{# <div id="calendar" class="col-11 offset-1 m-2 d-flex justify-content-center pb-2 ml-3 mb-3"></div> #}
+					<div id="liste">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col"></th>
+									<th scope="col">Date de début</th>
+									<th scope="col">Date de fin</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for emprunt in emprunts %}
+									{% if emprunt.objet.id == objet.id %}
+										{% if emprunt.dateFin > "now"|date("d/m/Y") %}
+											<tr>
+												<th scope="row">
+													-
+												</th>
+												<td>{{emprunt.dateDebut |date("d/m/Y")}}</td>
+												<td>{{emprunt.dateFin |date("d/m/Y")}}</td>
+											</tr>
+										{% endif %}
+
+
+										{# <pre>
+																																																																																																																																																																																																																																										{{ dump(emprunt) }}
+																																																																																																																																																																																																																																									</pre> #}
+
+									{% endif %}
+
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
 					{% if app.user %}
 						<div
 							class="align-self-end col-12 d-flex justify-content-center">
