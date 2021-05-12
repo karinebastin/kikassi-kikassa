@@ -6,13 +6,17 @@ use App\Entity\Objet;
 use App\Entity\Emprunt;
 use App\Form\EmpruntType;
 use App\Entity\SuperAdmin;
+use App\Repository\ObjetRepository;
+use App\Entity\AdhesionBibliotheque;
 use App\Repository\EmpruntRepository;
 use App\Repository\AdherentRepository;
-use App\Repository\ObjetRepository;
 use App\Repository\SuperAdminRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\AdhesionBibliothequeRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/emprunt')]
@@ -26,107 +30,72 @@ class EmpruntController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'emprunt_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, AdherentRepository $adherentRepository, SuperAdminRepository $superAdminRepository, ObjetRepository $objetRepository): Response
-    {
+    #[Route('/new/{slug}', name: 'emprunt_new', methods: ['GET', 'POST'])]
+    public function new(
+        Request $request,
+        Objet $objet,
+        AdherentRepository $adherentRepository,
+        EntityManagerInterface $manager
+    ): Response {
         $emprunt = new Emprunt();
         $form = $this->createForm(EmpruntType::class, $emprunt);
         $form->handleRequest($request);
+        $adhesion = $this->getUser();
 
-        // // Je récupère l'adhérent et je vérifie si c'est un adhérent ou super-admin
+        // Je récupère l'adhérent et je vérifie si c'est un adhérent ou super-admin
+
         $adherent = $adherentRepository->findOneById(
-            $request->request->get('adherent')
+            $adhesion->getAdherent()->getId()
         );
-        $admin = $superAdminRepository->findOneById(
-            $request->request->get('adherent')
-        );
-        $adherent
-            ? $emprunt->setAdherent($adherent)
-            : $emprunt->setSuperAdmin($admin);
-
-        //Je récupère l'objet
-        $objet = $objetRepository->findOneById($request->request->get('objet'));
-        dump($objet);
+        $emprunt->setObjet($objet);
+        $emprunt->setAdherent($adherent);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $now = new \DateTime();
+            $emprunt->setDateReservation($now);
 
-            //     if ($objet) {
-            //        if ($objet->getStatut() == 'Disponible') {
-            //             // j'envoie en bdd l'objet
-            //             $emprunt->setObjet($objet);
-            //             // Je set la date de réservation uniquement si l'emprunt ne débute pas le jour même, et je la met à aujourd'hui
-            //             $now = new \DateTime();
-            //             if ($emprunt->getDateDebut() > $now) {
-            //                 $emprunt->setDateReservation($now);
-            //             }
-            //             if ($emprunt->getDateFin() < $emprunt->getDateDebut()) {
-            //                 $this->addFlash(
-            //                     'danger',
-            //                     "La date de fin d'emprunt ne peut pas être avant la date de début"
-            //                 );
-            //             }
+            //   calcul du prix de l'emprunt :
 
-            //             // calcul du prix de l'emprunt :
-            //             $obj = $emprunt->getObjet();
-            //             $days = $emprunt
-            //                 ->getDateDebut()
-            //                 ->diff($emprunt->getDateFin())->days;
-            //             $prix =
-            //                 (((($obj->getValeurAchat() *
-            //                     $obj->getPourcentCalcul()) /
-            //                     100) *
-            //                     $obj->getCoefUsure()) /
-            //                     5) *
-            //                 $days;
-            //             $emprunt->setPrixEmprunt($prix);
+            $obj = $emprunt->getObjet();
 
-            //             // calcul du montant de dépôt de garantie à rajouter au dépôt permanent :
-            //             $finrc = $adherent
-            //                 ->getAdhesionBibliotheque()
-            //                 ->getFinRc();
-            //             $depot_perm = $adherent
-            //                 ->getAdhesionBibliotheque()
-            //                 ->getDepotPermanent();
+            $days = $emprunt->getDateDebut()->diff($emprunt->getDateFin())
+                ->days;
+            $prix =
+                (((($obj->getValeurAchat() * $obj->getPourcentCalcul()) / 100) *
+                    $obj->getCoefUsure()) /
+                    5) *
+                $days;
+            $emprunt->setPrixEmprunt($prix);
 
-            //             if ($adherent) {
-            //                 if ($finrc > $now) {
-            //                     $depot_rajoute =
-            //                         ($obj->getValeurAchat() *
-            //                             $obj->getCoefUsure()) /
-            //                         5 /
-            //                         3 -
-            //                         $depot_perm;
-            //                     dump('rc valide');
-            //                 } else {
-            //                     $depot_rajoute =
-            //                         ($obj->getValeurAchat() *
-            //                             $obj->getCoefUsure()) /
-            //                         5 -
-            //                         $depot_perm;
-            //                     dump('pas rc ou rc perimee');
-            //                 }
-            //             } else {
-            //                 $depot_rajoute = 0;
-            //                 dump('est admin');
-            //             }
+            // calcul du montant de dépôt de garantie à rajouter au dépôt permanent :
 
-            //             $emprunt->setDepotRajoute(
-            //                 $depot_rajoute < 0 ? 0 : $depot_rajoute
-            //             );
+            $finrc = $adherent->getAdhesionBibliotheque()->getFinRc();
 
-            //             // le statut de l'emprunt est mis "en attente de validation"
-            //             $emprunt->setStatut("en attente de validation");
+            $depot_perm = $adherent
+                ->getAdhesionBibliotheque()
+                ->getDepotPermanent();
 
-            //             dump($emprunt);
-            //             $entityManager = $this->getDoctrine()->getManager();
-            //             $entityManager->persist($emprunt);
-            //             $entityManager->flush();
+            if ($finrc > $now) {
+                $depot_rajoute =
+                    ($obj->getValeurAchat() * $obj->getCoefUsure()) / 5 / 3 -
+                    $depot_perm;
+                dump('rc valide');
+            } else {
+                $depot_rajoute =
+                    ($obj->getValeurAchat() * $obj->getCoefUsure()) / 5 -
+                    $depot_perm;
+                dump('pas rc ou rc perimee');
+            }
 
-            //             return $this->redirectToRoute('home');
-            //         }
-            //     }
+            $emprunt->setDepotRajoute($depot_rajoute < 0 ? 0 : $depot_rajoute);
+
+            $emprunt->setStatut('en attente de validation');
+            $emprunt->setEmpruntRegle(false);
+            $manager->persist($emprunt);
+            $manager->flush();
+
+            dump($emprunt);
         }
-        dump($emprunt);
 
         return $this->render('emprunt/new.html.twig', [
             'emprunt' => $emprunt,

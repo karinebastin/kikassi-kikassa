@@ -1,3 +1,6 @@
+var $ = require('jquery');
+
+
 // Listen for click on the document
 document.addEventListener('click', function (event) {
   
