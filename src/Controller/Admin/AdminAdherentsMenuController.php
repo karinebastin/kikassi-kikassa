@@ -25,17 +25,20 @@ class AdminAdherentsMenuController extends AbstractController
                 [
                     'text' => 'CHANGER STATUT FOURMI',
                     'icon' => 'ant',
-                    'link' => 'test',
+                    'link' => 'admin_adherents_modif',
+                    'param' => 'adherent-changement-fourmi',
                 ],
                 [
                     'text' => 'MODIFIER / RÉINSCRIRE UN ADHÉRENT',
                     'icon' => 'pen',
-                    'link' => 'test',
+                    'link' => 'admin_adherents_modif',
+                    'param' => 'adherent-reinscription',
                 ],
                 [
                     'text' => 'PASSER UN ADHÉRENT EN ADMIN',
                     'icon' => 'admin',
-                    'link' => 'test',
+                    'link' => 'admin_adherents_modif',
+                    'param' => 'adherent-passage-admin',
                 ],
                 [
                     'text' => 'AFFICHER LES ADHÉRENTS',
