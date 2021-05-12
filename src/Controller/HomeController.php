@@ -28,7 +28,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/{slug}/detail', name: 'objetDetail', methods: ['GET', 'POST'])]
-    public function detailsObjet(Objet $objet, EmpruntRepository $empruntRepository, Request $request, Session $session, AdherentRepository $adherentRepository, SuperAdminRepository $superAdminRepository, ObjetRepository $objetRepository): Response
+    public function detailsObjet(Objet $objet, EmpruntRepository $empruntRepository, Request $request, AdherentRepository $adherentRepository, SuperAdminRepository $superAdminRepository,): Response
 
     {
         // foreach ($request->attributes->all() as $attribute) {
@@ -151,10 +151,11 @@ class HomeController extends AbstractController
     }
 
     #[Route('/panier', name: 'panier')]
-    public function panierIndex(): Response
+    public function panierIndex(Emprunt $emprunt): Response
     {
         return $this->render('home/panier.html.twig', [
             'controller_name' => 'HomeController',
+            'emprunts' => $emprunt
         ]);
     }
 

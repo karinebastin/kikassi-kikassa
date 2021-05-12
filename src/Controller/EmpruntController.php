@@ -22,13 +22,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/emprunt')]
 class EmpruntController extends AbstractController
 {
-    // #[Route('/', name: 'emprunt_index', methods: ['GET'])]
-    // public function index(EmpruntRepository $empruntRepository): Response
-    // {
-    //     return $this->render('emprunt/index.html.twig', [
-    //         'emprunts' => $empruntRepository->findAll(),
-    //     ]);
-    // }
+    #[Route('/', name: 'emprunt_index', methods: ['GET'])]
+    public function index(EmpruntRepository $empruntRepository): Response
+    {
+        return $this->render('emprunt/index.html.twig', [
+            'emprunts' => $empruntRepository->findAll(),
+        ]);
+    }
 
     #[Route('/new/{slug}', name: 'emprunt_new', methods: ['GET', 'POST'])]
     public function new(
@@ -111,7 +111,6 @@ class EmpruntController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
     }
-
 
     #[Route('/{id}', name: 'emprunt_show', methods: ['GET'])]
     public function show(Emprunt $emprunt): Response
