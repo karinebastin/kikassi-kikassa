@@ -14,151 +14,158 @@
 						{{objet.id}}</p>
 				</div>
 			</div>
+			<div class="d-none col-6 align-items-end" id="objet-calendar">
+				<p class="text-left">{{objet.id}}</p>
 
-			<div class="bg-creme row">
-				<div class="col-12 col-lg-8">
-					<div id="primary-slider" class="splide">
-						<div id="triangle"></div>
-						<div id="text-triangle">
-							<p>{{objet.Statut}}</p>
-						</div>
-						<div class="splide__track">
-							<ul class="splide__list">
-								{% for photo in objet.photos %}
-									<li class="splide__slide">
-										<img alt="photo de {{objet.denomination}}" src="../photos/{{photo.lien}} ">
-									</li>
-								{% endfor %}
-							</ul>
-						</div>
+			</div>
+			<div class="col-12">
+				<p class="text-center">
+					Catégories :
+					{{objet.sousCategorie.categorie.nomCategorie}},
+					{{objet.sousCategorie.nomSsCategorie}}</p>
+			</div>
+		</div>
+		<div class="bg-creme row">
+			<div class="col-12 col-lg-8">
+				<div id="primary-slider" class="splide">
+					<div id="triangle"></div>
+					<div id="text-triangle">
+						<p>{{objet.Statut}}</p>
 					</div>
-					<div id="secondary-slider" class="splide">
-						<div class="splide__track">
-							<ul class="splide__list">
-								{% for photo in objet.photos %}
-									<li class="splide__slide">
-										<img alt="photo de {{objet.denomination}}" src="../photos/{{photo.lien}} ">
-									</li>
-								{% endfor %}
-							</ul>
-						</div>
+					<div class="splide__track">
+						<ul class="splide__list">
+							{% for photo in objet.photos %}
+								<li class="splide__slide">
+									<img alt="photo de {{objet.denomination}}" src="../photos/{{photo.lien}} ">
+								</li>
+							{% endfor %}
+						</ul>
 					</div>
 				</div>
-				<div class="col-12 col-lg-4 bg-green calendrier">
-					<div class="row">
-						<div class="col-12">
-							<p class="ml-3 mt-3">Disponibilité:</p>
+				<div id="secondary-slider" class="splide">
+					<div class="splide__track">
+						<ul class="splide__list">
+							{% for photo in objet.photos %}
+								<li class="splide__slide">
+									<img alt="photo de {{objet.denomination}}" src="../photos/{{photo.lien}} ">
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-4 bg-green calendrier">
+				<div class="row">
+					<div class="col-12">
+						<p class="ml-3 mt-3">Disponibilité:</p>
+					</div>
+					<div id="calendar" class="col-11 offset-1 m-2 d-flex justify-content-center pb-2 ml-3 mb-3"></div>
+					{% if app.user %}
+						<div
+							class="align-self-end col-12 d-flex justify-content-center">
+							<!-- Button trigger modal -->
+							<button type="button" class="btn btn-light mb-2" data-toggle="modal" data-target="#exampleModal">
+								Réserver
+							</button>
 						</div>
-						<div id="calendar" class="col-11 offset-1 m-2 d-flex justify-content-center pb-2 ml-3 mb-3"></div>
-						{% if app.user %}
-							<div
-								class="align-self-end col-12 d-flex justify-content-center">
-								<!-- Button trigger modal -->
-								<button type="button" class="btn btn-light mb-2" data-toggle="modal" data-target="#exampleModal">
-									Réserver
-								</button>
-							</div>
-							<!-- Modal -->
-							<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-								<div class="modal-dialog">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title" id="exampleModalLabel">Réservation
-												{{objet.denomination}}</h5>
-											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-										</div>
-										<div class="modal-body">
-											<div class="container-fluid">
-												<div class="row">
-													<div class="col-6 offset-3 margin-top">{{ include('emprunt/_form.html.twig') }}
-													</div>
+						<!-- Modal -->
+						<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Réservation
+											{{objet.denomination}}</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<div class="container-fluid">
+											<div class="row">
+												<div class="col-6 offset-3 margin-top">{{ include('emprunt/_form.html.twig') }}
 												</div>
 											</div>
 										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
 									</div>
 								</div>
 							</div>
-						{% endif %}
-					</div>
+						</div>
+					{% endif %}
 				</div>
-				<div class="col-3 col-lg-1">
-					<p class="ml-3">catalogue
-						{# <span class="{{objet.catalogue.nomCatalogue | url_encode | lower}}">{{objet.catalogue.nomCatalogue | url_encode | lower}}</span> #}
-					</p>
-				</div>
-				<div class="col-2 mt-2 d-flex justify-content-lg-start justify-content-end">
-					<div class="rond-catalogue"></div>
-				</div>
-				<div class="col-7 col-lg-9"></div>
-				<div class="shadow-sm p-3 mb-5 bg-white rounded col-12 col-lg-5 h-25">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-lg-12 col-6 ">
-								<p>Prix d'emprunt :
-									<span>{% set prix = objet.pourcentCalcul / 100 * objet.valeurAchat * objet.coefUsure / 5 %}
-										{{prix}}</span>
-									€ par jour</p>
-							</div>
-							<div class="col-lg-12 col-6">
-								<p>Valeur de l'emprunt :
-									<span>{% set valeur = objet.valeurAchat * objet.coefUsure / 5 %}
-										{{valeur}}</span>€</p>
-							</div>
+			</div>
+			<div class="col-3 col-lg-1">
+				<p class="ml-3">catalogue
+					{# <span class="{{objet.catalogue.nomCatalogue | url_encode | lower}}">{{objet.catalogue.nomCatalogue | url_encode | lower}}</span> #}
+				</p>
+			</div>
+			<div class="col-2 mt-2 d-flex justify-content-lg-start justify-content-end">
+				<div class="rond-catalogue"></div>
+			</div>
+			<div class="col-7 col-lg-9"></div>
+			<div class="shadow-sm p-3 mb-5 bg-white rounded col-12 col-lg-5 h-25">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-12 col-6 ">
+							<p>Prix d'emprunt :
+								<span>{% set prix = objet.pourcentCalcul / 100 * objet.valeurAchat * objet.coefUsure / 5 %}
+									{{prix}}</span>
+								€ par jour</p>
+						</div>
+						<div class="col-lg-12 col-6">
+							<p>Valeur de l'emprunt :
+								<span>{% set valeur = objet.valeurAchat * objet.coefUsure / 5 %}
+									{{valeur}}</span>€</p>
 						</div>
 					</div>
 				</div>
-				<div class="shadow-sm p-3 mb-5 bg-white rounded col-12 offset-lg-1 col-lg-6">
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-12">
-								<h2>Où et quand récupérer l'objet</h2>
-							</div>
-							<div class="col-lg-12 col-6">
-								<p>{{objet.lieu.nom}}</p>
-								<p>{{objet.lieu.adresse}}</p>
-								<p>{{objet.lieu.cp}}</p>
-								<p>{{objet.lieu.ville}}</p>
-								<p>{{objet.lieu.telephone}}</p>
-							</div>
-							<div class="col-lg-12 col-6">
-								<p>Horaire d'ouverture</p>
-								{% for horaire in objet.lieu.horaireLieu %}
-									{{horaire.jour}}
-									{% if horaire.ouvAm is not null %}
-										de
-										{{horaire.ouvAm}}
-										à
-										{{horaire.fermeAm}}
-										{% if horaire.ouvPm is not null %}et
-										{% endif %}
+			</div>
+			<div class="shadow-sm p-3 mb-5 bg-white rounded col-12 offset-lg-1 col-lg-6">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<h2>Où et quand récupérer l'objet</h2>
+						</div>
+						<div class="col-lg-12 col-6">
+							<p>{{objet.lieu.nom}}</p>
+							<p>{{objet.lieu.adresse}}</p>
+							<p>{{objet.lieu.cp}}</p>
+							<p>{{objet.lieu.ville}}</p>
+							<p>{{objet.lieu.telephone}}</p>
+						</div>
+						<div class="col-lg-12 col-6">
+							<p>Horaire d'ouverture</p>
+							{% for horaire in objet.lieu.horaireLieu %}
+								{{horaire.jour}}
+								{% if horaire.ouvAm is not null %}
+									de
+									{{horaire.ouvAm}}
+									à
+									{{horaire.fermeAm}}
+									{% if horaire.ouvPm is not null %}et
 									{% endif %}
-									{% if horaire.ouvPm is not null %}
-										de
-										{{horaire.ouvPm}}
-										à
-										{{horaire.fermePm}}
-									{% endif %}
-								{% endfor %}
-							</div>
+								{% endif %}
+								{% if horaire.ouvPm is not null %}
+									de
+									{{horaire.ouvPm}}
+									à
+									{{horaire.fermePm}}
+								{% endif %}
+							{% endfor %}
 						</div>
 					</div>
 				</div>
-				<div class="col-12 shadow-sm p-3 mb-5 bg-white rounded">
-					<p class="ml-3">Informations:</p>
-					<p class="ml-3">{{objet.description}}</p>
-				</div>
-				<div class="col-12 shadow-sm p-3 mb-5 bg-white rounded">
-					<p class="ml-3">Etat:</p>
-					<p class="ml-3">{{objet.observation}}</p>
-				</div>
+			</div>
+			<div class="col-12 shadow-sm p-3 mb-5 bg-white rounded">
+				<p class="ml-3">Informations:</p>
+				<p class="ml-3">{{objet.description}}</p>
+			</div>
+			<div class="col-12 shadow-sm p-3 mb-5 bg-white rounded">
+				<p class="ml-3">Etat:</p>
+				<p class="ml-3">{{objet.observation}}</p>
 			</div>
 		</div>
 	</body>
-
-	{% include "./partials/footer.html.twig" %}
-{% endblock %}
+</div></body>{% include "./partials/footer.html.twig" %}{% endblock %}
