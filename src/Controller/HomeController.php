@@ -65,15 +65,10 @@ class HomeController extends AbstractController
 
                     // j'envoie en bdd l'objet
                     $emprunt->setObjet($objet);
-                    // Je met la date de réservation uniquement si l'emprunt ne débute pas le jour même, et je la met à aujourd'hui
+                    // Je set la date de réservation uniquement si l'emprunt ne débute pas le jour même, et je la met à aujourd'hui
                     $now = new \DateTime();
                     if ($emprunt->getDateDebut() > $now) {
                         $emprunt->setDateReservation($now);
-                    } else {
-                        $this->addFlash(
-                            'danger',
-                            "La date de début d'emprunt ne peut pas être avant la date d'aujourd'hui"
-                        );
                     }
                     if ($emprunt->getDateFin() < $emprunt->getDateDebut()) {
                         $this->addFlash(
@@ -149,7 +144,7 @@ class HomeController extends AbstractController
         return $this->render('home/detailsObjet.html.twig', [
             'controller_name' => 'HomeController',
             'objet' => $objet,
-            'emprunts' => $empruntRepository->findAll(),
+            'emprunt' => $empruntRepository,
             'form' => $form->createView(),
 
         ]);
