@@ -95,7 +95,7 @@ class EmpruntController extends AbstractController
                     $depot_rajoute < 0 ? 0 : $depot_rajoute
                 );
 
-                $emprunt->setStatut('en attente de validation');
+                $emprunt->setStatut('en attente');
                 $emprunt->setEmpruntRegle(false);
                 $manager->persist($emprunt);
                 $manager->flush();
