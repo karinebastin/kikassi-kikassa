@@ -2,7 +2,7 @@
 
 {% block title %}{% endblock %}
 {% block body %}
-	{% include "/partials/header.html.twig" %}
+	{% include "./partials/header.html.twig" %}
 	<div class="container-fluid w-100">
 		<div class="row">
 			<div
@@ -11,52 +11,79 @@
 			<div class="col-12">
 				<h3 class="mx-4">Réservations</h3>
 			</div>
+			{% for message in app.flashes('success') %}
+				<span class="alert alert-success mx-2">
+					{{ message|raw }}
+				</span>
+			{% endfor %}
+
+
 			<div class="col-12">
 				<table class="mx-2 table table-responsive">
 					<thead class="w-100">
 						<tr class="text-center">
-							<th scope="col">Article</th>
+							<th scope="col">Objet</th>
 							<th scope="col">Catégorie</th>
 							<th scope="col">Réservé du</th>
 							<th scope="col">jusqu'au</th>
 							<th scope="col">Coût</th>
-							<th scope="col">Garantie demandé
-							</th>
+							{# <th scope="col">Garantie demandé
+																																																		</th> #}
 							<th scope="col">supprimer</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td class="d-flex justify-content-center">
-								<i class="fa fa-trash" aria-hidden="true"></i>
-							</td>
+						{% for emprunt in emprunts %}
+							<tr>
+								{# {{ dump(app.user.id) }} #}
+								{% if  emprunt.adherent.id is defined %}
+									{# {{ dump(emprunt.adherent.id) }} #}
+									{% if emprunt.adherent.id == app.user.id %}
+										{% if emprunt.statut == "demande avant panier" %}
+											<td>
+												{% for objet in objets %}
+													{% if objet.id == emprunt.objet.id %}
+														{{ objet.denomination|title }}
+													{% endif %}
+												{% endfor %}
+											</td>
+										</td>
+										<td>
+											{% for objet in objets %}
+												{% if objet.id == emprunt.objet.id %}
+													{{ objet.sousCategorie.categorie.nomCategorie }}
+													{{objet.sousCategorie.nomSsCategorie }}
+												{% endif %}
+											{% endfor %}
+										</td>
+										<td>{{ emprunt.dateDebut ? emprunt.dateDebut|date('d-m-Y') : '' }}</td>
+										<td>{{ emprunt.dateFin ? emprunt.dateFin|date('d-m-Y') : '' }}</td>
+										<td>{{ emprunt.prixEmprunt }}</td>
+										{# <td>Garantie demandé</td> #}
+										<td class="d-flex justify-content-center">
+											{{ include('emprunt/_delete_form.html.twig') }}
+										</td>
+									{% endif %}
+								{% endif %}
+							{% endif %}
 						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="col-12 border">
-				<form>
-					<div class="form-group">
-						<label for="remarque">Remarques ou demandes</label>
-						<input type="remarque" class="form-control" id="remarque" placeholder="Remarques">
-					</div>
-					<div class="d-flex justify-content-end">
-						<button type="submit" class="btn bg-green d-flex justify-content-end my-2">Valider le panier</button>
-					</div>
-				</form>
-			</div>
-			<div class="col-12 d-flex justify-content-around my-2">
-				<i class="fas fa-reply fa-2x"></i>
-				<i class="fas fa-plus-circle fa-2x"></i>
-				<i class="fa fa-trash fa-2x" aria-hidden="true"></i>
-			</div>
+					{% endfor %}
+				</tbody>
+			</table>
 		</div>
-	</div>
-	{% include "/partials/footer.html.twig" %}
-{% endblock %}
+		<div class="col-1 offset-5">
+			{% for emprunt in emprunts %}
+				<a href="{{path('validation', {'id': emprunt.id})}}">
+					<button type="submit" class="btn text-light bg-green d-flex justify-content-end my-2">Valider le panier</button>
+				</a>
+			{% endfor %}
+		</div>
+		{# <div class="col-12 border">
+																											<form>
+																												<div class="form-group">{# <label for="remarque">Remarques ou demandes</label>
+																																			<input type="remarque" class="form-control" id="remarque" placeholder="Remarques"></div><div class="d-flex justify-content-end"> </div>
+																											</form>
+																										</div> <div class="col-12 d-flex justify-content-around my-2"><i class="fas fa-reply fa-2x"></i><i class="fas fa-plus-circle fa-2x"></i><i class="fa fa-trash fa-2x" aria-hidden="true"></i></div> </div>
+																								</div> #}
+		{% include "./partials/footer.html.twig" %}
+	{% endblock %}

@@ -51,7 +51,7 @@ class CalendarSubscriber implements EventSubscriberInterface
         // Modify the query to fit to your entity and needs
         // Change booking.beginAt by your start date property
         $objet = $this->objetRepo->findOneById($filters);
-        $statut = "en attente";
+        $statut = "demande avant panier";
         $objet_id = $objet->getId();
         $bookings = $this->bookingRepository
             ->createQueryBuilder('booking')

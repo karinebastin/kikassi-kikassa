@@ -2,19 +2,22 @@
 
 namespace App\Controller;
 
+use Attribute;
 use App\Entity\Objet;
 use App\Entity\Emprunt;
 use App\Form\EmpruntType;
 use App\Repository\ObjetRepository;
 use App\Repository\EmpruntRepository;
 use App\Repository\AdherentRepository;
+use App\Repository\CategorieRepository;
+use App\Repository\SousCategorieRepository;
 use App\Repository\SuperAdminRepository;
-use Attribute;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
@@ -28,7 +31,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/{slug}/detail', name: 'objetDetail', methods: ['GET', 'POST'])]
-    public function detailsObjet(Objet $objet, EmpruntRepository $empruntRepository, Request $request, AdherentRepository $adherentRepository, SuperAdminRepository $superAdminRepository,): Response
+    public function detailsObjet(Objet $objet, EmpruntRepository $empruntRepository, Request $request, AdherentRepository $adherentRepository, SuperAdminRepository $superAdminRepository): Response
 
     {
         // foreach ($request->attributes->all() as $attribute) {
@@ -129,7 +132,7 @@ class HomeController extends AbstractController
                     // $emprunt->setDepotRajoute(0);
 
                     // le statut de l'emprunt est mis "en attente de validation"
-                    $emprunt->setStatut("en attente de validation");
+                    $emprunt->setStatut("demande avant panier");
 
                     dump($emprunt);
                     $entityManager = $this->getDoctrine()->getManager();
@@ -151,11 +154,28 @@ class HomeController extends AbstractController
     }
 
     #[Route('/panier', name: 'panier')]
-    public function panierIndex(Emprunt $emprunt): Response
+    public function panierIndex(EmpruntRepository $empruntRepository, ObjetRepository $objetRepository, SousCategorieRepository $sousCategorieRepository, CategorieRepository $categorieRepository): Response
     {
+        // if ($this->getUser()) {
+        //     $adherentBibliotheque = $this->getUser()->getId();
+        //     $adherent = $adherentRepository->findOneById($adherentBibliotheque);
+        //     $adminBibliotheque = $this->getUser()->getId();
+        //     $admin = $superAdminRepository->findOneById($adminBibliotheque);
+
+        //     if ($adherent) {
+        //         $adherentAdmin = $adherent;
+        //     } else {
+        //         $adherentAdmin = $admin;
+        //     }
+        // }
+
         return $this->render('home/panier.html.twig', [
             'controller_name' => 'HomeController',
-            'emprunts' => $emprunt
+            'emprunts' => $empruntRepository->findAll(),
+            // 'adherent' => $adherentAdmin,
+            'objets' => $objetRepository->findAll(),
+            'sousCategories' => $sousCategorieRepository->findAll(),
+            'categories' => $categorieRepository->findAll()
         ]);
     }
 
@@ -164,6 +184,7 @@ class HomeController extends AbstractController
     {
         return $this->render('home/historiquePanier.html.twig', [
             'controller_name' => 'HomeController',
+            'emprunt' => $emprunt
         ]);
     }
 
@@ -179,6 +200,21 @@ class HomeController extends AbstractController
     public function catalogue(): Response
     {
         return $this->render('home/compte.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+
+    #[Route('/{id}/validation_panier', name: 'validation')]
+    public function validationPanier(Request $request, Emprunt $emprunt): Response
+    {
+        // $emprunt->setStatut("en attente de validation");
+        // dump($emprunt);
+        // $entityManager = $this->getDoctrine()->getManager();
+        // $entityManager->persist($emprunt);
+        // $entityManager->flush();
+        // $this->addFlash('success', "Votre demande d'emprunt a bien été prise en compte.");
+        dd($emprunt);
+        return $this->render('home/panier.html.twig', [
             'controller_name' => 'HomeController',
         ]);
     }
