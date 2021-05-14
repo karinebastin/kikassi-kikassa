@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
 
-
 {% block title %}catalogue
 {% endblock %}
 
@@ -10,224 +9,184 @@
 
 	{% include "./partials/header.html.twig" %}
 
-<div class='bg-white'>
+	<div class='bg-white'>
 
 
+		<br>
+		<br>
 
-<br>
-<br>
+		<div class=" container-fluid row bg-secondary mx-auto w-75 mb-5 mt-5 pb-4 pt-2">
 
-<div class=" container-fluid row bg-secondary mx-auto w-75 mb-5 mt-5 pb-4 pt-2">
-
-<div class="col-md-3 align-self-center pl-5 ml-5">
-<input type="search" class="form-control rounded" placeholder="entrer votre recherge" aria-label="Search"
-    aria-describedby="search-addon" />
-  </div>
-
-  <div class = "col-md-2 align-self-center">
-  <span style="font-size: 2em;">
-<i class="fas fa-search"></i>
-</span>
-</div>
-
-<div class = "col-md-2 align-self-center"><p class ="lign-self-center h4">Trier par:
-</p>
-</div>
-
-<div class = "col-md-2 align-self-center">
-<select class="form-control">
-  <option>tout catalogue</option>
-  <option>catalogue vert</option>
-  <option>catalogue bleu</option>
-</select>
-</div>
-
-<div class= "col-md-2 align-self-center">
-<select class="form-control">
-  <option>tout lieu</option>
-  <option>Arles</option>
-</select>
-</div>
-</div>
-
-<br>
-<br>
-
-
-
-
-
-<div class=" container-fluid row center ">
-
-
- {% for categorie in categories %} 
-
- <div class ="col-md-2">
-<a href="#content-{{ categorie.id }}" class="accordion-toggle">
-{{ categorie.NomCategorie }}
-</a>
-
-<div class="accordion-content  container-fluid" id="content-{{ categorie.id }}">
-
-{% for sousCategorie in sousCategories %}
-{% if categorie.id == sousCategorie.categorie.id %}
-<div class ="col-md-2  survole-vert">
-
-{{ sousCategorie.NomSsCategorie }}
-</div>
-
-{% endif %}
-{% endfor %} 
-
-</div>
-</div>
-
-
-{% endfor %}
-
-</div> 
-{# ensine vertion fronte des catégorie #}
-
-{# <div class ="col-md-3 survole-vert">
-
-<span style="font-size: 5em;" class=" survole-vert" >
-<i class="fas fa-chess"></i>
-</span>
-
-<a href="#content-1" class="accordion-toggle">
-nom de la catégorie
-</a>
-
-</div>
-
-
-
-
-</div>
- 
-</div>
-
- {# catégorie 1 #}
-
-
-{# <div class="accordion-content" id="content-{{ categorie.id }} ">
-    <div class=" container-fluid row center ">
-
-{% for sousCategorie in sousCategories %}
-<div class ="col-md-2  survole-vert">
-<a href="#content-2" class="accordion-toggle">
-{{ sousCategorie.NomSsCategorie }}
-</div>
-</a>
-{% endfor %} 
-
-    </div>
-</div> #}
-
-
-
-
-
-
-
-{# <div class="accordion-content" id="content-2">
-
-<div class="wrapper ">
-<div class="grid ">
-{% for photo in photos %} 
-
-            <div class="grid-item">
-                <figure class= "contenant">
-                    <img src="{{photo.lien}}" alt=""  class="redimention">
-                    </figure> 
-                <figcaption>non de l'objet</figcaption>
-                </figure>
-            </div>
-
-{% endfor %} 
-
-</div>
-    </div>
-    </div> #}
-    
-
-    
-
-
-
-
-
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-
-
-
-
-{# <div>
-
-<p class='text-center display-4'> A La une </p>
-
-<br>
-<br>
-
-<div id="secondary-slider" class="splide">
-	<div class=" slider__el">
-		<ul class="splide__list">
-			<li class="splide__slide">
-				<img src="{{ asset('photos/aspirateur.jpg') }}">
-			</li>
-			<li class="splide__slide">
-				<img src="{{ asset('photos/casseroles.jpg') }}">
-			</li>
-			<li class="splide__slide">
-				<img src="{{ asset('photos/jouet.jpg')}}">
-			</li>
-      	<li class="splide__slide">
-				<img src="{{ asset('photos/marteau.jpg')}}">
-			</li>
-      	<li class="splide__slide">
-				<img src="{{ asset('photos/marteau2.jpg')}}">
-			</li>
-      	<li class="splide__slide">
-				<img src="{{ asset('photos/perceuse.jpg')}}">
-			</li>
-      	<li class="splide__slide">
-				<img src="{{ asset('photos/robot.jpg')}}">
-			</li>
-      	<li class="splide__slide">
-				<img src="{{ asset('photos/tondeuse.jpg')}}">
-			</li>
-      	<li class="splide__slide">
-				<img src="{{ asset('photos/jouet.jpg')}}">
-			</li>
-      	<li class="splide__slide">
-				<img src="{{ asset('photos/jouet.jpg')}}">
-			</li>
-      	<li class="splide__slide">
-				<img src="{{ asset('photos/jouet.jpg')}}">
-			</li>
-      	<li class="splide__slide">
-				<img src="{{ asset('photos/jouet.jpg')}}">
-			</li>
-      	<li class="splide__slide">
-				<img src="{{ asset('photos/jouet.jpg')}}">
-			</li>
-		</ul>
-	</div>
-</div>
-</div> #}
-
-
-
-
-
-{% include "./partials/footer.html.twig" %}
-
+			<div class="col-md-3 align-self-center pl-5 ml-5">
+				<input type="search" class="form-control rounded" placeholder="entrer votre recherge" aria-label="Search" aria-describedby="search-addon"/>
+			</div>
+
+			<div class="col-md-2 align-self-center">
+				<span style="font-size: 2em;">
+					<i class="fas fa-search"></i>
+				</span>
+			</div>
+
+			<div class="col-md-2 align-self-center">
+				<p class="lign-self-center h4">Trier par:
+				</p>
+			</div>
+
+			<div class="col-md-2 align-self-center">
+				<select class="form-control">
+					<option>tout catalogue</option>
+					<option>catalogue vert</option>
+					<option>catalogue bleu</option>
+				</select>
+			</div>
+
+			<div class="col-md-2 align-self-center">
+				<select class="form-control">
+					<option>tout lieu</option>
+					<option>Arles</option>
+				</select>
+			</div>
+		</div>
+
+		<br>
+		<br>
+
+
+		<div class=" container-fluid row center ">
+
+
+			{% for categorie in categories %}
+
+				<div class="col-md-2">
+					<a href="#content-{{ categorie.id }}" class="accordion-toggle">
+						{{ categorie.NomCategorie }}
+					</a>
+
+					<div class="accordion-content  container-fluid" id="content-{{ categorie.id }}">
+
+						{% for sousCategorie in sousCategories %}
+							{% if categorie.id == sousCategorie.categorie.id %}
+								<div class="col-md-2  survole-vert">
+
+									{{ sousCategorie.NomSsCategorie }}
+								</div>
+
+							{% endif %}
+						{% endfor %}
+
+					</div>
+				</div>
+
+
+			{% endfor %}
+
+		</div>
+		{# ensine vertion fronte des catégorie #}
+
+		{# <div class ="col-md-3 survole-vert">
+		<span style="font-size: 5em;" class=" survole-vert" >
+		<i class="fas fa-chess"></i>
+		</span>
+		<a href="#content-1" class="accordion-toggle">
+		nom de la catégorie
+		</a>
+		</div>
+		</div>
+		 
+		</div>
+		 {# catégorie 1 #}
+
+
+		{# <div class="accordion-content" id="content-{{ categorie.id }} ">
+		    <div class=" container-fluid row center ">
+		{% for sousCategorie in sousCategories %}
+		<div class ="col-md-2  survole-vert">
+		<a href="#content-2" class="accordion-toggle">
+		{{ sousCategorie.NomSsCategorie }}
+		</div>
+		</a>
+		{% endfor %} 
+		    </div>
+		</div> #}
+
+
+		{# <div class="accordion-content" id="content-2">
+		<div class="wrapper ">
+		<div class="grid ">
+		{% for photo in photos %} 
+		            <div class="grid-item">
+		                <figure class= "contenant">
+		                    <img src="{{photo.lien}}" alt=""  class="redimention">
+		                    </figure> 
+		                <figcaption>non de l'objet</figcaption>
+		                </figure>
+		            </div>
+		{% endfor %} 
+		</div>
+		    </div>
+		    </div> #}
+
+
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+
+
+		{# <div>
+		<p class='text-center display-4'> A La une </p>
+		<br>
+		<br>
+		<div id="secondary-slider" class="splide">
+			<div class=" slider__el">
+				<ul class="splide__list">
+					<li class="splide__slide">
+						<img src="{{ asset('photos/aspirateur.jpg') }}">
+					</li>
+					<li class="splide__slide">
+						<img src="{{ asset('photos/casseroles.jpg') }}">
+					</li>
+					<li class="splide__slide">
+						<img src="{{ asset('photos/jouet.jpg')}}">
+					</li>
+		      	<li class="splide__slide">
+						<img src="{{ asset('photos/marteau.jpg')}}">
+					</li>
+		      	<li class="splide__slide">
+						<img src="{{ asset('photos/marteau2.jpg')}}">
+					</li>
+		      	<li class="splide__slide">
+						<img src="{{ asset('photos/perceuse.jpg')}}">
+					</li>
+		      	<li class="splide__slide">
+						<img src="{{ asset('photos/robot.jpg')}}">
+					</li>
+		      	<li class="splide__slide">
+						<img src="{{ asset('photos/tondeuse.jpg')}}">
+					</li>
+		      	<li class="splide__slide">
+						<img src="{{ asset('photos/jouet.jpg')}}">
+					</li>
+		      	<li class="splide__slide">
+						<img src="{{ asset('photos/jouet.jpg')}}">
+					</li>
+		      	<li class="splide__slide">
+						<img src="{{ asset('photos/jouet.jpg')}}">
+					</li>
+		      	<li class="splide__slide">
+						<img src="{{ asset('photos/jouet.jpg')}}">
+					</li>
+		      	<li class="splide__slide">
+						<img src="{{ asset('photos/jouet.jpg')}}">
+					</li>
+				</ul>
+			</div>
+		</div>
+		</div> #}
+
+
+	{% include "./partials/footer.html.twig" %}
 
 
 {% endblock %}

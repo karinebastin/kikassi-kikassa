@@ -72,8 +72,8 @@
 						<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Réservation
+									<div class="modal-header bg-green">
+										<h5 class="modal-title text-light ml-5" id="exampleModalLabel">Réservation
 											{{objet.denomination}}</h5>
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
@@ -82,7 +82,30 @@
 									<div class="modal-body">
 										<div class="container-fluid">
 											<div class="row">
-												<div class="col-6 offset-3 margin-top">{{ include('emprunt/_form.html.twig') }}
+												<div class="col-6 offset-3">
+													<div class="mb-3">
+														<p>Mettre ici les dates de début et de fin de la période que vous souhaitez réserver en tenant compte des jours d'ouverture:</p>
+														<p>Rappel des horaires d'ouverture de l'association</p>
+														{% for horaire in objet.lieu.horaireLieu %}
+															{{horaire.jour}}
+															{% if horaire.ouvAm is not null %}
+																de
+																{{horaire.ouvAm}}
+																à
+																{{horaire.fermeAm}}
+																{% if horaire.ouvPm is not null %}et
+																{% endif %}
+															{% endif %}
+															{% if horaire.ouvPm is not null %}
+																de
+																{{horaire.ouvPm}}
+																à
+																{{horaire.fermePm}}
+															{% endif %}
+														{% endfor %}
+													</div>
+													{{ include('emprunt/_form.html.twig') }}
+													<p>PS: Pensez bien à valider le panier</p>
 												</div>
 											</div>
 										</div>
