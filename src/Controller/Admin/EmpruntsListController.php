@@ -9,7 +9,9 @@ use App\Form\EmpruntFormType;
 use App\Repository\ObjetRepository;
 use App\Repository\EmpruntRepository;
 use App\Repository\AdherentRepository;
+use App\Repository\AdhesionBibliothequeRepository;
 use App\Repository\SuperAdminRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -176,5 +178,59 @@ class EmpruntsListController extends AbstractController
             'formSearch' => $formSearch->createView(),
             'submitted' => $submitted,
         ]);
+    }
+
+    #[Route('/admin/emprunts/reservations', name: 'admin_emprunts_resa')]
+    public function ValidResa(EmpruntRepository $repo): Response
+    {
+        $reservations = [];
+        $searchedStatut = 'en attente de validation';
+        $resaEmprunts = $repo->findBy([
+            'statut' => strtolower($searchedStatut),
+        ]);
+        foreach ($resaEmprunts as $resa) {
+            $reservations[] = $resa;
+        }
+
+        return $this->render('admin/lists/emprunts_resa.html.twig', [
+            'controller_name' => 'EmpruntsListController',
+            'emprunts' => $reservations,
+            'section' => 'section-emprunts',
+            'return_path' => 'menu-emprunt',
+            'color' => 'emprunts-color',
+        ]);
+    }
+    #[Route('/admin/emprunts/accepter_reservations/{slug}', name: 'accepter_reservation')]
+    public function ValResa(
+        Emprunt $emprunt,
+        EntityManagerInterface $manager
+    ): Response {
+        $emprunt->setStatut('Accepté par l\'Admin');
+        $manager->persist($emprunt);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "L'emprunt n° {$emprunt->getId()} de {$emprunt->getAdherent()->getNomprenom()} a bien été accepté."
+        );
+
+        return $this->redirectToRoute('admin_emprunts_resa');
+    }
+
+    #[Route('/admin/emprunts/refuser_reservations/{slug}', name: 'refuser_reservation')]
+    public function refusResa(
+        Emprunt $emprunt,
+        EntityManagerInterface $manager
+    ): Response {
+        $emprunt->setStatut('Refusé par l\'Admin');
+        $manager->persist($emprunt);
+        $manager->flush();
+
+        $this->addFlash(
+            'danger',
+            "L'emprunt n° {$emprunt->getId()} de {$emprunt->getAdherent()->getNomprenom()} a été refusé."
+        );
+
+        return $this->redirectToRoute('admin_emprunts_resa');
     }
 }

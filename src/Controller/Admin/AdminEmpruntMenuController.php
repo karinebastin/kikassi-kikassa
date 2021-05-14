@@ -20,7 +20,7 @@ class AdminEmpruntMenuController extends AbstractController
                 [
                     'text' => "VALIDER LES RÉSERVATIONS D'OBJETS",
                     'icon' => 'check',
-                    'link' => 'test',
+                    'link' => 'admin_emprunts_resa',
                 ],
                 [
                     'text' => "ENREGISTRER UN DÉPART D'OBJET",
