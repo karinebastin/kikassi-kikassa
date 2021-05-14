@@ -37,11 +37,15 @@ class AdhesionBibliotheque implements UserInterface
 
     private $mot_de_passe;
 
+
+    #[Assert\EqualTo(propertyPath = "mot_de_passe", message = "Le mot passe et la confirmation de mot passe sont differents")]
+    private $passwordConfirm;
+
     /**
      * @ORM\Column(type="integer")
      */
     // #[Assert\NotBlank(message:"Veuillez entrer un montant pour le dépôt permanent versé")]
-    #[Assert\NotNull(message:"Veuillez entrer un montant pour le dépôt permanent versé")]
+    #[Assert\NotNull(message: "Veuillez entrer un montant pour le dépôt permanent versé")]
 
     #[Groups(['person'])]
     private $depot_permanent;
@@ -50,7 +54,7 @@ class AdhesionBibliotheque implements UserInterface
      * @ORM\Column(type="date", nullable=true)
      */
 
-    #[Assert\Type("\DateTimeInterface", message:"Veuillez entrer une date de fin de validité de Responsabilité Civile valide")]
+    #[Assert\Type("\DateTimeInterface", message: "Veuillez entrer une date de fin de validité de Responsabilité Civile valide")]
 
     #[Groups(['person'])]
     private $fin_rc;
@@ -59,7 +63,7 @@ class AdhesionBibliotheque implements UserInterface
      * @ORM\Column(type="boolean")
      */
 
-    #[Assert\NotNull(message:"Veuillez indiquer si un justificatif d\identité a été fourni")]
+    #[Assert\NotNull(message: "Veuillez indiquer si un justificatif d\identité a été fourni")]
     #[Groups(['person'])]
     private $justif_identite;
 
@@ -67,7 +71,7 @@ class AdhesionBibliotheque implements UserInterface
      * @ORM\Column(type="boolean")
      */
 
-    #[Assert\NotNull(message:"Veuillez indiquer si un justificatif de domicile a été fourni")]
+    #[Assert\NotNull(message: "Veuillez indiquer si un justificatif de domicile a été fourni")]
     #[Groups(['person'])]
     private $justif_domicile;
 
@@ -94,7 +98,7 @@ class AdhesionBibliotheque implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
 
-    #[Assert\NotNull(groups: ['fourmi'], message:"Veuillez choisir une catégorie de fourmi")]
+    #[Assert\NotNull(groups: ['fourmi'], message: "Veuillez choisir une catégorie de fourmi")]
 
     #[Groups(['person'])]
     private $categorie_fourmi;
@@ -273,6 +277,26 @@ class AdhesionBibliotheque implements UserInterface
     public function setEmail(?string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of passwordConfirm
+     */
+    public function getPasswordConfirm()
+    {
+        return $this->passwordConfirm;
+    }
+
+    /**
+     * Set the value of passwordConfirm
+     *
+     * @return  self
+     */
+    public function setPasswordConfirm($passwordConfirm)
+    {
+        $this->passwordConfirm = $passwordConfirm;
 
         return $this;
     }

@@ -5,13 +5,17 @@ namespace App\Controller;
 use Attribute;
 use App\Entity\Objet;
 use App\Entity\Emprunt;
+use App\Entity\Adherent;
 use App\Form\EmpruntType;
 use App\Repository\ObjetRepository;
+use App\Entity\AdhesionBibliotheque;
+use App\Form\AdherentUtilisateurType;
 use App\Repository\EmpruntRepository;
 use App\Repository\AdherentRepository;
 use App\Repository\CategorieRepository;
-use App\Repository\SousCategorieRepository;
+use App\Form\AdherentUtilisateurMdpType;
 use App\Repository\SuperAdminRepository;
+use App\Repository\SousCategorieRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -180,10 +184,12 @@ class HomeController extends AbstractController
     }
 
     #[Route('/historique_panier', name: 'historiquePanier')]
-    public function historiquePanierIndex(): Response
+    public function historiquePanierIndex(EmpruntRepository $empruntRepository, ObjetRepository $objetRepository): Response
     {
         return $this->render('home/historiquePanier.html.twig', [
             'controller_name' => 'HomeController',
+            'emprunts' => $empruntRepository->findAll(),
+            'objets' => $objetRepository->findAll()
         ]);
     }
 
@@ -194,14 +200,6 @@ class HomeController extends AbstractController
     //         'controller_name' => 'CatalogueController',
     //     ]);
     // }
-
-    #[Route('/mon_compte', name: '/mon_compte')]
-    public function catalogue(): Response
-    {
-        return $this->render('home/compte.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
-    }
 
     #[Route('/validation_panier', name: 'validation')]
     public function validationPanier(Request $request, EmpruntRepository $empruntRepository, ObjetRepository $objetRepository, SousCategorieRepository $sousCategorieRepository, CategorieRepository $categorieRepository, AdherentRepository $adherentRepository, SuperAdminRepository $superAdminRepository): Response
@@ -238,5 +236,26 @@ class HomeController extends AbstractController
                 }
             }
         }
+    }
+    #[Route('/adherent/{slug}/edit', name: 'compte', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Adherent $adherent, AdhesionBibliotheque $adhesionBibliotheque): Response
+    {
+        $form = $this->createForm(AdherentUtilisateurType::class, $adherent);
+        $formMdp = $this->createForm(AdherentUtilisateurMdpType::class, $adhesionBibliotheque);
+        $form->handleRequest($request);
+        $formMdp->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid() && $formMdp->isSubmitted() && $formMdp->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('home/compte.html.twig', [
+            'adherent' => $adherent,
+            'adherentBibliotheque' => $adhesionBibliotheque,
+            'form' => $form->createView(),
+            'formMdp' => $formMdp->createView(),
+        ]);
     }
 }
