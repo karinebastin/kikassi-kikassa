@@ -7,8 +7,11 @@
 {% block body %}
 	<body class={{color}}>
 		<div class="mx-4 main-title font-raleway">
-			<h1 class="text-center font-raleway mb-5">Liste des Emprunts</h1>
-			<div class="show" data-controller="admin">
+			<h1 class="text-center font-raleway mb-5">Réservations d'objets
+				<br>
+				en attente de validation</h1>
+			<div class="mx-5" data-controller="admin">
+				{{ macros.flash_message() }}
 				<table class="table admin-table-emprunts tb-design table-bordered" id="admin-t">
 					<thead>
 						<tr class="text-center">
@@ -22,19 +25,17 @@
 							<th scope="col">Date de début de l'emprunt</th>
 							<th scope="col">Date de fin de l'emprunt</th>
 							<th scope="col">Remarque de l'emprunteur</th>
-							<th scope="col">Date de retour de l'objet
-							</th>
 							<th scope="col">Prix de l'emprunt</th>
+							<th scope="col">Montant du dépôt de garantie à rajouter</th>
 							<th scope="col">Emprunt payé</th>
-							<th scope="col">Pénalités</th>
-							<th scope="col">Pénalités payées</th>
+							<th scope="col">Action</th>
 						</tr>
 					</thead>
 					<tbody>
 						{% for emprunt in emprunts %}
 							{% set nomEmprunteur = emprunt.adherent ? emprunt.adherent.nom|capitalize : emprunt.superadmin.nom|capitalize %}
 							{% set prenomEmprunteur = emprunt.adherent ? emprunt.adherent.prenom|capitalize : emprunt.superadmin.prenom|capitalize %}
-							{% set dateRetour =  emprunt.dateretourobjet ? emprunt.dateretourobjet|date("d/m/Y") : "-" %}
+
 							{% if emprunt.statut %}
 								{% set statutEmprunt = emprunt.statut %}
 							{% elseif emprunt.dateretourobjet %}
@@ -45,32 +46,6 @@
 								{% set statutEmprunt = "Emprunt en cours" %}
 							{% elseif emprunt.dateretourobjet == null and emprunt.datefin < date() %}
 								{% set statutEmprunt = "En retard" %}
-
-							{% endif %}
-
-
-							{% set dureeEmprunt = date(emprunt.datefin).diff(date(emprunt.datedebut)) %}
-							{% set dureeSup =  date(emprunt.dateretourobjet).diff(date(emprunt.datefin)) %}
-							{% set dureeSupNonRetourne = date("now").diff(date(emprunt.datefin)) %}
-							{% set prixParJour = emprunt.prixemprunt / dureeEmprunt.days %}
-
-							{% if date(emprunt.datefin) < date() %}
-								{% if emprunt.dateretourobjet is null %}
-									{% set penalites = (dureeSupNonRetourne.days * 1.75 * prixParJour)|number_format(2)  ~ " €" %}
-								{% else %}
-									{% set penalites = (dureeSup.days * 1.75 * prixParJour)|number_format(2) ~ " €" %}
-								{% endif %}
-							{% else %}
-								{% set penalites = "-" %}
-							{% endif %}
-							{% set difference = date(emprunt.datefin).diff(date(emprunt.datedebut)) %}
-
-							{% if penalites == "-" %}
-								{% set penalitesPayees = "-" %}
-							{% elseif emprunt.dateretourobjet %}
-								{% set penalitesPayees = "Oui" %}
-							{% else %}
-								{% set penalitesPayees = "Non" %}
 							{% endif %}
 
 							{% set empruntRegle = emprunt.empruntregle ? "Oui" : "Non" %}
@@ -84,6 +59,7 @@
 									{{prenomEmprunteur}}
 								</td>
 								<td class="text-center">{{emprunt.objet.denomination|capitalize}}
+									{{emprunt.objet.marque|capitalize}}
 								</td>
 								<td class="text-center">{{emprunt.datereservation|date("d/m/Y")}}</td>
 								<td class="text-center">{{statutEmprunt}}</td>
@@ -91,22 +67,26 @@
 								<td class="text-center">{{emprunt.datefin|date("d/m/Y")}}</td>
 								<td class="text-center">{{emprunt.remarque ? emprunt.remarque : "-"}}
 								</td>
-								<td class="text-center">
-									{{dateRetour}}</td>
-
 								<td class="text-center">{{emprunt.prixemprunt}}
 									€</td>
-								<td class="text-center">{{empruntRegle}}</td>
-								<td class="text-center">{{penalites}}</td>
-								<td class="text-center">{{penalitesPayees}}</td>
+								<td class="text-center">{{emprunt.depotRajoute}}
+									€</td>
 
+								<td class="text-center">{{empruntRegle}}</td>
+								<td class="text-center">
+									<a href="{{path('accepter_reservation', {'slug': emprunt.slug})}}" onclick="return confirm('Etes-vous sûr de vouloir accepter cet emprunt ?')">
+										<button class="btn btn-success px-3">
+											Valider
+										</button>
+									</a>
+									<a href="{{path('refuser_reservation', {'slug': emprunt.slug})}}" onclick="return confirm('Etes-vous sûr de vouloir refuser cet emprunt ?')">
+										<button class="btn btn-danger">Refuser</button>
+									</a>
+								</td>
 							</tr>
 						{% endfor %}
 					</tbody>
 				</table>
-				<a href="{{ path('admin_csv_emprunt') }}">
-					<button class="btn btn-danger">Sortir un récapitulatif en CSV</button>
-				</a>
 			</div>
 		</div>
 	</body>

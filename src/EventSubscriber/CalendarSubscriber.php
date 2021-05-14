@@ -51,6 +51,7 @@ class CalendarSubscriber implements EventSubscriberInterface
         // Modify the query to fit to your entity and needs
         // Change booking.beginAt by your start date property
         $objet = $this->objetRepo->findOneById($filters);
+        $statut = "demande avant panier";
         $objet_id = $objet->getId();
         $bookings = $this->bookingRepository
             ->createQueryBuilder('booking')
@@ -58,8 +59,10 @@ class CalendarSubscriber implements EventSubscriberInterface
                 'booking.date_debut BETWEEN :start and :end OR booking.date_fin BETWEEN :start and :end'
             )
             ->andWhere('booking.objet = ' . $objet_id)
+            ->andwhere('booking.statut != :statut')
             ->setParameter('start', $start->format('Y-m-d'))
             ->setParameter('end', $end->format('Y-m-d'))
+            ->setParameter('statut', $statut)
             ->getQuery()
             ->getResult();
         foreach ($bookings as $booking) {

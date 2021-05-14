@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
 
-
 {% block title %}catalogue
 {% endblock %}
 
@@ -9,6 +8,7 @@
 
 
 	{% include "./partials/header.html.twig" %}
+
 
 
 
@@ -91,7 +91,7 @@
 				<a href= "/{{ objet.slug }}/detail">
                 <figure class= "contenant">
                     {% for photo in objet.photos %}
-	               <img src="{{photo.lien}}" alt=""  class="redimention">
+	                  <img src="{{photo.lien}}" alt=""  class="redimention">
 					{% endfor %}
                     </figure> 
                 <figcaption>non de l'objet</figcaption>
@@ -266,10 +266,7 @@ nom de la catégorie
 
 
 
-
-
-{% include "./partials/footer.html.twig" %}
-
+	{% include "./partials/footer.html.twig" %}
 
 
 {% endblock %}
