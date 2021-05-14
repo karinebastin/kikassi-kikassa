@@ -184,7 +184,6 @@ class HomeController extends AbstractController
     {
         return $this->render('home/historiquePanier.html.twig', [
             'controller_name' => 'HomeController',
-            'emprunt' => $emprunt
         ]);
     }
 
@@ -204,18 +203,44 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/validation_panier', name: 'validation')]
-    public function validationPanier(Request $request, Emprunt $emprunt): Response
+    #[Route('/validation_panier', name: 'validation')]
+    public function validationPanier(Request $request, EmpruntRepository $empruntRepository, ObjetRepository $objetRepository, SousCategorieRepository $sousCategorieRepository, CategorieRepository $categorieRepository, AdherentRepository $adherentRepository, SuperAdminRepository $superAdminRepository): Response
     {
+        // dump($this->getUser()->getId());
+        $emprunts = $empruntRepository->findAll();
+        foreach ($emprunts as $emprunt) {
+            // dump($emprunt->getAdherent());
+            if ($this->getUser()) {
+                $adherentBibliotheque = $this->getUser()->getId();
+                $adherent = $adherentRepository->findOneById($adherentBibliotheque);
+                $adminBibliotheque = $this->getUser()->getId();
+                $admin = $superAdminRepository->findOneById($adminBibliotheque);
+                $adherent
+                    ? $emprunt->getAdherent($adherent)
+                    : $emprunt->getSuperAdmin($admin);
+                // dump($adherent->getId());
+                if ($adherent->getId() == $this->getUser()->getId()) {
+                    dump($emprunt);
+                }
+            }
+            // if ($this->getUser()->getId() == $emprunt->getAdherent()->getId()) {
+            //     dump($emprunt);
+            // }
+        }
+        // dump($emprunt);
         // $emprunt->setStatut("en attente de validation");
         // dump($emprunt);
         // $entityManager = $this->getDoctrine()->getManager();
         // $entityManager->persist($emprunt);
         // $entityManager->flush();
         // $this->addFlash('success', "Votre demande d'emprunt a bien été prise en compte.");
-        dd($emprunt);
+        // dd($emprunt);
         return $this->render('home/panier.html.twig', [
             'controller_name' => 'HomeController',
+            'emprunts' => $empruntRepository->findAll(),
+            'objets' => $objetRepository->findAll(),
+            'sousCategories' => $sousCategorieRepository->findAll(),
+            'categories' => $categorieRepository->findAll()
         ]);
     }
 }

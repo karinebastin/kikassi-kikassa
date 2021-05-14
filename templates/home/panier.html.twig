@@ -28,7 +28,7 @@
 							<th scope="col">jusqu'au</th>
 							<th scope="col">Coût</th>
 							{# <th scope="col">Garantie demandé
-																																																		</th> #}
+																																																																																																																								</th> #}
 							<th scope="col">supprimer</th>
 						</tr>
 					</thead>
@@ -71,19 +71,30 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="col-1 offset-5">
-			{% for emprunt in emprunts %}
-				<a href="{{path('validation', {'id': emprunt.id})}}">
-					<button type="submit" class="btn text-light bg-green d-flex justify-content-end my-2">Valider le panier</button>
-				</a>
-			{% endfor %}
+		<div
+			class="col-1 offset-5">
+			{# <form action="post">
+							{% for emprunt in emprunts %}
+								{% if  emprunt.adherent.id is defined %}
+									{% if emprunt.adherent.id == app.user.id %}
+										{% if emprunt.statut == "demande avant panier" %}
+											<input type="hidden">
+										{% endif %}
+									{% endif %}
+								{% endif %}
+							{% endfor %} #}
+			<a href="{{path('validation')}}">
+				<button type="submit" class="btn text-light bg-green d-flex justify-content-end my-2">Valider le panier</button>
+			</a>
+			{# </form> #}
+
 		</div>
 		{# <div class="col-12 border">
-																											<form>
-																												<div class="form-group">{# <label for="remarque">Remarques ou demandes</label>
-																																			<input type="remarque" class="form-control" id="remarque" placeholder="Remarques"></div><div class="d-flex justify-content-end"> </div>
-																											</form>
-																										</div> <div class="col-12 d-flex justify-content-around my-2"><i class="fas fa-reply fa-2x"></i><i class="fas fa-plus-circle fa-2x"></i><i class="fa fa-trash fa-2x" aria-hidden="true"></i></div> </div>
-																								</div> #}
+																																														<form>
+																																															<div class="form-group">{# <label for="remarque">Remarques ou demandes</label>
+																																																						<input type="remarque" class="form-control" id="remarque" placeholder="Remarques"></div><div class="d-flex justify-content-end"> </div>
+																																														</form>
+																																													</div> <div class="col-12 d-flex justify-content-around my-2"><i class="fas fa-reply fa-2x"></i><i class="fas fa-plus-circle fa-2x"></i><i class="fa fa-trash fa-2x" aria-hidden="true"></i></div> </div>
+																																											</div> #}
 		{% include "./partials/footer.html.twig" %}
 	{% endblock %}
