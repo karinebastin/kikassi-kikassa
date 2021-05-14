@@ -43,7 +43,7 @@
 							<img id="fourmis" src="../img/foumis monochrome sans fond.png" alt="avatar fourmis">
 						</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="{{ path('/mon_compte') }}">Information compte</a>
+							<a class="dropdown-item" href="{{ path('compte', {'slug' : app.user.adherent.slug }) }}">Information compte</a>
 							<a class="dropdown-item" href="{{ path('historiquePanier') }}">Historique des paniers</a>
 							{% for role in app.user.roles %}
 								{% if role == 'ROLE_ADMIN' %}
