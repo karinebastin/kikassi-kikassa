@@ -20,7 +20,7 @@
 <div class=" container-fluid row bg-secondary mx-auto w-75 mb-5 mt-5 pb-4 pt-2">
 
 <div class="col-md-3 align-self-center pl-5 ml-5">
-  <input type="search" class="form-control rounded" placeholder="entrer votre recherge" aria-label="Search"
+<input type="search" class="form-control rounded" placeholder="entrer votre recherge" aria-label="Search"
     aria-describedby="search-addon" />
   </div>
 
@@ -54,19 +54,41 @@
 <br>
 
 
-{# <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item active"> #}
+
 
 
 <div class=" container-fluid row center ">
 
-<div class ="col-md-3 survole-vert">
+
+ {% for categorie in categories %} 
+
+ <div class ="col-md-2">
+<a href="#content-{{ categorie.id }}" class="accordion-toggle">
+{{ categorie.NomCategorie }}
+</a>
+
+<div class="accordion-content  container-fluid" id="content-{{ categorie.id }}">
+
+{% for sousCategorie in sousCategories %}
+{% if categorie.id == sousCategorie.categorie.id %}
+<div class ="col-md-2  survole-vert">
+
+{{ sousCategorie.NomSsCategorie }}
+</div>
+
+{% endif %}
+{% endfor %} 
+
+</div>
+</div>
+
+
+{% endfor %}
+
+</div> 
+{# ensine vertion fronte des catégorie #}
+
+{# <div class ="col-md-3 survole-vert">
 
 <span style="font-size: 5em;" class=" survole-vert" >
 <i class="fas fa-chess"></i>
@@ -78,308 +100,61 @@ nom de la catégorie
 
 </div>
 
-<div class ="col-md-2  survole-vert">
 
-<span style="font-size: 5em;" class=" survole-vert " >
- <i class="fas fa-robot"></i>
-</span>
-
- <a href="#content-2" class="accordion-toggle">
-nom de la catégorie
-</a>
-
-</div>
-
-<div class ="col-md-2 survole-vert">
-
-<span style="font-size: 5em;" class=" survole-vert " >
-<i class="fas fa-tools"></i>
-</span>
-
- <a href="#content-3" class="accordion-toggle">
-nom de la catégorie
-</a>
-
-</div>
-
-<div class ="col-md-2 survole-vert ">
-
-<span style="font-size: 5em;" class=" survole-vert " >
-<i class="fas fa-guitar"></i>
-</span>
-
- <a href="#content-4" class="accordion-toggle">
-nom de la catégorie
-</a>
-
-</div>
-
-<div class ="col-md-3  survole-vert">
-
-<span style="font-size: 5em;" class=" survole-vert" >
-<i class="fas fa-car align-middle "></i>
-</span>
-
- <a href="#content-5" class="accordion-toggle">
-nom de la catégorie
-</a>
-
-</div>
 
 
 </div>
  
+</div>
 
  {# catégorie 1 #}
 
-<div class="accordion-content" id="content-1">
+
+{# <div class="accordion-content" id="content-{{ categorie.id }} ">
+    <div class=" container-fluid row center ">
+
+{% for sousCategorie in sousCategories %}
+<div class ="col-md-2  survole-vert">
+<a href="#content-2" class="accordion-toggle">
+{{ sousCategorie.NomSsCategorie }}
+</div>
+</a>
+{% endfor %} 
+
+    </div>
+</div> #}
+
+
+
+
+
+
+
+{# <div class="accordion-content" id="content-2">
 
 <div class="wrapper ">
+<div class="grid ">
+{% for photo in photos %} 
 
-        <div class="grid ">
             <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=400" alt="">
-                    <figcaption>Image Title</figcaption>
+                <figure class= "contenant">
+                    <img src="{{photo.lien}}" alt=""  class="redimention">
+                    </figure> 
+                <figcaption>non de l'objet</figcaption>
                 </figure>
             </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=401" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=403" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=404" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=405" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=406" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=407" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=408" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=409" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=411" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-        </div>
+
+{% endfor %} 
+
+</div>
     </div>
+    </div> #}
+    
 
-    </div>
+    
 
-   {# fin catégorie 1 #}
 
-{# catégorie 2 #}
 
-<div class="accordion-content" id="content-2">
-
-<div class="wrapper ">
-
-        <div class="grid ">
-          
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=403" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-         
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=407" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=408" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=409" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=411" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-        </div>
-    </div>
-
-    </div>
-
-{# fin catégorie 2#}
-
-{# catégorie 3#}
-
-<div class="accordion-content" id="content-3">
-
-<div class="wrapper ">
-
-        <div class="grid ">
-          
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=403" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=404" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-           
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=409" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=411" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-        </div>
-    </div>
-
-    </div>
-
-{# fin catégorie 3#}
-
-{# catégorie 4 #}
-
-<div class="accordion-content" id="content-4">
-
-<div class="wrapper ">
-
-        <div class="grid ">
-          
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=403" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-          
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=407" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=408" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=409" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=411" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-        </div>
-    </div>
-
-    </div>
-
-{# fin catégorie 4#}
-
-{# catégorie 5 #}
-
-<div class="accordion-content" id="content-5">
-
-<div class="wrapper ">
-
-        <div class="grid ">
-          
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=403" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=404" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=405" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=409" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-            <div class="grid-item">
-                <figure>
-                    <img src="https://unsplash.it/250/187?image=411" alt="">
-                    <figcaption>Image Title</figcaption>
-                </figure>
-            </div>
-        </div>
-    </div>
-
-    </div>
-
-{# fin catégorie 5#}
 
 
 
@@ -389,6 +164,8 @@ nom de la catégorie
 <br>
 <br>
 <br>
+
+
 
 
 {# <div>
@@ -449,7 +226,7 @@ nom de la catégorie
 
 
 
-{% include "/partials/footer.html.twig" %}
+{% include "./partials/footer.html.twig" %}
 
 
 
