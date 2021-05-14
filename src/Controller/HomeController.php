@@ -5,8 +5,6 @@ namespace App\Controller;
 use Attribute;
 use App\Entity\Objet;
 use App\Entity\Emprunt;
-use App\Entity\Categorie;
-use App\Entity\SousCategorie;
 use App\Form\EmpruntType;
 use App\Repository\ObjetRepository;
 use App\Repository\EmpruntRepository;
@@ -14,7 +12,6 @@ use App\Repository\AdherentRepository;
 use App\Repository\CategorieRepository;
 use App\Repository\SousCategorieRepository;
 use App\Repository\SuperAdminRepository;
-use App\Repository\PhotoRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,31 +19,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\ORM\EntityManagerInterface;
 
 class HomeController extends AbstractController
 {
-    // private $entityManager;
-    //     public function __construct(EntityManagerInterface $entityManager)
-    //     { $this->entityManager = $entityManager; }
-
     #[Route('/', name: 'home')]
-
-    public function index(ObjetRepository $objetRepository, PhotoRepository $photoRepository, CategorieRepository $categorieRepository, SousCategorieRepository $sousCategorieRepository): Response
+    public function index(): Response
     {
-        $objets = $objetRepository->findAll();
-        $photos = $photoRepository->findAll();
-        $categories = $categorieRepository->findAll();
-        $sousCategories = $sousCategorieRepository->findAll();
-
-        //  dd($sousCategories);
-
         return $this->render('home/catalogue.html.twig', [
             'controller_name' => 'HomeController',
-            'objets' => $objets,
-            'photos' => $photos,
-            'categories' => $categories,
-            'sousCategories' => $sousCategories,
         ]);
     }
 
@@ -230,37 +210,33 @@ class HomeController extends AbstractController
         $emprunts = $empruntRepository->findAll();
         foreach ($emprunts as $emprunt) {
             // dump($emprunt->getAdherent());
+            // selection (par adherent connecté et emprunt à statut avant panier) des emprunts visible dans le panier
             if ($this->getUser()) {
+                // récupération de l'adherent dans emprunt
                 $adherentBibliotheque = $this->getUser()->getId();
                 $adherent = $adherentRepository->findOneById($adherentBibliotheque);
                 $adminBibliotheque = $this->getUser()->getId();
                 $admin = $superAdminRepository->findOneById($adminBibliotheque);
                 $adherent
-                    ? $emprunt->getAdherent($adherent)
-                    : $emprunt->getSuperAdmin($admin);
-                // dump($adherent->getId());
-                if ($adherent->getId() == $this->getUser()->getId()) {
-                    dump($emprunt);
+                    ? $adh = $emprunt->getAdherent($adherent)
+                    : $adh = $emprunt->getSuperAdmin($admin);
+                // dump($this->getUser());
+                if ($adh) {
+                    // dump($adh->getId());
+                    //comparaison de l'adherent connecté à adherent dans emprunt
+                    if ($adh->getId() == $this->getUser()->getId()) {
+                        //selection des emprunts présent dans le panier
+                        if ($emprunt->getStatut() == "demande avant panier") {
+                            $emprunt->setStatut("en attente de validation");
+                            $entityManager = $this->getDoctrine()->getManager();
+                            $entityManager->persist($emprunt);
+                            $entityManager->flush();
+                            $this->addFlash('success', "Votre demande d'emprunt a bien été prise en compte.");
+                            return $this->redirectToRoute('panier');
+                        }
+                    }
                 }
             }
-            // if ($this->getUser()->getId() == $emprunt->getAdherent()->getId()) {
-            //     dump($emprunt);
-            // }
         }
-        // dump($emprunt);
-        // $emprunt->setStatut("en attente de validation");
-        // dump($emprunt);
-        // $entityManager = $this->getDoctrine()->getManager();
-        // $entityManager->persist($emprunt);
-        // $entityManager->flush();
-        // $this->addFlash('success', "Votre demande d'emprunt a bien été prise en compte.");
-        // dd($emprunt);
-        return $this->render('home/panier.html.twig', [
-            'controller_name' => 'HomeController',
-            'emprunts' => $empruntRepository->findAll(),
-            'objets' => $objetRepository->findAll(),
-            'sousCategories' => $sousCategorieRepository->findAll(),
-            'categories' => $categorieRepository->findAll()
-        ]);
     }
 }
