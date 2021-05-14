@@ -38,7 +38,6 @@ class AdhesionBibliotheque implements UserInterface
     private $mot_de_passe;
 
 
-    #[Assert\EqualTo(propertyPath = "mot_de_passe", message = "Le mot passe et la confirmation de mot passe sont differents")]
     private $passwordConfirm;
 
     /**

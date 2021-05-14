@@ -247,8 +247,8 @@ class HomeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid() && $formMdp->isSubmitted() && $formMdp->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('home');
+            $this->addFlash('success', "Votre demande d'emprunt a bien été prise en compte.");
+            // return $this->redirectToRoute('home');
         }
 
         return $this->render('home/compte.html.twig', [

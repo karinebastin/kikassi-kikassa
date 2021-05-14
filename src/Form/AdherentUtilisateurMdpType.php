@@ -15,11 +15,11 @@ class AdherentUtilisateurMdpType extends AbstractType
     {
         $builder
             ->add('password', PasswordType::class, [
-                'label' => 'Mot de passe',
+                'label' => 'Nouveau mot de passe',
                 'attr' => ['placeholder' => 'Tapez votre mot de passe ici']
             ])
             ->add('passwordConfirm', PasswordType::class, [
-                'label' => 'Mot de passe',
+                'label' => 'Mot de passe pour la confirmation',
                 'attr' => ['placeholder' => 'Tapez votre mot de passe ici pour la confirmation']
             ]);
     }

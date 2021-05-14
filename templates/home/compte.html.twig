@@ -8,9 +8,17 @@
 		<div class="row">
 			<div class="col-12 margin-top">
 				<h1>Compte utilisateur</h1>
+				{% for message in app.flashes('success') %}
+					<span class="alert alert-success mx-2">
+						{{ message|raw }}
+					</span>
+				{% endfor %}
 
-				{{ include('adherent/_form.html.twig', {'button_label': 'Update'}) }}
-				{{ include('adherent/_formMdp.html.twig', {'button_label': 'Update'}) }}
+				{{ include('adherent/_form.html.twig') }}
+				{{ include('adherent/_formMdp.html.twig') }}
+				<p>couleur de fourmis:
+					{{app.user.adherent.adhesionBibliotheque.categorieFourmi}}
+				</p>
 				<a href="{{ path('home') }}" class="btn bg-green text-light">Retour à la page du catalogue</a>
 			</div>
 		</div>
