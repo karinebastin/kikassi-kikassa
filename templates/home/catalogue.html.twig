@@ -10,7 +10,7 @@
 
 	{% include "./partials/header.html.twig" %}
 
-<div class='bg-white'>
+
 
 
 
@@ -20,7 +20,7 @@
 <div class=" container-fluid row bg-secondary mx-auto w-75 mb-5 mt-5 pb-4 pt-2">
 
 <div class="col-md-3 align-self-center pl-5 ml-5">
-<input type="search" class="form-control rounded" placeholder="entrer votre recherge" aria-label="Search"
+<input type="search" class="form-control rounded" placeholder="entrer votre recherche" aria-label="Search"
     aria-describedby="search-addon" />
   </div>
 
@@ -48,6 +48,7 @@
   <option>Arles</option>
 </select>
 </div>
+
 </div>
 
 <br>
@@ -71,12 +72,48 @@
 
 {% for sousCategorie in sousCategories %}
 {% if categorie.id == sousCategorie.categorie.id %}
-<div class ="col-md-2  survole-vert">
 
+<button class="accordin">
+<div class ="col-md-2 survole-vert">
 {{ sousCategorie.NomSsCategorie }}
 </div>
+</button>
 
+<div class="panel">
+<div class="wrapper ">
+<div class="grid ">
+{% for objet in objets %} 
+ 
+ {% if sousCategorie.id == objet.sousCategorie.id %}
+
+
+            <div class="grid-item">
+				<a href= "/{{ objet.slug }}/detail">
+                <figure class= "contenant">
+                    {% for photo in objet.photos %}
+	               <img src="{{photo.lien}}" alt=""  class="redimention">
+					{% endfor %}
+                    </figure> 
+                <figcaption>non de l'objet</figcaption>
+                </figure>
+				</a>
+            </div>
+
+
+
+{% endif %} 
+
+
+	
+
+{% endfor %}
+
+</div>
+    </div>
+</div>
 {% endif %}
+
+
 {% endfor %} 
 
 </div>
@@ -86,6 +123,13 @@
 {% endfor %}
 
 </div> 
+
+
+
+
+
+
+
 {# ensine vertion fronte des catégorie #}
 
 {# <div class ="col-md-3 survole-vert">
@@ -153,18 +197,16 @@ nom de la catégorie
 
     
 
-
-
-
-
-
-
 <br>
 <br>
 <br>
 <br>
 <br>
 
+
+
+
+           
 
 
 
