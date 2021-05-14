@@ -5,6 +5,8 @@ namespace App\Controller;
 use Attribute;
 use App\Entity\Objet;
 use App\Entity\Emprunt;
+use App\Entity\Categorie;
+use App\Entity\SousCategorie;
 use App\Form\EmpruntType;
 use App\Repository\ObjetRepository;
 use App\Repository\EmpruntRepository;
@@ -12,6 +14,7 @@ use App\Repository\AdherentRepository;
 use App\Repository\CategorieRepository;
 use App\Repository\SousCategorieRepository;
 use App\Repository\SuperAdminRepository;
+use App\Repository\PhotoRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,14 +22,31 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 
 class HomeController extends AbstractController
 {
+    // private $entityManager;
+    //     public function __construct(EntityManagerInterface $entityManager)
+    //     { $this->entityManager = $entityManager; }
+
     #[Route('/', name: 'home')]
-    public function index(): Response
+
+    public function index(ObjetRepository $objetRepository, PhotoRepository $photoRepository, CategorieRepository $categorieRepository, SousCategorieRepository $sousCategorieRepository): Response
     {
+        $objets = $objetRepository->findAll();
+        $photos = $photoRepository->findAll();
+        $categories = $categorieRepository->findAll();
+        $sousCategories = $sousCategorieRepository->findAll();
+
+        //  dd($sousCategories);
+
         return $this->render('home/catalogue.html.twig', [
             'controller_name' => 'HomeController',
+            'objets' => $objets,
+            'photos' => $photos,
+            'categories' => $categories,
+            'sousCategories' => $sousCategories,
         ]);
     }
 
