@@ -1,0 +1,41 @@
+{% extends './admin/base-admin.html.twig' %}
+
+
+{% block title %}Réinitialisation de mot de passe
+{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block body %}
+	<body class="vh-100">
+		<div class="login-form font-raleway">
+			<h1 class="text-center font-raleway mb-5">
+				Vérifiez vos emails</h1>
+			<div class="container">
+				<div class="row">
+					<div class="col-2"></div>
+					<div class="col">
+						<div class="row justify-content-center">
+							<div class='text-center'>
+								<p>Un email contenant un lien pour redéfinir votre mot de passe a bien été envoyé à l'adresse donnée.
+								</p>
+								<p>Ce lien restera actif pendant
+									{{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+								<p>Si vous n'avez pas reçu l'email, vérifiez votre dossier 'courriers indésirables'</p>
+								<p>sinon
+									<a class='text-center' href="{{ path('admin_forgot_password_request') }}">essayez à nouveau
+									</a>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-2"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+{% endblock %}
+
+
+{% block footer %}{% endblock %}

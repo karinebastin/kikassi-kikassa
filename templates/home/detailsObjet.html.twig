@@ -2,15 +2,21 @@
 
 {% block title %}{% endblock %}
 {% block body %}
-	{% include "/partials/header.html.twig" %}
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-6 margin-top">
-				<h1 class="text-right mt-5">{{objet.denomination | title}}</h1>
+	{% include "./partials/header.html.twig" %}
+	<body data-controller="calendar">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-6 margin-top">
+					<h1 class="text-right mt-5">{{objet.denomination | title}}</h1>
+				</div>
+				<div class="col-6 d-flex align-items-end">
+					<p class="text-left">id:
+						{{objet.id}}</p>
+				</div>
 			</div>
-			<div class="col-6 d-flex align-items-end">
-				<p class="text-left">id:
-					{{objet.id}}</p>
+			<div class="d-none col-6 align-items-end" id="objet-calendar">
+				<p class="text-left">{{objet.id}}</p>
+
 			</div>
 			<div class="col-12">
 				<p class="text-center">
@@ -53,11 +59,6 @@
 					<div class="col-12">
 						<p class="ml-3 mt-3">Disponibilité:</p>
 					</div>
-					{# {% for attribute in app.request.attributes %}
-																																																																																						{% if attribute == objet %}
-																																																																																							{{ dump(attribute.id) }}
-																																																																																						{% endif %}
-																																																																																					{% endfor %} #}
 					<div id="calendar" class="col-11 offset-1 m-2 d-flex justify-content-center pb-2 ml-3 mb-3"></div>
 					{% if app.user %}
 						<div
@@ -166,6 +167,5 @@
 				<p class="ml-3">{{objet.observation}}</p>
 			</div>
 		</div>
-	</div>
-	{% include "/partials/footer.html.twig" %}
-{% endblock %}
+	</body>
+</div></body>{% include "./partials/footer.html.twig" %}{% endblock %}

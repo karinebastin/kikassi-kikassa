@@ -1,0 +1,11 @@
+<div class="font-raleway">
+
+	<h2>Bonjour</h2>
+
+	<h3>Pour réinitialiser votre mot de passe Kikassi Kikassa, veuillez suivre ce lien :</h3>
+
+	<a href="{{ url('admin_reset_password', {token: resetToken.token}) }}">{{ url('admin_reset_password', {token: resetToken.token}) }}</a>
+
+	<h3>Ce lien expirera dans
+		{{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</h3>
+</div>

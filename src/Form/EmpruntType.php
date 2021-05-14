@@ -16,14 +16,14 @@ class EmpruntType extends AbstractType
         $builder
             ->add('date_debut', DateType::class, [
                 'widget' => 'single_text',
-                'placeholder' => ['Date de début au format 01/01/2000']
+                'placeholder' => ['Date de début au format 01/01/2000'],
             ])
             ->add('date_fin', DateType::class, [
                 'widget' => 'single_text',
-                'placeholder' => ['Date de fin au format 01/01/2000']
+                'placeholder' => ['Date de fin au format 01/01/2000'],
             ])
             ->add('emprunt_regle', HiddenType::class, [
-                'data' => 'false'
+                'data' => 'false',
             ]);
     }
 

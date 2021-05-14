@@ -125,11 +125,13 @@ export default class extends Controller {
 
     function selectOption(selected, res, url) {
       $.ajax({
+       
         data: { 'data': selected },
         dataType: 'json',
         type: 'POST',
         url: url
       }).done(function (json) {
+        // console.log(json)
         res(json)
       }).fail(function (jqXHR, textStatus, errorThrown) {
      
@@ -170,14 +172,50 @@ export default class extends Controller {
       $('#selected-adherent').empty()
         const selected = $('input:radio[name="adherent-select"]:checked').val()
       $('#hidden-adh').val($.trim(selected))
+      $('#hidden-btn').empty()
+      const res = (json) => {
+        if (json.param === 'objets' || json.param === 'adherents' || json.param === 'emprunts' || json.param === 'adherent-reinscription') {
+          function appendSel(item, titre) {
+            $('#selected-adherent').append(`<div class="row font-raleway form-control select-height width-auto ml-1" ><p class="p-2"> ${titre} : ${$.trim(item.prenom)} ${$.trim(item.nom)} </p></div>`)
+           
+            $('#hidden-btn').append(`<button type="submit" class='btn btn-danger p-3'>Modifier ${$.trim(item.prenom)} ${$.trim(item.nom)}</button>`)
+          
+          }
+          json.adherent ? appendSel(json.adherent, "Adhérent") : appendSel(json.admin, "Super-admin")
+          
+        } else if (json.param === "adherent-changement-fourmi") {
+          const fourmis = { "verte": 'Fourmi Verte', "bleue": 'Fourmi Bleue', "dorée": 'Fourmi Dorée' }
+          const selFourmi = json.biblio.categorie_fourmi
+          
+          $('#fourmi_form_categorie_fourmi').empty()
+          $('.modif-message').append(`Modifier le Statut Fourmi de ${json.adherent.prenom} ${json.adherent.nom}`)
+          Object.keys(fourmis).forEach(fourmi => {
+            replaceClass('fourmi-form', 'd-none', 'd-block')
+            $('#fourmi_form_categorie_fourmi').append(`<option value=${fourmi} ${fourmi === selFourmi ? 'selected' : ''} >${fourmis[fourmi]}</option>`)
+          }
+          )
+          replaceClass('next', 'invisible', 'd-none')
+        } else if (json.param === "adherent-passage-admin") {
 
-      const res = (json) =>{
-        function appendSel(item, titre) {
-           item.map(val => $('#selected-adherent').append(`<div class="row font-raleway form-control select-height width-auto ml-1" ><p class="p-2"> ${titre} : ${$.trim(val.prenom)} ${$.trim(val.nom)} </p></div>`))
+          if (json.adherent == null) {
+            $('.admin-warning').append("<div class='alert-danger text-center p-2'>Ne fonctionne pas avec les utilisateurs ayant des droits de'Super Admin'</div>")
+            
+          } else {
+           $('.admin-warning').empty()
+          json.roles.splice(json.roles.indexOf("ROLE_USER"), 1);
+          
+            replaceClass("admin-select", "d-none", "d-block")
+          $('#admin-form').append(`<option value="ROLE_ADMIN" ${json.roles.length > 0 ? 'selected': '' }>Oui</option><option value="ROLE_USER"  ${json.roles.length === 0 ? 'selected': '' }>Non</option>`)
+
+          }
+
+         
+
         }
-        json.adherent ? appendSel(json.adherent, "Adhérent") : appendSel(json.admin, "Super-admin")
-       };
-      
+        
+
+        }
+       
       const url = 'new/sel';
       selectOption(selected, res, url);
     })
@@ -188,6 +226,7 @@ export default class extends Controller {
       const searched = $('.search-objet').find('#search_form_nom').val();
       const url = 'new/obj'
       const res = (json) => {
+   
           if (json.length > 0) {
         $.each(json, function (index, value) {
           $('#search-results-objet').append(`<tr><td class='text-center'>${value.denomination}</td><td class='text-center'>${value.marque}</td><td class='text-center'>${value.statut}</td>
@@ -211,11 +250,12 @@ export default class extends Controller {
         const selected = $('input:radio[name="objet-select"]:checked').val()
       $('#hidden-obj').val($.trim(selected))
 
-      const res = (json) =>  json.map(val => $('#selected-objet').append(`<div class="row font-raleway form-control select-height width-auto ml-1" ><p class="p-2">Objet : ${$.trim(val.denomination)} ${$.trim(val.marque)} </p></div>`));
+      const res = (json) =>
+    
+        $('#selected-objet').append(`<div class="row font-raleway form-control select-height width-auto ml-1" ><p class="p-2">Objet : ${$.trim(json.denomination)} ${$.trim(json.marque)} </p></div>`);
       
       const url = 'new/selobj';
       selectOption(selected, res, url);
-      console.log( $('#hidden-obj').val(), $('#hidden-adh').val())
     })
 
 
@@ -228,9 +268,33 @@ export default class extends Controller {
         })
       
      const url = 'new/cat'
-    selectOption(selCat, res, url)
+      selectOption(selCat, res, url)
+    })
+    $('#ss-cat-select').on('change', function () {
+      const selectedCat = $('#ss-cat-select option:selected').val()
+      $('#hidden-cat').val(selectedCat)
+    })
+
+    $('.biblio-select-edit select').on('change', function () {
+       if ($('.biblio-select-edit select option:selected').val() == "oui") {
+      replaceClass("biblio-part", 'd-none', 'd-block')
+    } else if ($('.biblio-select-edit select option:selected').val() == "non") {
+      replaceClass("biblio-part", 'd-block', 'd-none')
+
+    }
 
     })
+   
+    $('.proprio-select select').on('change', function () {
+      if ($('.proprio-select select option:selected').val() === "adherent") {
+        replaceClass("search-module", 'd-none', 'd-block')
+       
+      } else if ($('.proprio-select select option:selected').val() === "association"){
+        replaceClass("search-module", 'd-block', 'd-none')
+     }
+     
+    })
+    
 
   }
 }

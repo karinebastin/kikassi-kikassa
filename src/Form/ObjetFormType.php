@@ -83,6 +83,7 @@ class ObjetFormType extends AbstractType
                 'class' => Lieu::class,
                 'choice_label' => 'nom',
             ])
+
             ->add('catalogue', EntityType::class, [
                 'placeholder' => 'Choisir un catalogue',
                 'class' => Catalogue::class,

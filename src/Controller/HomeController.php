@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\EntityManagerInterface; 
 
@@ -49,7 +50,7 @@ $sousCategories= $sousCategorieRepository->findAll();
     }
 
     #[Route('/{slug}/detail', name: 'objetDetail', methods: ['GET', 'POST'])]
-    public function detailsObjet(Objet $objet, EmpruntRepository $empruntRepository, Request $request, Session $session, AdherentRepository $adherentRepository, SuperAdminRepository $superAdminRepository, ObjetRepository $objetRepository): Response
+    public function detailsObjet(Objet $objet, EmpruntRepository $empruntRepository, Request $request, AdherentRepository $adherentRepository, SuperAdminRepository $superAdminRepository,): Response
 
     {
         // foreach ($request->attributes->all() as $attribute) {
@@ -66,24 +67,10 @@ $sousCategories= $sousCategorieRepository->findAll();
         $form = $this->createForm(EmpruntType::class, $emprunt);
         $form->handleRequest($request);
         // // Je récupère l'adhérent et je vérifie si c'est un adhérent ou super-admin
-        // $adherent = $adherentRepository->findOneById(
-        //     $request->request->get('adherent')
-        // );
-        // $admin = $superAdminRepository->findOneById(
-        //     $request->request->get('adherent')
-        // );
-
-        // $adherent
-        //     ? $emprunt->setAdherent($adherent)
-        //     : $emprunt->setSuperAdmin($admin);
-
-
-        // $this->denyAccessUnlessGranted('ROLE_USER');
         // dump($this->getUser()->getId());
         if ($this->getUser()) {
             $adherentBibliotheque = $this->getUser()->getId();
             $adherent = $adherentRepository->findOneById($adherentBibliotheque);
-            // $this->denyAccessUnlessGranted('ROLE_ADMIN');
             $adminBibliotheque = $this->getUser()->getId();
             $admin = $superAdminRepository->findOneById($adminBibliotheque);
 
@@ -182,15 +169,15 @@ $sousCategories= $sousCategorieRepository->findAll();
             'objet' => $objet,
             'emprunt' => $empruntRepository,
             'form' => $form->createView(),
-
         ]);
     }
 
     #[Route('/panier', name: 'panier')]
-    public function panierIndex(): Response
+    public function panierIndex(Emprunt $emprunt): Response
     {
         return $this->render('home/panier.html.twig', [
             'controller_name' => 'HomeController',
+            'emprunts' => $emprunt
         ]);
     }
 
