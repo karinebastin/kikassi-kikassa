@@ -258,9 +258,9 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
         $formMdp->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $formMdp->isSubmitted() && $formMdp->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() || $formMdp->isSubmitted() && $formMdp->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('success', "Votre demande d'emprunt a bien été prise en compte.");
+            $this->addFlash('success', "Votre demande de changement a bien été prise en compte.");
             // return $this->redirectToRoute('home');
         }
 
